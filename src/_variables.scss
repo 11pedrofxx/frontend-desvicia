@@ -1,0 +1,26 @@
+// src/_variables.scss
+
+// Cores Principais
+$cor-primaria-azul: #15479e; // Botões principais, header
+$cor-secundaria-azul: #b4cdeb; // Fundo de botões inativos, dias selecionados
+$cor-fundo: #f4f7f6; // Fundo acinzentado do app
+$cor-branca: #ffffff; // Fundo de cards, botões secundários
+
+
+// Cores de Texto
+$cor-texto-escuro: #212121; // Títulos principais (Ex: "Como você está se sentindo hoje?")
+$cor-texto-claro: #757575; // Subtítulos e textos menores
+
+
+// Cores de Feedback (Calendário e Alertas)
+$cor-sucesso-verde: #e4f2e7; // Fundo dos dias sem recaída (Calendário)
+$cor-alerta-vermelho: #ffebee; // Fundo dos dias difíceis (Calendário)
+
+
+// Tipografia
+$fonte-primaria: 'Inter', sans-serif; // Assumindo Inter com base no design moderno
+
+// Arredondamentos (Border Radius)
+$radius-card: 16px;
+$radius-botao: 30px; // Estilo "pill" arredondado
+$radius-tag: 20px;

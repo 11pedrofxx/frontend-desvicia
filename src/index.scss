@@ -1,0 +1,28 @@
+@use 'variables' as *;
+
+// Reset Global
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: $cor-fundo;
+    color: $cor-texto-escuro;
+    font-family: $fonte-primaria;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+// Estilos base para links e botões para todo o app
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button {
+    cursor: pointer;
+    font-family: $fonte-primaria;
+    border: none;
+}
