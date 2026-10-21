@@ -1,0 +1,255 @@
+@import '../../variables.scss';
+
+.pagina-login.pagina {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+  width: 100vw;
+  height: 100vh;
+  box-sizing: border-box;
+
+
+  .info-esquerda {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    max-width: 40rem;
+
+    .info {
+      background-color: $cor-branca;
+      border-radius: 1.5rem;
+      padding: 3.5rem;
+      width: 100%;
+      box-shadow: 0 0.5rem 2rem rgba(21, 71, 158, 0.06);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-sizing: border-box;
+
+      .texto-info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      h1 {
+        font-size: 2.25rem;
+        font-weight: 700;
+        color: #15499C;
+        text-align: left;
+        line-height: 1.2;
+        margin: 0;
+      }
+
+      h2 {
+        color: #0F56C8;
+        font-size: 0.9375rem;
+        font-weight: 400;
+        text-align: left;
+        line-height: 1.5;
+        margin: 0;
+      }
+
+      img {
+        width: 100%;
+        height: 14rem;
+        object-fit: cover;
+        border-radius: 1.25rem;
+        margin-top: 2rem;
+      }
+    }
+  }
+
+  .secao {
+    max-width: 34rem;
+    width: 100%;
+    background-color: $cor-branca;
+    border-radius: 1.5rem;
+    padding: 3.2rem;
+    box-shadow: 0 0.75rem 2rem rgba(21, 71, 158, 0.08);
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin: 0 0 0.375rem 0;
+      color: #15499C;
+    }
+
+    h2 {
+      font-size: 0.875rem;
+      font-weight: 400;
+      line-height: 1.4;
+      margin: 0 0 1.5rem 0;
+      color: #0F56C8;
+    }
+
+    .inputs {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      width: 100%;
+
+      label {
+        font-size: 0.875rem;
+        font-weight: 600;
+        margin-bottom: 0.375rem;
+
+        &:nth-of-type(2) {
+          margin-top: 1.25rem;
+        }
+      }
+
+      svg {
+        position: absolute;
+        width: 1.25rem;
+        height: 1.25rem;
+        color: #15499C;
+        pointer-events: none;
+        
+        &:not(.icon-cadeado) {
+          top: 2.2rem;
+          left: 0.875rem;
+        }
+
+        &.icon-cadeado {
+          top: 7.6rem;
+          left: 0.875rem;
+        }
+      }
+
+      input[type="text"], 
+      input[type="email"], 
+      input[type="password"] {
+        width: 100%;
+        height: 2.875rem;
+        padding: 0 0.875rem 0 2.625rem;
+        border: 0.0625rem solid $cor-secundaria-azul;
+        border-radius: 0.5rem;
+        font-size: 0.875rem;
+        color: $cor-texto-escuro;
+        outline: none;
+        box-sizing: border-box;
+        transition: border-color 0.2s, box-shadow 0.2s;
+
+        &::placeholder {
+          color: $cor-texto-claro;
+        }
+
+        &:focus {
+          border-color: $cor-primaria-azul;
+          box-shadow: 0 0 0 0.1875rem rgba(21, 71, 158, 0.15);
+        }
+      }
+    }
+
+    .captcha-box {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      margin-top: 1.25rem;
+    }
+
+    .criar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      width: 100%;
+      margin-top: 1.25rem;
+
+      input[type="checkbox"] {
+        width: 1.125rem;
+        height: 1.125rem;
+        accent-color: $cor-primaria-azul;
+        cursor: pointer;
+        margin: 0;
+      }
+
+      label {
+        font-size: 0.875rem;
+        color: $cor-texto-escuro;
+        margin-left: 0.5rem;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      p {
+        margin-left: auto;
+        font-size: 0.875rem;
+        color: $cor-primaria-azul;
+        font-weight: 600;
+        cursor: pointer;
+        margin-top: 0;
+        margin-bottom: 0;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      button {
+        width: 100%;
+        height: 3rem;
+        background-color: $cor-primaria-azul;
+        color: $cor-branca;
+        border: none;
+        border-radius: $radius-botao;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        margin-top: 1.25rem;
+        transition: background-color 0.2s;
+
+        &:hover {
+          background-color: darken($cor-primaria-azul, 8%);
+        }
+      }
+
+      .divisoria {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        margin: 1.25rem 0;
+
+        &::before, &::after {
+          content: '';
+          flex: 1;
+          height: 1px;
+          background-color: $cor-secundaria-azul;
+        }
+
+        span {
+          padding: 0 0.75rem;
+          color: $cor-texto-claro;
+          font-size: 0.8125rem;
+          font-weight: 500;
+        }
+      }
+
+      .google-box {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+      }
+
+      h3 {
+        width: 100%;
+        text-align: center;
+        font-size: 0.875rem;
+        font-weight: 400;
+        margin-top: 1.25rem;
+        margin-bottom: 0;
+        cursor: pointer;
+
+        span {
+          color: #15499C;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+}
