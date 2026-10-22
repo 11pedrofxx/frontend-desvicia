@@ -4,8 +4,11 @@ import { LockKeyhole, Mail } from 'lucide-react';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { GoogleLogin } from '@react-oauth/google';
 import api from '../../service/api';
+import { Link } from 'react-router-dom';
+import ElementoTelaLogin from '../../components/CompTelaLogin';
 
 export default function Login() {
+
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
     const [captchaToken, setCaptchaToken] = useState('');
@@ -56,13 +59,7 @@ export default function Login() {
 
     return (
         <div className='pagina-login pagina'>
-            <div className='info-esquerda'>
-                <div className='info'>
-                    <h1>Pequenos passos criam grandes mudanças.</h1>
-                    <h2>Reconheça seus hábitos, acompanhe sua evolução e construa uma relação mais equilibrada com o que faz parte da sua rotina sem culpa e sem julgamentos.</h2>
-                    <img src="/assets/images/imagemTelaLogin.webp" alt="Tela de Login" />
-                </div>
-            </div>
+            <ElementoTelaLogin/>
 
             <section className='secao'>
                 <h1>Que bom ter você aqui</h1>
@@ -86,7 +83,7 @@ export default function Login() {
                         <input 
                             id="senha"
                             type="password" 
-                            placeholder='digite sua senha' 
+                            placeholder='Digite sua senha' 
                             value={senha}
                             onChange={(e) => setSenha(e.target.value)}
                             required
@@ -120,7 +117,10 @@ export default function Login() {
                             />
                         </div>
 
-                        <h3>Ainda não tem uma conta?<span> Criar conta</span></h3>
+                        <h3>
+                            Ainda não tem uma conta?
+                            <Link to="/cadastro">Criar conta</Link>
+                        </h3>
                     </div>
                 </form>
             </section>
