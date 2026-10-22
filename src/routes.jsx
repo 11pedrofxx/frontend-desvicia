@@ -2,16 +2,17 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import App from './Pages/App/App.jsx'
 import Login from './Pages/Login/index.jsx'
+import Saude from './Pages/Noticias/saude.jsx'
 
 export default function Roteamento() {
 
-    return(
-    <BrowserRouter>
-        <Routes>
-            <Route path="/" element={<App/>}/>
-            <Route path="/Login" element={<Login/>}/>
-
-        </Routes>
-    </BrowserRouter>
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<App />} />
+                <Route path="/Login" element={<Login />} />
+                <Route path="/noticias/saude" element={<Saude />} />
+            </Routes>
+        </BrowserRouter>
     )
 }
