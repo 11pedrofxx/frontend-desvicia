@@ -15,12 +15,15 @@ export default function Cadastro() {
 
     async function CriarConta(e) {
         e.preventDefault();
+        console.log('1 função executada');
+        console.log('2 Token', captchaToken);
 
         if (!captchaToken) {
             alert('Por favor, confirme a verificação do reCAPTCHA.');
             return;
         }
 
+        console.log('3 iniciando req para a API')
         try {
             
             let resposta = await api.post('/User' , {
@@ -32,13 +35,20 @@ export default function Cadastro() {
 
             })
 
-            const user_id = resposta.data;
+            const user_id = resposta.data.id;
             localStorage.setItem('user_id', user_id);
 
 
         } catch (error) {
-            console.error('Erro no login:', error.response?.data?.erro || error.message);
-            alert(error.response?.data?.erro || 'Erro ao realizar login.');
+    console.error('Erro ao criar conta:', error);
+    console.error('Resposta da API:', error.response?.data);
+    console.error('Status HTTP:', error.response?.status);
+
+    alert(
+        error.response?.data?.erro ||
+        error.response?.data?.mensagem ||
+        'Erro ao criar conta. Confira o console.'
+    );
         }
 
 
@@ -53,7 +63,7 @@ export default function Cadastro() {
                     <h1>Saiba que você <br />não está sozinho</h1>
                     <h2> Cadastre-se para acessar uma rede de apoio segura, anônima e gratuita.</h2>
 
-                    <form>
+                    <form onSubmit={CriarConta} >
                         <div className="campo-cadastro">
                             <label htmlFor="nome">
                                 Como você quer ser chamado?
@@ -114,7 +124,7 @@ export default function Cadastro() {
                         </div>
 
                         <div className="criar">
-                            <button onSubmit={CriarConta} type="submit">Criar conta</button>
+                            <button type="submit">Criar conta</button>
 
                             <div className="divisoria">
                                 <span>ou</span>
