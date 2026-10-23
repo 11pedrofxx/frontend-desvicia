@@ -5,6 +5,7 @@ import { GoogleLogin } from '@react-oauth/google';
 import { useState } from 'react';
 import { UserRound, Mail, LockKeyhole } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import api from '../../service/api.js';
 
 export default function Cadastro() {
     const [nome, setNome] = useState('');
@@ -12,13 +13,44 @@ export default function Cadastro() {
     const [senha, setSenha] = useState('');
     const [captchaToken, setCaptchaToken] = useState('');
 
+    async function CriarConta(e) {
+        e.preventDefault();
+
+        if (!captchaToken) {
+            alert('Por favor, confirme a verificação do reCAPTCHA.');
+            return;
+        }
+
+        try {
+            
+            let resposta = await api.post('/User' , {
+
+                nome,
+                email,
+                senha,
+                captchaToken
+
+            })
+
+            const user_id = resposta.data;
+            localStorage.setItem('user_id', user_id);
+
+
+        } catch (error) {
+            console.error('Erro no login:', error.response?.data?.erro || error.message);
+            alert(error.response?.data?.erro || 'Erro ao realizar login.');
+        }
+
+
+    }
+
     return (
         <div className="pagina-cadastro">
             <ElementoTelaLogin />
 
             <div className="cadastro">
                 <section>
-                    <h1>Você não precisa passar por isso sozinho.</h1>
+                    <h1>Saiba que você <br />não está sozinho</h1>
                     <h2> Cadastre-se para acessar uma rede de apoio segura, anônima e gratuita.</h2>
 
                     <form>
@@ -78,14 +110,11 @@ export default function Cadastro() {
                         <div className="captcha-box">
                             <ReCAPTCHA
                                 sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
-                                onChange={(token) => setCaptchaToken(token)}
-                            />
+                                onChange={(token) => setCaptchaToken(token)}/>
                         </div>
 
                         <div className="criar">
-                            <button type="submit">
-                                Criar conta
-                            </button>
+                            <button onSubmit={CriarConta} type="submit">Criar conta</button>
 
                             <div className="divisoria">
                                 <span>ou</span>
