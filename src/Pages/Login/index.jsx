@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import './index.scss';
-import { LockKeyhole, Mail } from 'lucide-react';
+import { LockKeyhole, Mail, Eye, EyeOff} from 'lucide-react';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { GoogleLogin } from '@react-oauth/google';
 import api from '../../service/api';
@@ -12,6 +12,8 @@ export default function Login() {
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
     const [captchaToken, setCaptchaToken] = useState('');
+
+    const [mostraSenha, setmostraSenha] = useState(false)
 
     async function fazerLogin(e) {
         e.preventDefault();
@@ -82,12 +84,18 @@ export default function Login() {
                         <label htmlFor="senha">Senha</label>
                         <input 
                             id="senha"
-                            type="password" 
+                            type={mostraSenha ? 'text' : 'password'} 
                             placeholder='Digite sua senha' 
                             value={senha}
                             onChange={(e) => setSenha(e.target.value)}
                             required
                         />
+
+                        <button type='button'
+                        className='olhinho'
+                        onClick={() => setmostraSenha(!mostraSenha)}>
+                        {mostraSenha ? <EyeOff size={20} /> : <Eye size={20} />}
+                        </button>
                     </div>
 
                     <div className='captcha-box'>
@@ -105,7 +113,7 @@ export default function Login() {
                         <button type="submit">Entrar</button>
 
                         <div className='divisoria'>
-                            <span>ou</span>
+                            <span>OU</span>
                         </div>
 
                         <div className='google-box'>
