@@ -29,6 +29,61 @@
             flex-direction: column;
             width: 100%;
 
+            .caixas-codigo {
+    display: flex;
+    justify-content: center;
+    gap: 0.625rem;
+    margin: 1.5rem 0;
+
+    input {
+        width: 3.2rem;
+        height: 3.8rem;
+        text-align: center; /* Centraliza o número dentro do quadrado */
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #15499c;
+        border: 1px solid #15499c;
+        border-radius: 0.75rem;
+        background-color: #f8fafc;
+        outline: none;
+        transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+
+        &:focus {
+            border-color: #0f56c8;
+            box-shadow: 0 0 0 4px rgba(21, 71, 158, 0.15);
+            background-color: #ffffff;
+        }
+    }
+}
+
+.msg-erro-codigo {
+    color: #d93025;
+    font-size: 0.875rem;
+    text-align: center;
+    margin-top: -0.5rem;
+    margin-bottom: 1.25rem;
+    font-weight: 600;
+}
+
+.btn-voltar {
+    width: 100%;
+    height: 3rem;
+    background-color: #ffffff;
+    color: #15499c;
+    border: 1px solid #15499c;
+    border-radius: 2rem;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+
+    &:hover {
+        background-color: #f0f4fb;
+        border-color: #0f56c8;
+    }
+}
+
             h1 {
                 margin: 0 0 0.5rem;
                 color: #15499c;
@@ -57,9 +112,8 @@
 
             label {
                 color: #111111;
-                font-size: 0.875rem;
-                font-weight: 600;
-                font-family: Arial, Helvetica, sans-serif;
+                font-size: 0.9rem;
+                font-family: inherit;
             }
 
             .input-icon {
@@ -117,7 +171,8 @@
 
                     &::placeholder {
                         color: #777777;
-                    }
+                        font-family: inherit !important;
+                    } 
                 }
 
                 &:focus-within {
@@ -186,18 +241,18 @@
             }
 
             h3 {
-                margin: 0;
                 color: #222222;
-                font-size: 0.875rem;
+                font-size: 0.9rem;
                 font-weight: 400;
                 text-align: center;
-                font-family: Arial, sans-serif;
+                font-family: inherit;
 
                 a {
                     margin-left: 0.25rem;
-                    color: #15499c;
+                    color: #093c8f;
                     font-weight: 600;
                     text-decoration: none;
+                    font-family: inherit;
 
                     &:hover {
                         text-decoration: underline;
