@@ -1,12 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect} from 'react';
 import './index.scss';
-import { LockKeyhole, Mail, Eye, EyeOff } from 'lucide-react';
+import { LockKeyhole, Mail, Eye, EyeOff, Loader2} from 'lucide-react';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { GoogleLogin } from '@react-oauth/google';
 import api from '../../service/api';
 import { Link } from 'react-router-dom';
 import ElementoTelaLogin from '../../components/CompTelaLogin';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 export default function Login() {
     const navigate = useNavigate();
@@ -15,52 +16,79 @@ export default function Login() {
     const [senha, setSenha] = useState('');
     const [captchaToken, setCaptchaToken] = useState('');
 
+    const [Lembrar, setLembrar] = useState(false);
+
     const [mostraSenha, setmostraSenha] = useState(false)
+
+    const [Carregando, setCarregando] = useState(false);
+ 
+    useEffect(() => {
+    const emailSalvo = localStorage.getItem('emailLembrado');
+    if (emailSalvo) {
+        setEmail(emailSalvo);
+        setLembrar(true);
+    }
+    }, []);
 
     async function fazerLogin(e) {
         e.preventDefault();
 
         if (!captchaToken) {
-            alert('Por favor, confirme a verificação do reCAPTCHA.');
+            toast.error('Por favor, confirme a verificação do reCAPTCHA.');
             return;
         }
 
         try {
-            const resposta = await api.post('/login', {
-                email,
-                senha,
-                captchaToken
-            });
+    setCarregando(true);
+    const resposta = await api.post('/login', {
+        email,
+        senha,
+        captchaToken
+    });
 
-            const { token, usuario } = resposta.data;
-            localStorage.setItem('token', token);
-            localStorage.setItem('usuario', JSON.stringify(usuario));
+    const { token, usuario } = resposta.data;
+    localStorage.setItem('token', token);
+    localStorage.setItem('usuario', JSON.stringify(usuario));
 
-            console.log('Login bem-sucedido!', resposta.data.mensagem);
-
-        } catch (error) {
-            console.error('Erro no login:', error.response?.data?.erro || error.message);
-            alert(error.response?.data?.erro || 'Erro ao realizar login.');
-        }
+    if (Lembrar) {
+        localStorage.setItem('emailLembrado', email);
+    } else {
+        localStorage.removeItem('emailLembrado');
     }
+    
+    navigate('/app');
+
+} catch (error) {
+} finally {
+    setCarregando(false);
+}
+}
 
     async function LoginGoogle(credencial) {
-        try {
-            const resposta = await api.post('/login/google', {
-                googleToken: credencial.credential
-            });
+    try {
+        setCarregando(true);
+        const resposta = await api.post('/login/google', {
+            googleToken: credencial.credential
+        });
 
-            localStorage.setItem('token', resposta.data.token);
-            localStorage.setItem('user', JSON.stringify(resposta.data.usuario));
+        localStorage.setItem('token', resposta.data.token);
+        localStorage.setItem('user', JSON.stringify(resposta.data.usuario));
 
-            alert(resposta.data.mensagem);
-            navigate('/app');
-
-        } catch (error) {
-            const msgErro = error.response?.data?.erro || 'Erro ao realizar login com o Google.';
-            alert(msgErro);
+        const emailGoogle = resposta.data.usuario?.email || resposta.data.usuario?.ds_email;
+        if (Lembrar && emailGoogle) {
+            localStorage.setItem('emailLembrado', emailGoogle);
+        } else {
+            localStorage.removeItem('emailLembrado');
         }
+
+        navigate('/App');
+
+    } catch (error) {
+
+    } finally {
+        setCarregando(false);
     }
+}
 
     return (
         <div className='pagina-login pagina'>
@@ -109,11 +137,24 @@ export default function Login() {
                     </div>
 
                     <div className='criar'>
-                        <input type="checkbox" id="lembrar" />
+                        <input type="checkbox"
+                        id="lembrar"
+                        checked={Lembrar}
+                        onChange={(e) => setLembrar(e.target.checked)}
+                        />
                         <label htmlFor="lembrar">Lembrar de mim</label>
 
                         <p>Esqueci minha senha</p>
-                        <button type="submit">Entrar</button>
+                        <button type="submit" disabled={Carregando}>
+                            {Carregando ? (
+                                <span className="carregar">
+                                    <Loader2 className="girar" size={20} />
+                                    Entrando...
+                                </span>
+                            ) : (
+                                'Entrar'
+                            )}
+                        </button>
 
                         <div className='divisoria'>
                             <span>OU</span>
@@ -122,7 +163,7 @@ export default function Login() {
                         <div className="google-box">
                             <GoogleLogin
                                 onSuccess={LoginGoogle}
-                                onError={() => alert('Falha ao conectar com os serviços do Google.')}
+                                onError={() => toast.error('Falha ao conectar com os serviços do Google.')}
                             />
                         </div>
 
