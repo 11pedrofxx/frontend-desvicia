@@ -105,6 +105,7 @@
             width: 100%;
             height: 165px;
             object-fit: cover;
+            object-position: center;
             border-radius: 9px;
         }
 
@@ -163,13 +164,15 @@
             margin-bottom: 15px;
         }
 
+        // Imagem da notícia com enquadramento mais aberto
         .imagem-detalhe {
             display: block;
             width: 100%;
-            max-height: 330px;
+            height: 380px;
             object-fit: cover;
+            object-position: center 45%;
             border-radius: 12px;
-            margin-bottom: 18px;
+            margin: 0 auto 18px;
         }
 
         .paragrafo-detalhe {
@@ -208,8 +211,15 @@
             height: 175px;
         }
 
-        .detalhe-noticia h2 {
-            font-size: 22px;
+        .detalhe-noticia {
+            .imagem-detalhe {
+                height: 280px;
+                object-position: center 45%;
+            }
+
+            h2 {
+                font-size: 22px;
+            }
         }
     }
 }
