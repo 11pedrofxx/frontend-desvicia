@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { UserRound, Mail, LockKeyhole, Eye, EyeOff, Loader2 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../../service/api.js';
-
+import toast from 'react-hot-toast';
 
 export default function Cadastro() {
     const navigate = useNavigate();
@@ -16,7 +16,7 @@ export default function Cadastro() {
     const [token, settoken] = useState('');
 
     const [mostrarSenha, setMostrarSenha] = useState(false);
-    const [Carregando, setCarregando] = useState(false)
+    const [Carregando, setCarregando] = useState(false);
 
     const [etapa, setEtapa] = useState(1);
     const [codigo, setCodigo] = useState(['', '', '', '', '', '']);
@@ -46,65 +46,60 @@ export default function Cadastro() {
         e.preventDefault();
 
         if (!token) {
-            alert('Por favor, confirme a verificação do reCAPTCHA');
+            toast.error('Por favor, confirme a verificação do reCAPTCHA.');
             return;
         }
 
         try {
-            setCarregando(true)
+            setCarregando(true);
             let resposta = await api.post('/usuario/pre-cadastro', {
                 nome,
                 email,
                 senha,
                 token
-            })
+            });
 
-            let emailuser = resposta.data.email
-            localStorage.setItem('emailuser', emailuser)
+            let emailuser = resposta.data.email;
+            localStorage.setItem('emailuser', emailuser);
             setEtapa(2);
 
         } catch (error) {
-            alert(error.response?.data?.erro || 'Erro ao enviar código.');
-        } finally{
-            setCarregando(false)
+        } finally {
+            setCarregando(false);
         }
     }
 
     async function ConfirmarCodigo(e) {
         e.preventDefault();
 
-        if (!codigo || codigo.length < 6) {
-            alert('Por favor, digite o código de 6 dígitos recebido por e-mail.');
+        const codigoString = codigo.join('');
+        if (codigoString.length < 6) {
+            toast.error('Por favor, preencha todos os 6 dígitos do código.');
             return;
         }
 
         try {
-            setCarregando(true)
+            setCarregando(true);
             let resposta = await api.post('/usuario/confirmar-cadastro', {
                 email,
-                codigo
+                codigo: codigoString
             });
 
             localStorage.setItem('token', resposta.data.token);
             localStorage.setItem('user', JSON.stringify(resposta.data.usuario));
 
-            alert('Conta criada e confirmada com sucesso!');
             navigate('/login');
 
         } catch (error) {
-            alert(
-                error.response?.data?.erro ||
-                error.response?.data?.mensagem ||
-                'Código inválido ou expirado. Tente novamente.'
-            );
-        } finally{
-            setCarregando(false)
+
+        } finally {
+            setCarregando(false);
         }
     }
 
     async function LoginGoogle(credencial) {
         try {
-            setCarregando(true)
+            setCarregando(true);
             const resposta = await api.post('/login/google', {
                 googleToken: credencial.credential
             });
@@ -112,17 +107,14 @@ export default function Cadastro() {
             localStorage.setItem('token', resposta.data.token);
             localStorage.setItem('user', JSON.stringify(resposta.data.usuario));
 
-            alert(resposta.data.mensagem);
             navigate('/app'); 
 
         } catch (error) {
-            const msgErro = error.response?.data?.erro || 'Erro ao realizar login com o Google.';
-            alert(msgErro);
-        } finally{
-            setCarregando(false)
+
+        } finally {
+            setCarregando(false);
         }
     }
-
 
     return (
         <div className="pagina-cadastro">
@@ -193,11 +185,11 @@ export default function Cadastro() {
                             </div>
 
                             <div className="criar">
-                                 <button type="submit" disabled={Carregando}>
+                                <button type="submit" disabled={Carregando}>
                                     {Carregando ? (
                                         <span className="carregar">
                                             <Loader2 className="girar" size={20} />
-                                            Entrando...
+                                            Criando conta...
                                         </span>
                                     ) : (
                                         'Criar Conta'
@@ -211,7 +203,7 @@ export default function Cadastro() {
                                 <div className="google-box">
                                     <GoogleLogin
                                         onSuccess={LoginGoogle}
-                                        onError={() => alert('Falha ao conectar com o Google')}
+                                        onError={() => toast.error('Falha ao conectar com os serviços do Google.')}
                                     />
                                 </div>
 
@@ -249,7 +241,16 @@ export default function Cadastro() {
                             )}
 
                             <div className="criar">
-                                <button type="submit">Confirmar código</button>
+                                <button type="submit" disabled={Carregando}>
+                                    {Carregando ? (
+                                        <span className="carregar">
+                                            <Loader2 className="girar" size={20} />
+                                            Validando...
+                                        </span>
+                                    ) : (
+                                        'Confirmar código'
+                                    )}
+                                </button>
 
                                 <button
                                     type="button"
