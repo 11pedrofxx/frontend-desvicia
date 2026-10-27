@@ -22,22 +22,22 @@
     box-sizing: border-box;
 
     h1 {
-       margin: 0 0 0.5rem;
-                color: #15499c;
-                font-size: 2.2rem;
-                font-weight: 700;
-                text-align: center;
-                font-family: "Poppins", sans-serif;
+      margin: 0 0 0.5rem;
+      color: #15499c;
+      font-size: 2.2rem;
+      font-weight: 700;
+      text-align: center;
+      font-family: "Poppins", sans-serif;
     }
 
     h2 {
       margin: 0 0 1.75rem;
-                color: #0f56c8;
-                font-size: 1rem;
-                font-weight: 400;
-                line-height: 1.5;
-                text-align: center;
-                font-family: "Poppins", sans-serif;
+      color: #0f56c8;
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.5;
+      text-align: center;
+      font-family: "Poppins", sans-serif;
     }
 
     .inputs {
@@ -140,6 +140,35 @@
       align-items: center;
       width: 100%;
       margin-top: 1.25rem;
+
+      button {
+        &:disabled {
+          opacity: 0.7;
+          cursor: not-allowed;
+        }
+
+        .carregar {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.5rem;
+
+          .girar {
+            animation: girar 1s linear infinite;
+          }
+        }
+      }
+
+      @keyframes girar {
+        from {
+          transform: rotate(0deg);
+        }
+
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
 
       input[type="checkbox"] {
         width: 1.125rem;

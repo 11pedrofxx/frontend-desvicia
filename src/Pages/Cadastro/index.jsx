@@ -3,7 +3,7 @@ import ElementoTelaLogin from '../../components/CompTelaLogin/index.jsx';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { GoogleLogin } from '@react-oauth/google';
 import { useState } from 'react';
-import { UserRound, Mail, LockKeyhole, Eye, EyeOff } from 'lucide-react';
+import { UserRound, Mail, LockKeyhole, Eye, EyeOff, Loader2 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../../service/api.js';
 
@@ -16,6 +16,7 @@ export default function Cadastro() {
     const [token, settoken] = useState('');
 
     const [mostrarSenha, setMostrarSenha] = useState(false);
+    const [Carregando, setCarregando] = useState(false)
 
     const [etapa, setEtapa] = useState(1);
     const [codigo, setCodigo] = useState(['', '', '', '', '', '']);
@@ -50,7 +51,7 @@ export default function Cadastro() {
         }
 
         try {
-
+            setCarregando(true)
             let resposta = await api.post('/usuario/pre-cadastro', {
                 nome,
                 email,
@@ -64,6 +65,8 @@ export default function Cadastro() {
 
         } catch (error) {
             alert(error.response?.data?.erro || 'Erro ao enviar código.');
+        } finally{
+            setCarregando(false)
         }
     }
 
@@ -76,6 +79,7 @@ export default function Cadastro() {
         }
 
         try {
+            setCarregando(true)
             let resposta = await api.post('/usuario/confirmar-cadastro', {
                 email,
                 codigo
@@ -93,11 +97,14 @@ export default function Cadastro() {
                 error.response?.data?.mensagem ||
                 'Código inválido ou expirado. Tente novamente.'
             );
+        } finally{
+            setCarregando(false)
         }
     }
 
     async function LoginGoogle(credencial) {
         try {
+            setCarregando(true)
             const resposta = await api.post('/login/google', {
                 googleToken: credencial.credential
             });
@@ -111,6 +118,8 @@ export default function Cadastro() {
         } catch (error) {
             const msgErro = error.response?.data?.erro || 'Erro ao realizar login com o Google.';
             alert(msgErro);
+        } finally{
+            setCarregando(false)
         }
     }
 
@@ -184,7 +193,16 @@ export default function Cadastro() {
                             </div>
 
                             <div className="criar">
-                                <button type="submit">Criar conta</button>
+                                 <button type="submit" disabled={Carregando}>
+                                    {Carregando ? (
+                                        <span className="carregar">
+                                            <Loader2 className="girar" size={20} />
+                                            Entrando...
+                                        </span>
+                                    ) : (
+                                        'Criar Conta'
+                                    )}
+                                </button>
 
                                 <div className="divisoria">
                                     <span>OU</span>
