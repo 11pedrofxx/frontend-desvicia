@@ -7,8 +7,6 @@ import { Toaster } from 'react-hot-toast';
 
 const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID
 
-console.log("CHAVE CLIENT ID CARREGADA:", GOOGLE_CLIENT_ID);
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>

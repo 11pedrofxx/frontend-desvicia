@@ -6,6 +6,8 @@ import Cadastro from './Pages/Cadastro'
 import Saude from "./Pages/Noticias/saude.jsx";
 import ApresentationModal from './components/ApresentacionModal/ApresentacaoModal.jsx'
 import Distrair from './Pages/Distrair/index.jsx'
+import RedefinirSenha from './Pages/RedefinirSenha/index.jsx';
+import NovaSenha from './Pages/NovaSenha/index.jsx';
 
 export default function Roteamento() {
 
@@ -21,7 +23,7 @@ export default function Roteamento() {
 
             <Route path="/Distrair" element={<Distrair/>}/>
             <Route path="/esqueci-senha" element={<RedefinirSenha/>}/> 
-            <Route path="/nova-Senha" element={<NovaSenha/>}/>
+            <Route path="/nova-senha" element={<NovaSenha/>}/>
 
         </Routes>
     </BrowserRouter>

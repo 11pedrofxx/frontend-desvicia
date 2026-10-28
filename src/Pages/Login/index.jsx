@@ -1,6 +1,6 @@
-import { useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import './index.scss';
-import { LockKeyhole, Mail, Eye, EyeOff, Loader2} from 'lucide-react';
+import { LockKeyhole, Mail, Eye, EyeOff, Loader2 } from 'lucide-react';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { GoogleLogin } from '@react-oauth/google';
 import api from '../../service/api';
@@ -21,13 +21,13 @@ export default function Login() {
     const [mostraSenha, setmostraSenha] = useState(false)
 
     const [Carregando, setCarregando] = useState(false);
- 
+
     useEffect(() => {
-    const emailSalvo = localStorage.getItem('emailLembrado');
-    if (emailSalvo) {
-        setEmail(emailSalvo);
-        setLembrar(true);
-    }
+        const emailSalvo = localStorage.getItem('emailLembrado');
+        if (emailSalvo) {
+            setEmail(emailSalvo);
+            setLembrar(true);
+        }
     }, []);
 
     async function fazerLogin(e) {
@@ -39,56 +39,56 @@ export default function Login() {
         }
 
         try {
-    setCarregando(true);
-    const resposta = await api.post('/login', {
-        email,
-        senha,
-        captchaToken
-    });
+            setCarregando(true);
+            const resposta = await api.post('/login', {
+                email,
+                senha,
+                captchaToken
+            });
 
-    const { token, usuario } = resposta.data;
-    localStorage.setItem('token', token);
-    localStorage.setItem('usuario', JSON.stringify(usuario));
+            const { token, usuario } = resposta.data;
+            localStorage.setItem('token', token);
+            localStorage.setItem('usuario', JSON.stringify(usuario));
 
-    if (Lembrar) {
-        localStorage.setItem('emailLembrado', email);
-    } else {
-        localStorage.removeItem('emailLembrado');
+            if (Lembrar) {
+                localStorage.setItem('emailLembrado', email);
+            } else {
+                localStorage.removeItem('emailLembrado');
+            }
+
+            navigate('/app');
+
+        } catch (error) {
+        } finally {
+            setCarregando(false);
+        }
     }
-    
-    navigate('/app');
-
-} catch (error) {
-} finally {
-    setCarregando(false);
-}
-}
 
     async function LoginGoogle(credencial) {
-    try {
-        setCarregando(true);
-        const resposta = await api.post('/login/google', {
-            googleToken: credencial.credential
-        });
+        try {
+            setCarregando(true);
+            const resposta = await api.post('/login/google', {
+                googleToken: credencial.credential
+            });
 
-        localStorage.setItem('token', resposta.data.token);
-        localStorage.setItem('user', JSON.stringify(resposta.data.usuario));
+            localStorage.setItem('token', resposta.data.token);
+            localStorage.setItem('user', JSON.stringify(resposta.data.usuario));
 
-        const emailGoogle = resposta.data.usuario?.email || resposta.data.usuario?.ds_email;
-        if (Lembrar && emailGoogle) {
-            localStorage.setItem('emailLembrado', emailGoogle);
-        } else {
-            localStorage.removeItem('emailLembrado');
+            const emailGoogle = resposta.data.usuario?.email || resposta.data.usuario?.ds_email;
+            if (Lembrar && emailGoogle) {
+                localStorage.setItem('emailLembrado', emailGoogle);
+            } else {
+                localStorage.removeItem('emailLembrado');
+            }
+
+            navigate('/App');
+
+        } catch (error) {
+
+        } finally {
+            setCarregando(false);
         }
-
-        navigate('/App');
-
-    } catch (error) {
-
-    } finally {
-        setCarregando(false);
     }
-}
 
     return (
         <div className='pagina-login pagina'>
@@ -138,9 +138,9 @@ export default function Login() {
 
                     <div className='criar'>
                         <input type="checkbox"
-                        id="lembrar"
-                        checked={Lembrar}
-                        onChange={(e) => setLembrar(e.target.checked)}
+                            id="lembrar"
+                            checked={Lembrar}
+                            onChange={(e) => setLembrar(e.target.checked)}
                         />
                         <label htmlFor="lembrar">Lembrar de mim</label>
 
@@ -149,7 +149,7 @@ export default function Login() {
                         </Link  >
 
                         <button type="submit" disabled={Carregando}>
-                            
+
                             {Carregando ? (
                                 <span className="carregar">
                                     <Loader2 className="girar" size={20} />
