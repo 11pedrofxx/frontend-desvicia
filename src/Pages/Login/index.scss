@@ -1,4 +1,4 @@
-@import '../../variables.scss';
+@import "../../variables.scss";
 
 .pagina-login.pagina {
   display: flex;
@@ -114,7 +114,9 @@
         color: $cor-texto-escuro;
         outline: none;
         box-sizing: border-box;
-        transition: border-color 0.2s, box-shadow 0.2s;
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s;
 
         &::placeholder {
           color: $cor-texto-claro;
@@ -140,6 +142,19 @@
       align-items: center;
       width: 100%;
       margin-top: 1.25rem;
+
+      .link-esqueci-senha {
+        margin-left: auto;
+        color: $cor-primaria-azul;
+        font-size: 0.875rem;
+        font-weight: 600;
+        text-decoration: none;
+        cursor: pointer;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
 
       button {
         &:disabled {
@@ -168,7 +183,6 @@
           transform: rotate(360deg);
         }
       }
-
 
       input[type="checkbox"] {
         width: 1.125rem;
@@ -223,7 +237,7 @@
 
         &::before,
         &::after {
-          content: '';
+          content: "";
           flex: 1;
           height: 1px;
           background-color: black;

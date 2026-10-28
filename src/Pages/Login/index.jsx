@@ -144,8 +144,12 @@ export default function Login() {
                         />
                         <label htmlFor="lembrar">Lembrar de mim</label>
 
-                        <p>Esqueci minha senha</p>
+                        <Link to="/esqueci-senha" className="link-esqueci-senha">
+                            Esqueci minha senha
+                        </Link  >
+
                         <button type="submit" disabled={Carregando}>
+                            
                             {Carregando ? (
                                 <span className="carregar">
                                     <Loader2 className="girar" size={20} />

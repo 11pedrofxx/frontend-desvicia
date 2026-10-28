@@ -1,0 +1,147 @@
+@import "../../variables.scss";
+
+.pagina-redefinir-senha {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+  min-height: 100vh;
+  background-color: $cor-fundo;
+  box-sizing: border-box;
+
+  .imagem-redefinicao {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 600px;
+    height: 700px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 30px;
+    }
+  }
+
+  .formulario-redefinicao {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 42%;
+    padding: 4rem 3rem 4rem 6rem;
+    box-sizing: border-box;
+
+    h1 {
+      margin-bottom: 0.5rem;
+      color: $cor-primaria-azul;
+      font-family: "Poppins", sans-serif;
+      font-size: 2.8rem;
+      font-weight: 700;
+      line-height: 1.15;
+    }
+
+    h2 {
+      margin: 0.4rem 0 1.75rem;
+      color: $cor-texto-claro;
+      font-family: "Poppins", sans-serif;
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.7;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      gap: 1.25rem;
+
+      .campo-senha {
+        display: flex;
+        align-items: center;
+        gap: 0.875rem;
+        width: 100%;
+        height: 3.5rem;
+        padding: 0 1rem;
+        background-color: $cor-branca;
+        border: 1px solid $cor-secundaria-azul;
+        border-radius: $radius-card;
+        box-sizing: border-box;
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s;
+
+        &:focus-within {
+          border-color: $cor-primaria-azul;
+          box-shadow: 0 0 0 3px rgba(21, 71, 158, 0.12);
+        }
+
+        svg {
+          flex-shrink: 0;
+          color: $cor-primaria-azul;
+        }
+
+        input {
+          width: 100%;
+          height: 100%;
+          padding: 0;
+          background: transparent;
+          border: none;
+          outline: none;
+          color: $cor-texto-escuro;
+          font-family: $fonte-primaria;
+          font-size: 0.95rem;
+          box-sizing: border-box;
+
+          &::placeholder {
+            color: $cor-texto-claro;
+          }
+        }
+
+        .icone-visualizacao {
+          flex-shrink: 0;
+          color: $cor-texto-claro;
+          cursor: pointer;
+        }
+      }
+
+      button {
+        width: 100%;
+        height: 3.5rem;
+        background-color: $cor-primaria-azul;
+        color: $cor-branca;
+        border: none;
+        border-radius: $radius-botao;
+        font-family: $fonte-primaria;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.2s;
+
+        &:hover {
+          background-color: darken($cor-primaria-azul, 8%);
+        }
+      }
+    }
+
+    .voltar-login {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      align-self: center;
+      margin-top: 1.75rem;
+      color: $cor-primaria-azul;
+      font-family: $fonte-primaria;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: color 0.2s;
+
+      &:hover {
+        color: darken($cor-primaria-azul, 8%);
+        text-decoration: underline;
+      }
+    }
+  }
+}
