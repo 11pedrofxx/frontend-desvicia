@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Sparkles, MapPin, BarChart2, HeartHandshake, Check } from 'lucide-react';
+import { Sparkles, MapPin, BarChart2, HeartHandshake, Check, Plus, X, Pencil } from 'lucide-react';
 import './apresentacao.scss';
 
 export default function ApresentationModal({ onComplete }) {
@@ -30,16 +30,17 @@ export default function ApresentationModal({ onComplete }) {
         }
     ];
 
-    const listaDeComportamentos = [
-        "Apostas",
-        "Vape / Cigarro",
-        "Álcool",
-        "Drogas ilícitas",
-        "Outro"
-    ];
+    const habitosPadrao = ["Apostas", "Vape / Cigarro", "Álcool", "Drogas ilícitas", "Outro"];
 
     const [paginaAtual, setPaginaAtual] = useState(0);
     const [opcoesSelecionadas, setOpcoesSelecionadas] = useState([]);
+    const [habitosCustomizados, setHabitosCustomizados] = useState([]);
+
+    const [mostrarInputOutro, setMostrarInputOutro] = useState(false);
+    const [textoOutro, setTextoOutro] = useState('');
+
+    const [itemEditando, setItemEditando] = useState(null);
+    const [textoEdicao, setTextoEdicao] = useState('');
 
     function avancarPagina() {
         if (paginaAtual < TextoMODAL.length) {
@@ -48,25 +49,68 @@ export default function ApresentationModal({ onComplete }) {
     }
 
     function escolherOpcao(opcaoClicada) {
+        if (opcaoClicada === "Outro") {
+            setMostrarInputOutro(!mostrarInputOutro);
+            setTextoOutro('');
+            return;
+        }
+
         if (opcoesSelecionadas.includes(opcaoClicada)) {
-            const novasOpcoes = opcoesSelecionadas.filter(item => item !== opcaoClicada);
-            setOpcoesSelecionadas(novasOpcoes);
+            setOpcoesSelecionadas(opcoesSelecionadas.filter(item => item !== opcaoClicada));
         } else {
             setOpcoesSelecionadas([...opcoesSelecionadas, opcaoClicada]);
         }
     }
 
+    function adicionarNovoHabito() {
+        const textoLimpo = textoOutro.trim();
+        if (textoLimpo !== '' && !habitosCustomizados.includes(textoLimpo) && !habitosPadrao.includes(textoLimpo)) {
+            setHabitosCustomizados([...habitosCustomizados, textoLimpo]);
+            setOpcoesSelecionadas([...opcoesSelecionadas, textoLimpo]);
+            setTextoOutro('');
+            setMostrarInputOutro(false);
+        }
+    }
+
+    function excluirHabito(habitoParaExcluir, evento) {
+        evento.stopPropagation();
+        setHabitosCustomizados(habitosCustomizados.filter(item => item !== habitoParaExcluir));
+        setOpcoesSelecionadas(opcoesSelecionadas.filter(item => item !== habitoParaExcluir));
+    }
+
+    function iniciarEdicao(habito, evento) {
+        evento.stopPropagation();
+        setItemEditando(habito);
+        setTextoEdicao(habito);
+    }
+
+    function salvarEdicao(habitoAntigo) {
+        const novoTexto = textoEdicao.trim();
+        if (novoTexto !== '' && novoTexto !== habitoAntigo) {
+            setHabitosCustomizados(habitosCustomizados.map(item => item === habitoAntigo ? novoTexto : item));
+            if (opcoesSelecionadas.includes(habitoAntigo)) {
+                setOpcoesSelecionadas(opcoesSelecionadas.map(item => item === habitoAntigo ? novoTexto : item));
+            }
+        }
+        setItemEditando(null);
+        setTextoEdicao('');
+    }
+
     function concluirCadastro() {
-        console.log("Comportamentos escolhidos:", opcoesSelecionadas);
         if (onComplete) {
             onComplete(opcoesSelecionadas);
         }
     }
 
+    const todosOsHabitos = [
+        ...habitosPadrao.slice(0, -1),
+        ...habitosCustomizados,
+        "Outro"
+    ];
+
     return (
         <div className='ApresentacaoMod'>
             {paginaAtual < TextoMODAL.length ? (
-
                 <div className='cartao-modal centralizado'>
                     <div className="circulo-icone">
                         {TextoMODAL[paginaAtual].icon}
@@ -91,7 +135,6 @@ export default function ApresentationModal({ onComplete }) {
                     </div>
                 </div>
             ) : (
-
                 <div className='cartao-modal alinhado-esquerda'>
                     <div className="cabecalho-form">
                         <h1>Configure seu perfil</h1>
@@ -103,18 +146,78 @@ export default function ApresentationModal({ onComplete }) {
                         <span className="dica">Selecione uma ou mais opções:</span>
                         
                         <div className="area-opcoes">
-                            {listaDeComportamentos.map((opcao) => (
-                                <button 
-                                    key={opcao}
-                                    type="button"
-                                    className={`botao-opcao ${opcoesSelecionadas.includes(opcao) ? 'selecionado' : ''}`}
-                                    onClick={() => escolherOpcao(opcao)}
-                                >
-                                    {opcao}
-                                    {opcoesSelecionadas.includes(opcao) && <Check size={18} />}
-                                </button>
-                            ))}
+                            {todosOsHabitos.map((opcao) => {
+                                const eCustomizado = habitosCustomizados.includes(opcao);
+                                const estaEditando = itemEditando === opcao;
+                                const estaSelecionado = opcao === "Outro" ? mostrarInputOutro : opcoesSelecionadas.includes(opcao);
+
+                                if (estaEditando) {
+                                    return (
+                                        <div key={opcao} className="item-em-edicao">
+                                            <input 
+                                                type="text" 
+                                                value={textoEdicao}
+                                                onChange={(e) => setTextoEdicao(e.target.value)}
+                                                onKeyDown={(e) => e.key === 'Enter' && salvarEdicao(opcao)}
+                                                autoFocus
+                                            />
+                                            <button type="button" onClick={() => salvarEdicao(opcao)} title="Salvar">
+                                                <Check size={16} />
+                                            </button>
+                                        </div>
+                                    );
+                                }
+
+                                return (
+                                    <div 
+                                        key={opcao}
+                                        className={`botao-opcao ${estaSelecionado ? 'selecionado' : ''}`}
+                                        onClick={() => escolherOpcao(opcao)}
+                                    >
+                                        <span>{opcao}</span>
+                                        
+                                        {estaSelecionado && <Check size={16} className="icone-check" />}
+
+                                        {}
+                                        {eCustomizado && (
+                                            <div className="acoes-customizadas">
+                                                <button 
+                                                    type="button" 
+                                                    onClick={(e) => iniciarEdicao(opcao, e)}
+                                                    title="Editar"
+                                                >
+                                                    <Pencil size={14} />
+                                                </button>
+                                                <button 
+                                                    type="button" 
+                                                    onClick={(e) => excluirHabito(opcao, e)}
+                                                    title="Excluir"
+                                                >
+                                                    <X size={14} />
+                                                </button>
+                                            </div>
+                                        )}
+                                    </div>
+                                );
+                            })}
                         </div>
+
+                        {}
+                        {mostrarInputOutro && (
+                            <div className="campo-adicionar-outro">
+                                <input 
+                                    type="text" 
+                                    placeholder="Digite o hábito..."
+                                    value={textoOutro}
+                                    onChange={(e) => setTextoOutro(e.target.value)}
+                                    onKeyDown={(e) => e.key === 'Enter' && adicionarNovoHabito()}
+                                    autoFocus
+                                />
+                                <button type="button" onClick={adicionarNovoHabito}>
+                                    <Plus size={20} />
+                                </button>
+                            </div>
+                        )}
                     </div>
 
                     <div className="rodape-form">

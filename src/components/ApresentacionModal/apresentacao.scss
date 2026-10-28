@@ -25,15 +25,14 @@ $cor-texto-claro: #757575;
   }
 }
 
-/* CARTÃO BEM MAIOR PARA PC */
 .cartao-modal {
   background-color: $cor-branca;
   width: 100%;
-  max-width: 750px;       /* Aumentado significativamente de 450px para 750px */
-  min-height: 520px;      /* Aumentado a altura mínima */
+  max-width: 750px;
+  min-height: 550px;
   max-height: 90dvh;
   border-radius: 28px;
-  padding: 50px 48px;     /* Aumentado o espaçamento interno */
+  padding: 70px 59px;
   
   display: flex;
   flex-direction: column;
@@ -56,8 +55,6 @@ $cor-texto-claro: #757575;
     font-size: clamp(26px, 3.5vw, 34px);
     margin-bottom: 16px;
     font-weight: 700;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    
   }
 
   p {
@@ -65,11 +62,9 @@ $cor-texto-claro: #757575;
     font-size: clamp(16px, 2vw, 18px);
     line-height: 1.6;
     max-width: 580px;
-    font-family: "Poppins", "sans-serif";
   }
 }
 
-/* APRESENTAÇÃO */
 .circulo-icone {
   background-color: #eef4ff;
   color: $cor-primaria-azul;
@@ -111,7 +106,6 @@ $cor-texto-claro: #757575;
   }
 }
 
-/* FORMULÁRIO DE COMPORTAMENTOS */
 .cabecalho-form {
   margin-bottom: 28px;
 }
@@ -144,8 +138,8 @@ $cor-texto-claro: #757575;
   .botao-opcao {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 12px 20px;
+    gap: 8px;
+    padding: 10px 18px;
     background-color: $cor-fundo;
     border: 2px solid transparent;
     border-radius: 24px;
@@ -165,6 +159,103 @@ $cor-texto-claro: #757575;
       color: $cor-primaria-azul;
       font-weight: bold;
     }
+
+    .icone-check {
+      margin-left: 2px;
+    }
+
+    /* Botões de lapis e X nos itens customizados */
+    .acoes-customizadas {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-left: 6px;
+
+      button {
+        background: transparent;
+        border: none;
+        color: #718096;
+        cursor: pointer;
+        padding: 2px;
+        display: flex;
+        align-items: center;
+        border-radius: 4px;
+
+        &:hover {
+          color: #e53e3e;
+          background-color: rgba(0, 0, 0, 0.05);
+        }
+      }
+    }
+  }
+
+  /* Edição Inline */
+  .item-em-edicao {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    input {
+      padding: 8px 12px;
+      border: 2px solid $cor-primaria-azul;
+      border-radius: 16px;
+      font-size: 14px;
+      outline: none;
+    }
+
+    button {
+      background-color: $cor-primaria-azul;
+      color: $cor-branca;
+      border: none;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #123e88;
+      }
+    }
+  }
+}
+
+.campo-adicionar-outro {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+  width: 100%;
+
+  input {
+    flex: 1;
+    padding: 12px 16px;
+    border: 2px solid $cor-secundaria-azul;
+    border-radius: 14px;
+    font-size: 15px;
+    outline: none;
+    color: $cor-texto-escuro;
+
+    &:focus {
+      border-color: $cor-primaria-azul;
+    }
+  }
+
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 18px;
+    background-color: $cor-primaria-azul;
+    color: $cor-branca;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #123e88;
+    }
   }
 }
 
@@ -173,7 +264,6 @@ $cor-texto-claro: #757575;
   margin-top: auto;
 }
 
-/* BOTÃO AZUL PRINCIPAL */
 .botao-azul {
   width: 100%;
   max-width: 420px;
@@ -196,7 +286,6 @@ $cor-texto-claro: #757575;
   }
 }
 
-/* RESPONSIVIDADE PARA CELULAR */
 @media (max-width: 768px) {
   .cartao-modal {
     max-width: 100%;
