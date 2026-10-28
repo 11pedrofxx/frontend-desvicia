@@ -31,7 +31,7 @@ const TextoMODAL = [
 
     function AvancoPAG(){
 
-        if(paginaAtual < TextoMODAL.length - 1){setPaginaAtual(paginaAtual +1);}
+        if(paginaAtual < TextoMODAL.length){setPaginaAtual(paginaAtual +1);}
     };
 
     return(
@@ -55,15 +55,20 @@ const TextoMODAL = [
 
                 </div>
 
-                <div className='QUADRADO--MODAL-APRESENTACAO'>
-                    <div>
-                        <h1>{TextoMODAL[paginaAtual].titulo}</h1>
-
-                        <p>{TextoMODAL[paginaAtual].text}</p>
-
-                        <button onClick={AvancoPAG}>Avance</button>
+                {paginaAtual < TextoMODAL.length ? (
+                    <div className='QUADRADO--MODAL-APRESENTACAO'>
+                        <div>
+                            <h1>{TextoMODAL[paginaAtual].titulo}</h1>
+                            <p>{TextoMODAL[paginaAtual].text}</p>
+                            <button onClick={AvancoPAG}>Avance</button>
+                        </div>
+                    </div>) : (
+                    
+                    <div className='QUADRADO--MODAL-APRESENTACAO-2'>
+                        <h1>olá</h1>
                     </div>
-                </div>
+
+                )}
 
             </div>
         </div>
