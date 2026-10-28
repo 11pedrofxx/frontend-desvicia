@@ -103,13 +103,7 @@ export default function Saude() {
             <header className="cabecalho-noticias">
                 <h1>Aprender</h1>
 
-                <button
-                    className="botao-busca"
-                    aria-label="Mostrar todas as notícias"
-                    onClick={() => setCategoriaAtiva('Notícia')}
-                >
-                    ⌕
-                </button>
+                
             </header>
 
             <main className="conteudo-noticias">
@@ -171,7 +165,7 @@ export default function Saude() {
                                     onClick={() => setCategoriaAtiva(filtro)}
                                 >
                                     {filtro === 'Saúde mental' && '◎ '}
-                                    {filtro === 'Apostas' && '▧ '}
+                                    {filtro === 'Apostas' && '$ '}
                                     {filtro === 'Notícia' && '▤ '}
                                     {filtro === 'Comportamentos' && '☻ '}
                                     {filtro}

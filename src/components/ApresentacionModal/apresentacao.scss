@@ -1,45 +1,301 @@
-.ApresentacaoMod{
-    position: fixed;
-    width: 100%;
-    height: 100vh;
-    height: 100dvh;
+$cor-primaria-azul: #15479e;
+$cor-secundaria-azul: #b4cdeb;
+$cor-fundo: #f4f7f6;
+$cor-branca: #ffffff;
+$cor-texto-escuro: #212121;
+$cor-texto-claro: #757575;
+
+.ApresentacaoMod {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(33, 33, 33, 0.8);
+  z-index: 1000;
+  padding: 24px;
+  font-family: Arial, sans-serif;
+
+  * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.cartao-modal {
+  background-color: $cor-branca;
+  width: 100%;
+  max-width: 750px;
+  min-height: 550px;
+  max-height: 90dvh;
+  border-radius: 28px;
+  padding: 70px 59px;
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+  overflow-y: auto;
+  
+  &.centralizado {
+    align-items: center;
+    text-align: center;
+  }
+  
+  &.alinhado-esquerda {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  h1 {
+    color: $cor-texto-escuro;
+    font-size: clamp(26px, 3.5vw, 34px);
+    margin-bottom: 16px;
+    font-weight: 700;
+  }
+
+  p {
+    color: $cor-texto-claro;
+    font-size: clamp(16px, 2vw, 18px);
+    line-height: 1.6;
+    max-width: 580px;
+  }
+}
+
+.circulo-icone {
+  background-color: #eef4ff;
+  color: $cor-primaria-azul;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 28px;
+  flex-shrink: 0;
+}
+
+.area-inferior {
+  margin-top: 32px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bolinhas-progresso {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 24px;
+
+  .bolinha {
+    width: 10px;
+    height: 10px;
+    background-color: #d1d5db;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    
+    &.ativa {
+      background-color: $cor-primaria-azul;
+      width: 26px;
+      border-radius: 12px;
+    }
+  }
+}
+
+.cabecalho-form {
+  margin-bottom: 28px;
+}
+
+.campo-formulario {
+  width: 100%;
+  margin-bottom: 28px;
+  display: flex;
+  flex-direction: column;
+
+  label {
+    font-size: 18px;
+    font-weight: bold;
+    color: $cor-texto-escuro;
+    margin-bottom: 8px;
+  }
+
+  .dica {
+    font-size: 14px;
+    color: $cor-texto-claro;
+    margin-bottom: 16px;
+  }
+}
+
+.area-opcoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+
+  .botao-opcao {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    background-color: $cor-fundo;
+    border: 2px solid transparent;
+    border-radius: 24px;
+    color: $cor-texto-escuro;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: #e2e8f0;
+    }
+
+    &.selecionado {
+      background-color: #eef4ff;
+      border-color: $cor-primaria-azul;
+      color: $cor-primaria-azul;
+      font-weight: bold;
+    }
+
+    .icone-check {
+      margin-left: 2px;
+    }
+
+    /* Botões de lapis e X nos itens customizados */
+    .acoes-customizadas {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-left: 6px;
+
+      button {
+        background: transparent;
+        border: none;
+        color: #718096;
+        cursor: pointer;
+        padding: 2px;
+        display: flex;
+        align-items: center;
+        border-radius: 4px;
+
+        &:hover {
+          color: #e53e3e;
+          background-color: rgba(0, 0, 0, 0.05);
+        }
+      }
+    }
+  }
+
+  /* Edição Inline */
+  .item-em-edicao {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    input {
+      padding: 8px 12px;
+      border: 2px solid $cor-primaria-azul;
+      border-radius: 16px;
+      font-size: 14px;
+      outline: none;
+    }
+
+    button {
+      background-color: $cor-primaria-azul;
+      color: $cor-branca;
+      border: none;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #123e88;
+      }
+    }
+  }
+}
+
+.campo-adicionar-outro {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+  width: 100%;
+
+  input {
+    flex: 1;
+    padding: 12px 16px;
+    border: 2px solid $cor-secundaria-azul;
+    border-radius: 14px;
+    font-size: 15px;
+    outline: none;
+    color: $cor-texto-escuro;
+
+    &:focus {
+      border-color: $cor-primaria-azul;
+    }
+  }
+
+  button {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 12px 18px;
+    background-color: $cor-primaria-azul;
+    color: $cor-branca;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
 
-    /* pode apagar tudo com tufos */
-    .TUFOS{
-        width: 90%;
-        height: 90%;
-        background-color: white;
-        
-        .quadrado{
-            width: 1100px;
-            height: 150px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: yellow;
-            padding: 10px;
-            border: solid rgb(0, 174, 255) 10px;
-        }
+    &:hover {
+      background-color: #123e88;
     }
-
-    .QUADRADO--MODAL-APRESENTACAO{
-        width: 70%;
-        height: 80%;
-        position: fixed;
-        top: 0;
-        left: 0;
-        inset: 0;
-        margin: auto;
-        z-index: 500;
-        background-color: rgba(0, 0, 0, 0.404);
-        backdrop-filter: blur(10px);
-        border-radius: 50px;
-
-        
-    }
+  }
 }
 
+.rodape-form {
+  width: 100%;
+  margin-top: auto;
+}
+
+.botao-azul {
+  width: 100%;
+  max-width: 420px;
+  padding: 16px;
+  background-color: $cor-primaria-azul;
+  color: $cor-branca;
+  border: none;
+  border-radius: 30px;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+
+  &:hover {
+    background-color: #123e88;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+@media (max-width: 768px) {
+  .cartao-modal {
+    max-width: 100%;
+    min-height: auto;
+    padding: 32px 24px;
+    border-radius: 20px;
+  }
+
+  .circulo-icone {
+    width: 90px;
+    height: 90px;
+  }
+}

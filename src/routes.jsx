@@ -7,11 +7,6 @@ import Saude from "./Pages/Noticias/saude.jsx";
 import ApresentationModal from './components/ApresentacionModal/ApresentacaoModal.jsx'
 
 
-import NovaSenha from "./Pages/NovaSenha/index.jsx";
-
-import RedefinirSenha from "./Pages/RedefinirSenha/index.jsx";
-
-
 export default function Roteamento() {
 
     return(
@@ -22,11 +17,6 @@ export default function Roteamento() {
             <Route path="/Cadastro" element={<Cadastro/>}/>
             <Route path="/Noticias" element={<Saude/>}/>
             <Route path="/TESTCOMP" element={<ApresentationModal/>}/> // pode apagar apenas para test
-          
-
-          
-            <Route path="/esqueci-senha" element={<RedefinirSenha/>}/> 
-            <Route path="/nova-Senha" element={<NovaSenha/>}/>
 
         </Routes>
     </BrowserRouter>

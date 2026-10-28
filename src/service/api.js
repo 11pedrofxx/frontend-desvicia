@@ -35,4 +35,20 @@ api.interceptors.request.use((config) => {
     return Promise.reject(error);
 });
 
+
+export async function listarEstrategias() {
+    const resposta = await api.get('/estrategias');
+    return resposta.data;
+}
+
+export async function criarEstrategia(titulo) {
+    const resposta = await api.post('/estrategia', {
+        titulo: titulo
+    });
+
+    return resposta.data;
+}
+
+
+
 export default api;

@@ -1,0 +1,234 @@
+
+.atividades {
+    width: 100%;
+    max-width: 430px;
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: 28px 20px;
+    box-sizing: border-box;
+    background-color: #f4f7f6;
+    color: #212121;
+    font-family: Arial, Helvetica, sans-serif;
+
+    .atividades-cabecalho {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 28px;
+
+        .botao-voltar {
+            border: none;
+            background: transparent;
+            color: #212121;
+            font-size: 32px;
+            cursor: pointer;
+            padding: 0;
+            line-height: 1;
+        }
+
+        h1 {
+            flex: 1;
+            font-size: 18px;
+            text-align: center;
+            margin: 0;
+            font-weight: 600;
+        }
+    }
+
+    .mensagem-incentivo {
+        background-color: #e4f2ed;
+        border-radius: 12px;
+        padding: 15px 14px;
+        margin-bottom: 22px;
+        text-align: center;
+
+        p {
+            color: #15479e;
+            font-size: 13px;
+            line-height: 1.5;
+            font-weight: 600;
+            margin: 0;
+        }
+    }
+
+    .lista-atividades {
+        h2 {
+            font-size: 17px;
+            margin: 0 0 5px;
+            font-weight: 700;
+        }
+
+        .descricao {
+            color: #757575;
+            font-size: 12px;
+            line-height: 1.5;
+            margin: 0 0 16px;
+        }
+
+        .opcoes-atividades {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .atividade-card {
+            width: 100%;
+            min-height: 58px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            background-color: #ffffff;
+            border: 1px solid #e8e8e8;
+            border-radius: 12px;
+            cursor: pointer;
+            text-align: left;
+            transition: border-color 0.2s, background-color 0.2s;
+
+            &:hover,
+            &.selecionada {
+                border-color: #15479e;
+                background-color: #f0f5ff;
+            }
+
+            .atividade-icone {
+                width: 36px;
+                height: 36px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+                background-color: #eaf2ee;
+                border-radius: 10px;
+                font-size: 18px;
+            }
+
+            .atividade-titulo {
+                flex: 1;
+                color: #212121;
+                font-size: 13px;
+            }
+
+            .atividade-seta {
+                color: #8a9693;
+                font-size: 24px;
+                line-height: 1;
+            }
+        }
+
+        .atividade-confirmacao {
+            margin-top: 14px;
+            padding: 14px;
+            border-radius: 10px;
+            background-color: #e4f2e7;
+
+            p {
+                margin: 0 0 10px;
+                font-size: 13px;
+                line-height: 1.5;
+            }
+
+            button {
+                border: none;
+                background: transparent;
+                color: #15479e;
+                font-weight: 600;
+                cursor: pointer;
+            }
+        }
+
+        .botao-personalizada {
+            width: 100%;
+            min-height: 48px;
+            margin-top: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border: 1px dashed #15479e;
+            border-radius: 12px;
+            background-color: transparent;
+            color: #15479e;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+
+            &:hover {
+                background-color: #eaf1fc;
+            }
+        }
+
+        .formulario-atividade {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 16px;
+            padding: 16px;
+            background-color: #ffffff;
+            border: 1px solid #e8e8e8;
+            border-radius: 12px;
+
+            label {
+                font-size: 13px;
+                font-weight: 600;
+            }
+
+            input {
+                width: 100%;
+                box-sizing: border-box;
+                padding: 12px;
+                border: 1px solid #d8deda;
+                border-radius: 8px;
+                outline: none;
+                font-size: 13px;
+
+                &:focus {
+                    border-color: #15479e;
+                }
+            }
+
+            .formulario-botoes {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+
+                button {
+                    flex: 1;
+                    min-height: 40px;
+                    padding: 8px 12px;
+                    border: 1px solid #15479e;
+                    border-radius: 8px;
+                    background-color: #15479e;
+                    color: #ffffff;
+                    font-size: 12px;
+                    cursor: pointer;
+
+                    &:last-child {
+                        background-color: #ffffff;
+                        color: #15479e;
+                    }
+
+                    &:disabled {
+                        opacity: 0.6;
+                        cursor: not-allowed;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .atividades {
+        padding: 22px 18px;
+
+        .atividades-cabecalho {
+            gap: 8px;
+
+            h1 {
+                font-size: 16px;
+            }
+        }
+    }
+}
