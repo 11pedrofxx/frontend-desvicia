@@ -56,7 +56,7 @@ export default function Login() {
                 localStorage.removeItem('emailLembrado');
             }
 
-            navigate('/app');
+            navigate('/');
 
         } catch (error) {
         } finally {
@@ -81,7 +81,7 @@ export default function Login() {
                 localStorage.removeItem('emailLembrado');
             }
 
-            navigate('/App');
+            navigate('/');
 
         } catch (error) {
 
