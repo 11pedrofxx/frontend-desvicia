@@ -8,6 +8,8 @@ import ApresentationModal from './components/ApresentacionModal/ApresentacaoModa
 import Distrair from './Pages/Distrair/index.jsx'
 import RedefinirSenha from './Pages/RedefinirSenha/index.jsx';
 import NovaSenha from './Pages/NovaSenha/index.jsx';
+import RotaProtegida from "./components/RotaProtegida/index.jsx";
+import RegistroDiario from "./Pages/RegistroDiario/index.jsx";
 
 export default function Roteamento() {
 
@@ -19,12 +21,15 @@ export default function Roteamento() {
             <Route path="/Cadastro" element={<Cadastro/>}/>
             <Route path="/Noticias" element={<Saude/>}/>
             <Route path="/TESTCOMP" element={<ApresentationModal/>}/>
-
-
             <Route path="/Distrair" element={<Distrair/>}/>
             <Route path="/esqueci-senha" element={<RedefinirSenha/>}/> 
             <Route path="/nova-senha" element={<NovaSenha/>}/>
 
+            {/* ROTAS PROTEGIDAS(Só podem ser acessadas após o Login) */}
+
+            <Route element={<RotaProtegida />}>
+                <Route path="/registro-diario" element={<RegistroDiario />} />
+            </Route>
         </Routes>
     </BrowserRouter>
     )
