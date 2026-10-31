@@ -14,7 +14,7 @@ export default function RotaProtegida() {
     }, [token]);
 
     if (!token) {
-        return <Navigate to='/login' replace/>
+        return <Navigate to='/Login' replace/>
     }
     return <Outlet />;
 

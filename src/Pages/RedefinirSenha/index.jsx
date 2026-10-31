@@ -19,7 +19,6 @@ export default function EsqueciSenha() {
       await api.post("/esqueci-senha", {
         email: Email,
       });
-
       setEmail("");
     } catch (error) {
 

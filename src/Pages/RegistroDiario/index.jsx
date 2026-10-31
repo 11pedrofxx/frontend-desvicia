@@ -14,6 +14,7 @@ export default function RegistroDiario() {
   const [gatilhos, setGatilhos] = useState([]);
   const [gatilhosSelecionados, setGatilhosSelecionados] = useState([]);
   const [OutroGatilho, setOutroGatilho] = useState('')
+  const [Notas, setNotas] = useState('');
 
   const gatilhoOutro = Array.isArray(gatilhos)
     ? gatilhos.find((g) => g?.nome?.toLowerCase() === "outro")
@@ -22,7 +23,8 @@ export default function RegistroDiario() {
   const OutroSelecionado = gatilhoOutro && gatilhosSelecionados.includes(gatilhoOutro.id);
 
   const [carregandoGatilhos, setCarregandoGatilhos] = useState(true);
-  const [enviando, setEnviando] = useState(false);
+
+  const [Carregando, setCarregando] = useState(false);
 
   const opcoesHumor = [
     { valor: 1, label: "Bem", img: "/assets/emojis/Happy.png" },
@@ -80,113 +82,176 @@ export default function RegistroDiario() {
 
     setOutroGatilho("");
   } catch (error) {
-    console.error("Erro ao adicionar gatilho:", error);
+    
   }
 }
+  function obterNome() {
+  const token = localStorage.getItem('token');
+  if (!token) return '';
+
+  try {
+    const payloadBase64 = token.split('.')[1];
+    const payloadString = atob(payloadBase64);
+    const payload = JSON.parse(payloadString);
+
+    return payload.nome || payload.nome_usuario || '';
+  } catch (error) {
+    console.error('Erro ao ler token:', error);
+    return '';
+  }
+}
+
+  async function FazerCheckIn(e) {
+    e.preventDefault();
+    if (!nivelHumor) {
+      toast.error('Você deve informar qual foi seu humor durante o dia');
+      return;
+    }
+
+    if (gatilhosSelecionados.length === 0) {
+      toast.error('Você deve selecionar algum gatilho');
+      return;
+    }
+
+    let DiaAvali = 0;
+    if (nivelFissura >= 3) {
+      DiaAvali = true
+    }
+
+    else {
+      DiaAvali = false
+    }
+
+    try {
+      const dataHoje = new Date().toISOString().split('T')[0];
+      setCarregando(true);
+      let objParaSalvar = {
+        data_checkin: dataHoje,
+        nivel_humor: nivelHumor,
+        nivel_fissura: nivelFissura,
+        foi_dia_dificil: DiaAvali,
+        notas: Notas,
+        gatilhos_sentidos: gatilhosSelecionados
+      }
+      const nomeUsuario = obterNome();
+      const checkin = await api.post('/checkin' , objParaSalvar);
+      toast.success(`Checkin diário realizado! Muito bem, ${nomeUsuario}`)
+
+    } catch (error) {
+      
+    } finally{
+      setCarregando(false);
+    }
+  }
 
   return (
     <div className="pagina-registroDiario">
       <Cabecalho titulo="Registro Diário" />
 
-      <section>
-        <h3>Como foi o seu dia em geral?</h3>
-
-        <div className="humor">
-          {opcoesHumor.map((item) => {
-            const ativo = nivelHumor === item.valor;
-
-            return (
-              <button
-                key={item.valor}
-                type="button"
-                className={`BotaoHumor ${ativo ? "ativo" : ""}`}
-                onClick={() => setNivelHumor(item.valor)}>
-
-                <img src={item.img} alt={item.label} className="emoji" />
-                <span className="label">{item.label}</span>
-              </button>
-            );
-          })}
-        </div>
-      </section>
-
-      <section>
-        <h3>Você sentiu vontade de recaír ao vício hoje?</h3>
-
-        <div className="recaida">
-          <input type="range"
-            min="1"
-            max="5"
-            step="1"
-            value={nivelFissura}
-            onChange={(e) => setNivelFissura(Number(e.target.value))}
-            className="NivelDeFissura" />
-
-          <div className="nomes">
-            {['Não', 'Um pouco', 'Moderada', 'Forte', 'Muito forte'].map((texto, index) => {
-              const valor = index + 1;
-              const ativo = nivelFissura === valor
-
-              return (
-                <span
-                  key={valor}
-                  className={`rotulo ${ativo ? 'ativo' : ''}`}
-                  onClick={() => setNivelFissura(valor)}>
-                  {texto}
+      <form onSubmit={FazerCheckIn}>
+        <div className="container-form">
+          <section>
+            <h3>Como foi o seu dia em geral?</h3>
+            <div className="humor">
+              {opcoesHumor.map((item) => {
+                const ativo = nivelHumor === item.valor;
+                return (
+                  <button
+                    key={item.valor}
+                    type="button"
+                    className={`BotaoHumor ${ativo ? "ativo" : ""}`}
+                    onClick={() => setNivelHumor(item.valor)}>
+                    <img src={item.img} alt={item.label} className="emoji" />
+                    <span className="label">{item.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </section>
+          <section>
+            <h3>Você sentiu vontade de recaír ao vício hoje?</h3>
+            <div className="recaida">
+              <input type="range"
+                min="1"
+                max="5"
+                step="1"
+                value={nivelFissura}
+                onChange={(e) => setNivelFissura(Number(e.target.value))}
+                className="NivelDeFissura" />
+              <div className="nomes">
+                {['Não', 'Um pouco', 'Moderada', 'Forte', 'Muito forte'].map((texto, index) => {
+                  const valor = index + 1;
+                  const ativo = nivelFissura === valor
+                  return (
+                    <span
+                      key={valor}
+                      className={`rotulo ${ativo ? 'ativo' : ''}`}
+                      onClick={() => setNivelFissura(valor)}>
+                      {texto}
+                    </span>
+                  )
+                })}
+              </div>
+            </div>
+          </section>
+          <section>
+            <h3>O que aconteceu antes?</h3>
+            <p className="subtitulo">Identificar a causa ajuda a evitar reações futuras</p>
+            <div className="cont-gatilhos">
+              {carregandoGatilhos ? (
+                <span className="carregando">Carregando gatilhos...</span>
+              ) : (
+                gatilhos.map((gatilho) => {
+                  const ativo = gatilhosSelecionados.includes(gatilho.id);
+                  return (
+                    <button
+                      key={gatilho.id}
+                      type="button"
+                      className={`chip-gatilho ${ativo ? "ativo" : ""}`}
+                      onClick={() => SelecionarGatilho(gatilho.id)}
+                    >
+                      {gatilho.nome}
+                    </button>
+                  );
+                })
+              )}
+            </div>
+            {OutroSelecionado && (
+              <div className="campo-outro">
+                <input
+                  type="text"
+                  placeholder="Qual foi o outro motivo? (ex: cansaço, insônia...)"
+                  value={OutroGatilho}
+                  onChange={(e) => setOutroGatilho(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      adicionarNovoGatilho();
+                    }
+                  }}
+                  maxLength={30}
+                />
+                <button type="button" className="botao-add" onClick={adicionarNovoGatilho}>Adicionar</button>
+              </div>
+            )}
+          </section>
+          <section>
+            <h3>Deseja comentar algo sobre o seu dia? (Opcional)</h3>
+            <p className="subtitulo">Comentar sobre dia ajuda a acompanhar seu progresso.</p>
+            <input type="text" value={Notas} onChange={(e) => setNotas(e.target.value)}/>
+          </section>
+          <button type="submit" disabled={Carregando}>
+              {Carregando ? (
+                <span className="carregar">
+                  <Loader2 className="girar" size={20} />
+                  Realizando Checkin diário...
                 </span>
-              )
-
-            })}
-
-          </div>
-
+              ) : (
+                "Fazer Checkin diário"
+              )}
+            </button>
         </div>
-      </section>
-
-      <section>
-        <h3>O que aconteceu antes?</h3>
-        <p className="subtitulo">Identificar a causa ajuda a evitar reações futuras</p>
-
-        <div className="cont-gatilhos">
-          {carregandoGatilhos ? (
-            <span className="carregando">Carregando gatilhos...</span>
-          ) : (
-            gatilhos.map((gatilho) => {
-              const ativo = gatilhosSelecionados.includes(gatilho.id);
-
-              return (
-                <button
-                  key={gatilho.id}
-                  type="button"
-                  className={`chip-gatilho ${ativo ? "ativo" : ""}`}
-                  onClick={() => SelecionarGatilho(gatilho.id)}
-                >
-                  {gatilho.nome}
-                </button>
-              );
-            })
-          )}
-        </div>
-
-        {OutroSelecionado && (
-          <div className="campo-outro">
-            <input
-              type="text"
-              placeholder="Qual foi o outro motivo? (ex: cansaço, insônia...)"
-              value={OutroGatilho}
-              onChange={(e) => setOutroGatilho(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  e.preventDefault();
-                  adicionarNovoGatilho();
-                }
-              }}
-              maxLength={30}
-            />
-            <button type="button" className="botao-add" onClick={adicionarNovoGatilho}>Adicionar</button>
-          </div>
-        )}
-      </section>
+      </form>
     </div>
   );
 }
