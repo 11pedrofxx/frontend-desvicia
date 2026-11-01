@@ -15,11 +15,10 @@
     align-items: center;
   }
 
-  /* Caixa Principal que engloba todas as sections */
   .container-form {
     width: 100%;
     max-width: 860px;
-    background-color: #F8F9FA;
+    background-color: #ffffff;
     border: 1px solid #E5E7EB;
     border-radius: 24px;
     padding: 2rem;
@@ -32,7 +31,7 @@
 
     section {
       width: 100%;
-      background-color: #F8F9FA;
+      background-color: #ffffff;
       border: 1px solid #f1f5f9;
       border-radius: 20px;
       padding: 1.5rem 2rem;
@@ -56,7 +55,6 @@
         font-family: "Poppins", sans-serif;
       }
 
-      /* Humor */
       .humor {
         display: flex;
         justify-content: space-around;
@@ -86,6 +84,20 @@
             font-family: "Poppins", sans-serif;
           }
 
+          @media (max-width: 591px) {
+            padding: 0.4rem 0.1rem;
+            gap: 0.2rem;
+
+            .emoji {
+              width: 38px;
+              height: 38px;
+            }
+
+            .label {
+              font-size: 0.75rem;
+            }
+          }
+
           &:hover {
             transform: translateY(-2px);
             background-color: #f8fafc;
@@ -103,51 +115,109 @@
         }
       }
 
-      /* Fissura / Recaída */
       .recaida {
-        display: flex;
-        flex-direction: column;
-        justify-self: center;
-        gap: 0.85rem;
-        width: 90%;
-        margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
 
-        .NivelDeFissura {
-          width: 100%;
-          height: 6px;
-          border-radius: 5px;
-          background: #e2e8f0;
-          outline: none;
-          accent-color: #15479e;
-          cursor: pointer;
-        }
+  input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 8px;
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer;
 
-        .nomes {
-          display: flex;
-          justify-content: space-between;
-          width: 100%;
+    /* Bolinha no Chrome / Edge / Safari */
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      margin-top: -6px; /* Centraliza a bolinha de 20px na barra de 8px */
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
 
-          .rotulo {
-            font-size: 0.78rem;
-            color: #000000;
-            font-family: "Poppins", sans-serif;
-            font-weight: 400;
-            cursor: pointer;
-            transition: color 0.2s ease, font-weight 0.2s ease;
+    /* Bolinha no Firefox */
+    &::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+  }
 
-            &:hover {
-              color: #15479e;
-            }
+  /* Cores dinâmicas da bolinha */
+  .AjusteNivel-1 {
+    &::-webkit-slider-thumb { background-color: #16a34a; }
+    &::-moz-range-thumb { background-color: #16a34a; }
+  }
+  .AjusteNivel-2 {
+    &::-webkit-slider-thumb { background-color: #2563eb; }
+    &::-moz-range-thumb { background-color: #2563eb; }
+  }
+  .AjusteNivel-3 {
+    &::-webkit-slider-thumb { background-color: #d97706; }
+    &::-moz-range-thumb { background-color: #d97706; }
+  }
+  .AjusteNivel-4 {
+    &::-webkit-slider-thumb { background-color: #ea580c; }
+    &::-moz-range-thumb { background-color: #ea580c; }
+  }
+  .AjusteNivel-5 {
+    &::-webkit-slider-thumb { background-color: #dc2626; }
+    &::-moz-range-thumb { background-color: #dc2626; }
+  }
 
-            &.ativo {
-              color: #15479e;
-              font-weight: 600;
-            }
-          }
-        }
+  .nivel-fissura {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #64748b;
+    font-family: "Poppins", sans-serif;
+
+    span {
+      font-weight: 600;
+      padding: 0.25rem 0.8rem;
+      border-radius: 12px;
+      margin-left: 0.4rem;
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+
+      &.nivel-1 {
+        color: #16a34a;
+        background-color: #f0fdf4;
+        border-color: #bbf7d0;
       }
+      &.nivel-2 {
+        color: #2563eb;
+        background-color: #eff6ff;
+        border-color: #bfdbfe;
+      }
+      &.nivel-3 {
+        color: #d97706;
+        background-color: #fef3c7;
+        border-color: #fde68a;
+      }
+      &.nivel-4 {
+        color: #ea580c;
+        background-color: #ffedd5;
+        border-color: #fed7aa;
+      }
+      &.nivel-5 {
+        color: #dc2626;
+        background-color: #fee2e2;
+        border-color: #fecaca;
+      }
+    }
+  }
+}
 
-      /* Gatilhos */
       .cont-gatilhos {
         display: flex;
         flex-wrap: wrap;
@@ -185,13 +255,16 @@
         }
       }
 
-      /* Campo Outro Gatilho */
       .campo-outro {
         display: flex;
         justify-self: center;
         gap: 0.5rem;
         margin: 0.85rem auto 0;
         width: 70%;
+
+        @media (max-width: 576px) {
+          width: 100%;
+        }
 
         input {
           flex: 1;
@@ -233,7 +306,6 @@
         }
       }
 
-      /* Input da Seção de Notas */
       input[type="text"]:not(.campo-outro input) {
         width: 100%;
         padding: 0.75rem 1rem;
@@ -258,7 +330,6 @@
     }
   }
 
-  /* Botão Principal de Concluir Check-in */
   button[type="submit"] {
     width: 80%;
     max-width: 860px;
@@ -274,6 +345,10 @@
     cursor: pointer;
     box-shadow: 0 4px 12px rgba(21, 71, 158, 0.15);
     transition: background-color 0.2s ease, transform 0.1s ease;
+
+    @media (max-width: 576px) {
+      width: 100%;
+    }
 
     &:hover:not(:disabled) {
       background-color: #0f367b;
@@ -302,6 +377,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }

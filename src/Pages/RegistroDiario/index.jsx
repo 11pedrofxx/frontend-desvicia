@@ -16,6 +16,12 @@ export default function RegistroDiario() {
   const [OutroGatilho, setOutroGatilho] = useState('')
   const [Notas, setNotas] = useState('');
 
+  const rotulosFissura = ["Não", "Um pouco", "Moderada", "Forte", "Muito forte"];
+  const textoAtual = rotulosFissura[nivelFissura - 1];
+  const coresFissura = ['#16a34a', '#2563eb', '#d97706', '#ea580c', '#dc2626'];
+  const percentual = ((nivelFissura - 1) / 4) * 100;
+  const corAtual = coresFissura[nivelFissura - 1];
+
   const gatilhoOutro = Array.isArray(gatilhos)
     ? gatilhos.find((g) => g?.nome?.toLowerCase() === "outro")
     : null;
@@ -62,44 +68,44 @@ export default function RegistroDiario() {
   }
 
   async function adicionarNovoGatilho() {
-  const nomeGatilho = OutroGatilho.trim();
-  if (!nomeGatilho) return;
+    const nomeGatilho = OutroGatilho.trim();
+    if (!nomeGatilho) return;
 
-  try {
-    const resposta = await api.post("/gatilhos", { nome: nomeGatilho });
+    try {
+      const resposta = await api.post("/gatilhos", { nome: nomeGatilho });
 
-    const novoGatilho = {
-      id: resposta.data.id,
-      nome: nomeGatilho
-    };
+      const novoGatilho = {
+        id: resposta.data.id,
+        nome: nomeGatilho
+      };
 
-    setGatilhos((listaAnterior) => {
-      const atual = Array.isArray(listaAnterior) ? listaAnterior : [];
-      return [...atual, novoGatilho];
-    });
+      setGatilhos((listaAnterior) => {
+        const atual = Array.isArray(listaAnterior) ? listaAnterior : [];
+        return [...atual, novoGatilho];
+      });
 
-    setGatilhosSelecionados((selecionados) => [...selecionados, novoGatilho.id]);
+      setGatilhosSelecionados((selecionados) => [...selecionados, novoGatilho.id]);
 
-    setOutroGatilho("");
-  } catch (error) {
-    
+      setOutroGatilho("");
+    } catch (error) {
+
+    }
   }
-}
   function obterNome() {
-  const token = localStorage.getItem('token');
-  if (!token) return '';
+    const token = localStorage.getItem('token');
+    if (!token) return '';
 
-  try {
-    const payloadBase64 = token.split('.')[1];
-    const payloadString = atob(payloadBase64);
-    const payload = JSON.parse(payloadString);
+    try {
+      const payloadBase64 = token.split('.')[1];
+      const payloadString = atob(payloadBase64);
+      const payload = JSON.parse(payloadString);
 
-    return payload.nome || payload.nome_usuario || '';
-  } catch (error) {
-    console.error('Erro ao ler token:', error);
-    return '';
+      return payload.nome || payload.nome_usuario || '';
+    } catch (error) {
+      console.error('Erro ao ler token:', error);
+      return '';
+    }
   }
-}
 
   async function FazerCheckIn(e) {
     e.preventDefault();
@@ -134,12 +140,12 @@ export default function RegistroDiario() {
         gatilhos_sentidos: gatilhosSelecionados
       }
       const nomeUsuario = obterNome();
-      const checkin = await api.post('/checkin' , objParaSalvar);
+      const checkin = await api.post('/checkin', objParaSalvar);
       toast.success(`Checkin diário realizado! Muito bem, ${nomeUsuario}`)
 
     } catch (error) {
-      
-    } finally{
+
+    } finally {
       setCarregando(false);
     }
   }
@@ -168,32 +174,30 @@ export default function RegistroDiario() {
               })}
             </div>
           </section>
+
           <section>
             <h3>Você sentiu vontade de recaír ao vício hoje?</h3>
             <div className="recaida">
+
               <input type="range"
-                min="1"
-                max="5"
-                step="1"
+                min='1'
+                max='5'
+                step='1'
                 value={nivelFissura}
                 onChange={(e) => setNivelFissura(Number(e.target.value))}
-                className="NivelDeFissura" />
-              <div className="nomes">
-                {['Não', 'Um pouco', 'Moderada', 'Forte', 'Muito forte'].map((texto, index) => {
-                  const valor = index + 1;
-                  const ativo = nivelFissura === valor
-                  return (
-                    <span
-                      key={valor}
-                      className={`rotulo ${ativo ? 'ativo' : ''}`}
-                      onClick={() => setNivelFissura(valor)}>
-                      {texto}
-                    </span>
-                  )
-                })}
+                className={`AjusteNivel-${nivelFissura}`}
+                style={{
+                  background: `linear-gradient(to right, ${corAtual} 0%, ${corAtual} ${percentual}%, #e2e8f0 ${percentual}%, #e2e8f0 100%)`
+                }} />
+
+              <div className="nivel-fissura">
+                Nível: <span className={`nivel-${nivelFissura}`}>{rotulosFissura[nivelFissura - 1]}</span>
               </div>
             </div>
+
+
           </section>
+
           <section>
             <h3>O que aconteceu antes?</h3>
             <p className="subtitulo">Identificar a causa ajuda a evitar reações futuras</p>
@@ -238,18 +242,18 @@ export default function RegistroDiario() {
           <section>
             <h3>Deseja comentar algo sobre o seu dia? (Opcional)</h3>
             <p className="subtitulo">Comentar sobre dia ajuda a acompanhar seu progresso.</p>
-            <input type="text" value={Notas} onChange={(e) => setNotas(e.target.value)}/>
+            <input type="text" value={Notas} onChange={(e) => setNotas(e.target.value)} />
           </section>
           <button type="submit" disabled={Carregando}>
-              {Carregando ? (
-                <span className="carregar">
-                  <Loader2 className="girar" size={20} />
-                  Realizando Checkin diário...
-                </span>
-              ) : (
-                "Fazer Checkin diário"
-              )}
-            </button>
+            {Carregando ? (
+              <span className="carregar">
+                <Loader2 className="girar" size={20} />
+                Realizando Checkin diário...
+              </span>
+            ) : (
+              "Fazer Checkin diário"
+            )}
+          </button>
         </div>
       </form>
     </div>
