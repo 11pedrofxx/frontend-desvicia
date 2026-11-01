@@ -13,6 +13,16 @@ api.interceptors.response.use(
         return response;
     }, 
     (error) => {
+
+        if (error.response.status === 401) {
+            localStorage.removeItem('token');
+            sessionStorage.removeItem('token');
+            toast.error('Sua sessão expirou. Faça login novamente.');
+
+            window.location.href = '/login';
+            return Promise.reject(error);
+        }
+
         console.log('RESPOSTA DE ERRO COMPLETA:', error.response);
         const msgErro =
         error.response?.data?.erro ||   

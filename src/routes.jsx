@@ -17,7 +17,7 @@ export default function Roteamento() {
     <BrowserRouter>
         <Routes>
             <Route path="/" element={<App/>}/>
-            <Route path="/Login" element={<Login/>}/>
+            <Route path="/login" element={<Login/>}/>
             <Route path="/Cadastro" element={<Cadastro/>}/>
             <Route path="/Noticias" element={<Saude/>}/>
             <Route path="/TESTCOMP" element={<ApresentationModal/>}/>

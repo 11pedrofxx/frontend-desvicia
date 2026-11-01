@@ -1,21 +1,17 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useEffect } from "react";
 import toast from "react-hot-toast";
 
 export default function RotaProtegida() {
 
     const token = localStorage.getItem('token');
 
-    useEffect(() => {
-        
-        if (!token) {
-            toast.error('Você precisa estar logado em uma conta para acessar essa página.')
-    }
-    }, [token]);
+    console.log('Token encontrado:', token);
 
     if (!token) {
-        return <Navigate to='/Login' replace/>
-    }
-    return <Outlet />;
+        toast.error('Você precisa estar logado para acessar essa página.');
 
+        return <Navigate to="/login" replace />;
+    }
+
+    return <Outlet />;
 }
