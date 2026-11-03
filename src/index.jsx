@@ -11,14 +11,14 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-      <Toaster 
-  position='top-right' 
-  reverseOrder={false} 
-  toastOptions={{
-    className: 'toast-desvicia',
-    duration: 4000,
-  }}
-/>  
+      <Toaster
+        position='top-right'
+        reverseOrder={false}
+        toastOptions={{
+          className: 'toast-desvicia',
+          duration: 4000,
+        }}
+      />
       <Roteamento />
     </GoogleOAuthProvider>
   </React.StrictMode>

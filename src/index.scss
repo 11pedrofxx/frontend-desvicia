@@ -37,12 +37,10 @@ button {
   border: 1px solid #e2e8f0 !important;
   font-size: 0.9rem !important;
 
-  /* Borda verde para notificações de sucesso */
   &[data-type="success"] {
     border-left: 5px solid #10b981 !important;
   }
-
-  /* Borda vermelha para notificações de erro */
+  
   &[data-type="error"] {
     border-left: 5px solid #ef4444 !important;
   }

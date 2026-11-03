@@ -17,7 +17,7 @@ export default function Roteamento() {
     return(
     <BrowserRouter>
         <Routes>
-            <Route path="/" element={<App/>}/>
+            
             <Route path="/login" element={<Login/>}/>
             <Route path="/Cadastro" element={<Cadastro/>}/>
             <Route path="/Noticias" element={<Saude/>}/>
@@ -29,9 +29,10 @@ export default function Roteamento() {
             {/* ROTAS PROTEGIDAS(Só podem ser acessadas após o Login) */}
 
             <Route element={<RotaProtegida />}>
+            <Route path="/registro-diario" element={<RegistroDiario />} />
                     <Route element={<Layout />}>
-                        <Route path="/registro-diario" element={<RegistroDiario />} />
-                        {/* Novas páginas internas (ex: /dashboard, /gatilhos, /perfil) entram aqui */}
+                    <Route path="/" element={<App/>}/>
+                        
                     </Route>
                 </Route>
             </Routes>

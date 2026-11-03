@@ -4,7 +4,6 @@ import ApresentacaoModal from '../../components/ApresentacionModal/ApresentacaoM
 export default function App() {
   return (
     <div className="App">
-      <h1>sadasdasdasdsadda</h1>
       <ApresentacaoModal/>
     </div>
   );
