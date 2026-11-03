@@ -20,7 +20,6 @@ export default function Roteamento() {
             
             <Route path="/login" element={<Login/>}/>
             <Route path="/Cadastro" element={<Cadastro/>}/>
-            <Route path="/Noticias" element={<Saude/>}/>
             <Route path="/TESTCOMP" element={<ApresentationModal/>}/>
             <Route path="/Distrair" element={<Distrair/>}/>
             <Route path="/esqueci-senha" element={<RedefinirSenha/>}/> 
@@ -32,6 +31,7 @@ export default function Roteamento() {
             <Route path="/registro-diario" element={<RegistroDiario />} />
                     <Route element={<Layout />}>
                     <Route path="/" element={<App/>}/>
+                    <Route path="/aprender" element={<Saude/>}/>
                         
                     </Route>
                 </Route>
