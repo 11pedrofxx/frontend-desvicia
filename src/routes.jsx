@@ -10,6 +10,7 @@ import RedefinirSenha from './Pages/RedefinirSenha/index.jsx';
 import NovaSenha from './Pages/NovaSenha/index.jsx';
 import RotaProtegida from "./components/RotaProtegida/index.jsx";
 import RegistroDiario from "./Pages/RegistroDiario/index.jsx";
+import Layout from "./components/Layout/index.jsx";
 
 export default function Roteamento() {
 
@@ -28,9 +29,12 @@ export default function Roteamento() {
             {/* ROTAS PROTEGIDAS(Só podem ser acessadas após o Login) */}
 
             <Route element={<RotaProtegida />}>
-                <Route path="/registro-diario" element={<RegistroDiario />} />
-            </Route>
-        </Routes>
+                    <Route element={<Layout />}>
+                        <Route path="/registro-diario" element={<RegistroDiario />} />
+                        {/* Novas páginas internas (ex: /dashboard, /gatilhos, /perfil) entram aqui */}
+                    </Route>
+                </Route>
+            </Routes>
     </BrowserRouter>
     )
 }
