@@ -11,6 +11,7 @@ import NovaSenha from './Pages/NovaSenha/index.jsx';
 import RotaProtegida from "./components/RotaProtegida/index.jsx";
 import RegistroDiario from "./Pages/RegistroDiario/index.jsx";
 import Layout from "./components/Layout/index.jsx";
+import PrimeiroAcesso from "./Pages/PrimeiroAcesso/index.jsx";
 
 export default function Roteamento() {
 
@@ -29,6 +30,7 @@ export default function Roteamento() {
 
             <Route element={<RotaProtegida />}>
             <Route path="/registro-diario" element={<RegistroDiario />} />
+            <Route path="/primeiro-acesso" element={<PrimeiroAcesso />} />
                     <Route element={<Layout />}>
                     <Route path="/" element={<App/>}/>
                     <Route path="/aprender" element={<Saude/>}/>

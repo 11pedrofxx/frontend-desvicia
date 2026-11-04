@@ -73,6 +73,7 @@ export default function Login() {
 
             localStorage.setItem('token', resposta.data.token);
             localStorage.setItem('user', JSON.stringify(resposta.data.usuario));
+            console.log(resposta.data.token)
 
             const emailGoogle = resposta.data.usuario?.email || resposta.data.usuario?.ds_email;
             if (Lembrar && emailGoogle) {

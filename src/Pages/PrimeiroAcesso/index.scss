@@ -1,0 +1,198 @@
+.pagina-primeiro-acesso {
+    min-height: 100vh;
+    background-color: #f4f7f6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 3rem 2rem;
+    font-family: 'Poppins', sans-serif;
+
+    .conteudo-principal {
+        width: 100%;
+        max-width: 720px;
+
+        .titulos {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 2.5rem 3rem;
+            box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+
+            h1 {
+                font-family: 'Poppins', sans-serif;
+                font-size: 2.1rem;
+                font-weight: 700;
+                color: #000000;
+            }
+
+            p {
+                font-size: 1.1rem;
+                color: #757575;
+            }
+        }
+
+        .card-formulario {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 2.5rem 3rem;
+            box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+
+            .campo-grupo {
+                display: flex;
+                flex-direction: column;
+                gap: 0.4rem;
+
+                .campo-titulo {
+                    font-family: 'Poppins', sans-serif;
+                    font-weight: 600;
+                    font-size: 1.05rem;
+                    color: #212121;
+                }
+
+                .campo-subtitulo {
+                    font-size: 0.85rem;
+                    color: #757575;
+                    margin-bottom: 0.6rem;
+                }
+
+                .input-texto {
+                    width: 100%;
+                    padding: 0.95rem 1.2rem;
+                    border-radius: 20px;
+                    border: 1px solid #b4cdeb;
+                    font-size: 0.95rem;
+                    color: #212121;
+                    outline: none;
+                    box-sizing: border-box;
+
+                    &:focus {
+                        border-color: #15479e;
+                    }
+
+                    &::placeholder {
+                        color: #757575;
+                    }
+                }
+
+                .grid-vicios {
+                    display: grid;
+                    grid-template-columns: repeat(4, 1fr);
+                    gap: 1rem;
+
+                    .btn-opcao {
+                        padding: 0.9rem 1rem;
+                        border-radius: 30px;
+                        border: 1px solid #b4cdeb;
+                        background-color: #ffffff;
+                        color: #212121;
+                        font-weight: 600;
+                        font-size: 0.9rem;
+                        cursor: pointer;
+                        transition: all 0.2s ease;
+
+                        &.ativo {
+                            background-color: #15479e;
+                            color: #ffffff;
+                            border-color: #15479e;
+                        }
+                    }
+                }
+
+                .grid-distracoes {
+                    display: grid;
+                    grid-template-columns: repeat(3, 1fr);
+                    gap: 1rem;
+
+                    .btn-opcao-check {
+                        display: flex;
+                        align-items: center;
+                        gap: 0.6rem;
+                        padding: 0.85rem 1rem;
+                        border-radius: 20px;
+                        border: 1px solid #b4cdeb;
+                        background-color: #ffffff;
+                        color: #212121;
+                        font-weight: 600;
+                        font-size: 0.88rem;
+                        cursor: pointer;
+                        transition: all 0.2s ease;
+
+                        .icon-check {
+                            width: 20px;
+                            height: 20px;
+                            border-radius: 6px;
+                            border: 1.5px solid #b4cdeb;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-size: 0.75rem;
+                        }
+
+                        &.ativo {
+                            background-color: #eef4fc;
+                            border-color: #15479e;
+                            color: #15479e;
+
+                            .icon-check {
+                                background-color: #15479e;
+                                border-color: #15479e;
+                                color: #ffffff;
+                            }
+                        }
+                    }
+                }
+
+                .campo-subgrupo {
+                    margin-top: 0.8rem;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.4rem;
+
+                    .campo-titulo-menor {
+                        font-weight: 600;
+                        font-size: 0.9rem;
+                        color: #212121;
+                    }
+                }
+            }
+
+            .btn-submit {
+                width: 100%;
+                padding: 1.1rem;
+                background-color: #15479e;
+                color: #ffffff;
+                border: none;
+                border-radius: 30px;
+                font-family: 'Poppins', sans-serif;
+                font-size: 1.05rem;
+                font-weight: 600;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 0.6rem;
+                margin-top: 0.5rem;
+                transition: opacity 0.2s ease;
+
+                &:hover {
+                    opacity: 0.92;
+                }
+
+                .seta {
+                    font-size: 1.2rem;
+                }
+            }
+
+            .rodape-mensagem {
+                text-align: center;
+                font-size: 0.85rem;
+                color: #757575;
+            }
+        }
+    }
+}
