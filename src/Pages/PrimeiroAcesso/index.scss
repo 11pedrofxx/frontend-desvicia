@@ -89,7 +89,7 @@
           gap: 1.2rem;
           margin: 1rem 0;
           justify-content: center;
-          
+
           .item-avatar {
             width: 95px;
             height: 95px;
@@ -118,7 +118,7 @@
 
             &.ativo {
               border-color: #15479e;
-              box-shadow: 0 0 0 4px rgba(21, 71, 158, 0.2);
+              transform: scale(1.1);
             }
           }
         }
@@ -133,7 +133,7 @@
           .icone-info {
             color: #15479e;
             font-weight: bold;
-            width: 1.6rem;
+            width: 1.4rem;
           }
         }
 
@@ -184,11 +184,12 @@
               width: 20px;
               height: 20px;
               border-radius: 6px;
-              border: 1.5px solid #b4cdeb;
+              border: 1.5px solid #15479e;
               display: flex;
               align-items: center;
               justify-content: center;
               font-size: 0.75rem;
+
             }
 
             &.ativo {
@@ -241,16 +242,26 @@
           opacity: 0.92;
         }
 
-        .seta {
-          font-size: 1.2rem;
+        spin {
+          animation: girar 1s linear infinite;
         }
       }
 
-      .rodape-mensagem {
-        text-align: center;
-        font-size: 0.85rem;
-        color: #757575;
-      }
+      @keyframes girar {
+        from {
+          transform: rotate(0deg);
+        }
+
+        to {
+          transform: rotate(360deg);
+        }
+    }
+
+    .rodape-mensagem {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #757575;
     }
   }
+}
 }
