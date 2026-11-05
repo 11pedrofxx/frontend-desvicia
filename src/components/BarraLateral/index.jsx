@@ -61,7 +61,7 @@ export default function NavBar() {
         </NavLink>
 
         <NavLink
-          to="/apoio"
+          to="/home"
           className={({ isActive }) => (isActive ? 'item-nav ativo' : 'item-nav')}
         >
           <svg className="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./index.scss";
 import { Info, Check, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -14,8 +14,43 @@ export default function PrimeiroAcesso() {
   const [OutroVicio, setOutroVicio] = useState("");
   const [Distracoes, setDistracoes] = useState([]);
   const [OutraDistracao, setOutraDistracao] = useState("");
+  const [cidade, setCidade] = useState('');
+
+  const [cidades, setCidades] = useState([]);
 
   const [carregando, setCarregando] = useState(false);
+  useEffect(() => {
+    async function carregarCidades() {
+      try {
+        const resposta = await fetch(
+          "https://servicodados.ibge.gov.br/api/v1/localidades/municipios?ordenar=nome"
+        );
+        const dados = await resposta.json();
+
+        // Mapeia com segurança utilizando optional chaining (?.)
+        const listaFormatada = dados.map((item) => {
+          const siglaUF =
+            item.microrregiao?.mesorregiao?.UF?.sigla ||
+            item["regiao-imediata"]?.["regiao-intermediaria"]?.UF?.sigla ||
+            "";
+          return siglaUF ? `${item.nome} - ${siglaUF}` : item.nome;
+        });
+
+        setCidades(listaFormatada);
+      } catch (erro) {
+        console.error("Erro ao carregar cidades do IBGE:", erro);
+      }
+    }
+
+    carregarCidades();
+  }, []);
+
+  const cidadesFiltradas =
+    cidade.trim().length >= 2
+      ? cidades
+        .filter((item) => item.toLowerCase().includes(cidade.toLowerCase()))
+        .slice(0, 12)
+      : [];
 
   function SelecionarDistracao(item) {
     if (Distracoes.includes(item)) {
@@ -76,12 +111,12 @@ export default function PrimeiroAcesso() {
         usuario_id: usuario_id,
         foto_perfil: Foto,
         nome_exibicao: Nome,
+        cidade: cidade,
         vicio_principal: vicioFinal,
         distracoes: distracoesFinais,
       };
 
       await api.put("/usuario/primeiro-acesso", dados);
-      toast.success("Perfil configurado com sucesso!");
       Navigate("/home");
 
     } catch (error) {
@@ -149,6 +184,21 @@ export default function PrimeiroAcesso() {
           </div>
 
           <div className="campo-grupo">
+            <label className="campo-titulo">Onde você mora?</label>
+            <input
+              type="text"
+              className="input-texto"
+              placeholder="Digite para buscar sua cidade..."
+              list="lista-cidades"
+              value={cidade}
+              onChange={(e) => setCidade(e.target.value)}
+            />
+
+            <datalist id="lista-cidades">
+              {cidadesFiltradas.map((item, index) => (
+                <option key={index} value={item} />
+              ))}
+            </datalist>
             <label className="campo-titulo">
               Qual vício você está acompanhando?
             </label>
@@ -233,17 +283,6 @@ export default function PrimeiroAcesso() {
                   {Distracoes.includes("Ler") && <Check size={14} color="#ffffff" strokeWidth={3} />}
                 </span>
                 Ler
-              </button>
-
-              <button
-                type="button"
-                className={`btn-opcao-check ${Distracoes.includes("Cozinhar") ? "ativo" : ""}`}
-                onClick={() => SelecionarDistracao("Cozinhar")}
-              >
-                <span className="icon-check">
-                  {Distracoes.includes("Cozinhar") && <Check size={14} color="#ffffff" strokeWidth={3} />}
-                </span>
-                Cozinhar
               </button>
 
               <button

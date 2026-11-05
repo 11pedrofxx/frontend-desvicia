@@ -13,6 +13,8 @@ import RegistroDiario from "./Pages/RegistroDiario/index.jsx";
 import Layout from "./components/Layout/index.jsx";
 import PrimeiroAcesso from "./Pages/PrimeiroAcesso/index.jsx";
 
+import RedeApoio from "./Pages/RedeApoio/index.jsx";
+
 export default function Roteamento() {
 
     return(
@@ -31,7 +33,9 @@ export default function Roteamento() {
             <Route element={<RotaProtegida />}>
             <Route path="/registro-diario" element={<RegistroDiario />} />
             <Route path="/primeiro-acesso" element={<PrimeiroAcesso />} />
+            
                     <Route element={<Layout />}>
+                    <Route path="/home" element={<RedeApoio />} />
                     <Route path="/" element={<App/>}/>
                     <Route path="/aprender" element={<Saude/>}/>
                         
