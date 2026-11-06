@@ -503,6 +503,79 @@
       }
     }
   }
+
+  @media (max-width: 220px) {
+    padding: 0.5rem 0.25rem;
+
+    .conteudo-principal {
+      .titulos {
+        padding: 1rem 0.5rem;
+
+        h1 {
+          font-size: 1.15rem;
+        }
+
+        p {
+          font-size: 0.8rem;
+        }
+      }
+
+      .card-formulario {
+        padding: 1rem 0.5rem;
+        gap: 1rem;
+
+        .campo-grupo {
+          .campo-titulo {
+            font-size: 0.85rem;
+          }
+
+          .input-texto {
+            padding: 0.6rem;
+            font-size: 0.75rem;
+
+            &::placeholder {
+              font-size: 0.7rem;
+            }
+          }
+
+          .mostrar-avatares {
+            padding: 0.5rem;
+            flex-direction: column;
+            text-align: center;
+            gap: 0.5rem;
+          }
+        }
+      }
+    }
+
+    .selecionar-avatar {
+      padding: 0.5rem;
+
+      .div-avatar {
+        padding: 1rem 0.5rem;
+
+        .escolha-avatar {
+          flex-direction: column;
+          gap: 0.8rem;
+
+          h3 {
+            font-size: 1rem;
+            text-align: center;
+          }
+        }
+
+        .secaoavatares {
+          grid-template-columns: 1fr;
+          justify-items: center;
+
+          .item-avatar {
+            width: 70px;
+            height: 70px;
+          }
+        }
+      }
+    }
+  }
 }
 
 @keyframes girar {
