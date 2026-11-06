@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./index.scss";
-import { Info, Check, Loader2 } from "lucide-react";
+import { Info, Check, Loader2, User, X} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import api from "../../service/api";
 import toast from "react-hot-toast";
@@ -18,7 +18,10 @@ export default function PrimeiroAcesso() {
 
   const [cidades, setCidades] = useState([]);
 
+  const [avatarAberto, setavatarAberto] = useState(false);
+
   const [carregando, setCarregando] = useState(false);
+
   useEffect(() => {
     async function carregarCidades() {
       try {
@@ -27,7 +30,6 @@ export default function PrimeiroAcesso() {
         );
         const dados = await resposta.json();
 
-        // Mapeia com segurança utilizando optional chaining (?.)
         const listaFormatada = dados.map((item) => {
           const siglaUF =
             item.microrregiao?.mesorregiao?.UF?.sigla ||
@@ -38,7 +40,7 @@ export default function PrimeiroAcesso() {
 
         setCidades(listaFormatada);
       } catch (erro) {
-        console.error("Erro ao carregar cidades do IBGE:", erro);
+        console.error(erro);
       }
     }
 
@@ -55,9 +57,7 @@ export default function PrimeiroAcesso() {
   function SelecionarDistracao(item) {
     if (Distracoes.includes(item)) {
       setDistracoes(Distracoes.filter((distracao) => distracao !== item))
-    }
-
-    else {
+    } else {
       setDistracoes([...Distracoes, item])
     }
   };
@@ -72,6 +72,11 @@ export default function PrimeiroAcesso() {
 
     if (!Foto) {
       toast.error('Você deve selecionar um avatar de perfil');
+      return;
+    }
+
+    if(!cidade.trim()) {
+      toast.error('O campo "Cidade" não pode ficar vazio')
       return;
     }
 
@@ -132,8 +137,7 @@ export default function PrimeiroAcesso() {
         <section className="titulos">
           <h1>O seu começo é do seu jeito</h1>
           <p>
-            Vamos conhecer um pouco de você para começar sua jornada na
-            comunidade.
+            Vamos conhecer um pouco de você para começar sua jornada na comunidade.
           </p>
         </section>
 
@@ -155,30 +159,28 @@ export default function PrimeiroAcesso() {
               Toque para selecionar. Você pode trocar quando quiser.
             </span>
 
-            <div className="grid-avatares">
-              {[1, 2, 3, 4, 5, 6, 7, 9, 10, 11].map((item) => {
-                const nomeFoto = `pfp${item}.png`;
-                return (
-                  <button
-                    type="button"
-                    key={item}
-                    className={`item-avatar ${Foto === nomeFoto ? "ativo" : ""}`}
-                    onClick={() => setFoto(nomeFoto)}
-                  >
-                    <img
-                      src={`/assets/avatares/${nomeFoto}`}
-                      alt={`Avatar ${item}`}
-                    />
-                  </button>
-                );
-              })}
-            </div>
+            <button
+            type="button"
+            className="mostrar-avatares"
+            onClick={() => setavatarAberto(true)}>
+              
+              <div className="avatar-escolhi">
+                {Foto ? (
+                  <img
+                  src={`/assets/avatares/${Foto}`}
+                  alt="avatar selecionado"
+                  />
+                ) : (
+                  <User size={26} color="#15479e" />
+                )}
+              </div>
+              <span>{Foto ? "Alterar Avatar" : "Selecionar Avatar"}</span>
+            </button>
 
             <div className="aviso-avatar">
               <Info className="icone-info" />
               <span>
-                Você pode trocar seu avatar a qualquer momento nas
-                configurações.
+                Você pode trocar seu avatar a qualquer momento nas configurações.
               </span>
             </div>
           </div>
@@ -199,6 +201,7 @@ export default function PrimeiroAcesso() {
                 <option key={index} value={item} />
               ))}
             </datalist>
+            
             <label className="campo-titulo">
               Qual vício você está acompanhando?
             </label>
@@ -239,8 +242,6 @@ export default function PrimeiroAcesso() {
               </div>
             )}
           </div>
-
-          {/* 4. Distrações */}
 
           <div className="campo-grupo">
             <label className="campo-titulo">
@@ -322,7 +323,6 @@ export default function PrimeiroAcesso() {
                 />
               </div>
             )}
-
           </div>
 
           <button type="submit" className="btn-submit" disabled={carregando}>
@@ -335,10 +335,53 @@ export default function PrimeiroAcesso() {
               "Começar minha jornada"
             )}
           </button>
-
-          <p className="rodape-mensagem">Um passo de cada vez, no seu ritmo.</p>
         </form>
       </main>
+
+      {avatarAberto && (
+        <div
+          className="selecionar-avatar"
+          onClick={() => setavatarAberto(false)}
+        >
+          <div
+            className="div-avatar"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="escolha-avatar">
+              <h3>Escolha seu avatar</h3>
+              <button
+                type="button"
+                className="botao-fechar"
+                onClick={() => setavatarAberto(false)}
+              >
+                <X size={20} color="#616161" />
+              </button>
+            </div>
+
+            <div className="secaoavatares">
+              {[1, 2, 3, 4, 5, 6, 7, 9, 10, 11].map((item) => {
+                const nomeFoto = `pfp${item}.png`;
+                return (
+                  <button
+                    type="button"
+                    key={item}
+                    className={`item-avatar ${Foto === nomeFoto ? "ativo" : ""}`}
+                    onClick={() => {
+                      setFoto(nomeFoto);
+                      setavatarAberto(false);
+                    }}
+                  >
+                    <img
+                      src={`/assets/avatares/${nomeFoto}`}
+                      alt={`Avatar ${item}`}
+                    />
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
