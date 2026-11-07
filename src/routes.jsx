@@ -17,31 +17,31 @@ import RedeApoio from "./Pages/RedeApoio/index.jsx";
 
 export default function Roteamento() {
 
-    return(
-    <BrowserRouter>
-        <Routes>
-            
-            <Route path="/login" element={<Login/>}/>
-            <Route path="/Cadastro" element={<Cadastro/>}/>
-            <Route path="/TESTCOMP" element={<ApresentationModal/>}/>
-            <Route path="/Distrair" element={<Distrair/>}/>
-            <Route path="/esqueci-senha" element={<RedefinirSenha/>}/> 
-            <Route path="/nova-senha" element={<NovaSenha/>}/>
+    return (
+        <BrowserRouter>
+            <Routes>
 
-            {/* ROTAS PROTEGIDAS(Só podem ser acessadas após o Login) */}
+                <Route path="/login" element={<Login />} />
+                <Route path="/Cadastro" element={<Cadastro />} />
+                <Route path="/TESTCOMP" element={<ApresentationModal />} />
+                <Route path="/Distrair" element={<Distrair />} />
+                <Route path="/esqueci-senha" element={<RedefinirSenha />} />
+                <Route path="/nova-senha" element={<NovaSenha />} />
 
-            <Route element={<RotaProtegida />}>
-            <Route path="/registro-diario" element={<RegistroDiario />} />
-            <Route path="/primeiro-acesso" element={<PrimeiroAcesso />} />
-            
+                {/* ROTAS PROTEGIDAS(Só podem ser acessadas após o Login) */}
+
+                <Route element={<RotaProtegida />}>
+                    <Route path="/registro-diario" element={<RegistroDiario />} />
+                    <Route path="/primeiro-acesso" element={<PrimeiroAcesso />} />
+
                     <Route element={<Layout />}>
-                    <Route path="/home" element={<RedeApoio />} />
-                    <Route path="/" element={<App/>}/>
-                    <Route path="/aprender" element={<Saude/>}/>
-                        
+                        <Route path="/home" element={<RedeApoio />} />
+                        <Route path="/" element={<App />} />
+                        <Route path="/aprender" element={<Saude />} />
+
                     </Route>
                 </Route>
             </Routes>
-    </BrowserRouter>
+        </BrowserRouter>
     )
 }
