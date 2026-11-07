@@ -1,22 +1,41 @@
-import './index.scss';
-import { NavLink } from 'react-router-dom';
+import { useState } from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { Plus } from 'lucide-react';
 
-export default function NavBar() {
+import './index.scss';
+
+export default function NavBar({onAbrirModal}) {
+
+  const location = useLocation();
+  const SecaoApoio = location.pathname === '/home';
+
   return (
+
     <nav className="pagina-barranav">
       <div className="logo-area">
         <h2>Desvicia</h2>
       </div>
 
-      <div className="container-botao-acao">
-        <Link to="/registro-diario" className="novo-registro">
-          <svg className="icone-botao" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-            <line x1="12" y1="5" x2="12" y2="19" />
-            <line x1="5" y1="12" x2="19" y2="12" />
-          </svg>
-          <span>Fazer Checkin diário</span>
-        </Link>
+      <div className='container-botao-acao'>
+        {SecaoApoio ? (
+          <button 
+            type='button'
+            className='novo-registro'
+            onClick={onAbrirModal}
+          >
+            <Plus size={18} />
+            <span>Fazer Postagem</span>
+          </button>
+        ) : (
+          <Link to="/registro-diario" className="novo-registro">
+            <svg className="icone-botao" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <line x1="12" y1="5" x2="12" y2="19" />
+              <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+            <span>Fazer Checkin diário</span>
+          </Link>
+        )}
       </div>
 
       <div className="menu-links">
@@ -35,11 +54,11 @@ export default function NavBar() {
           to="/acompanhamento"
           className={({ isActive }) => (isActive ? 'item-nav ativo' : 'item-nav')}
         >
-          <svg 
-            className="icone" 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            stroke="currentColor" 
+          <svg
+            className="icone"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
             strokeWidth="2"
             style={{ transform: 'scale(1.2)', transformOrigin: 'center' }}
           >
