@@ -8,13 +8,16 @@ import "./index.scss";
 
 export default function RedeApoio() {
   const navigate = useNavigate();
+
   const [usuario, setUsuario] = useState(null);
   const [carregando, setCarregando] = useState(true);
   const [modalAberto, setModalAberto] = useState(false);
 
   const [tipoPostagem, setTipoPostagem] = useState("");
-  const [conteudoPost, setConteudoPost] = useState("");
-  const [tituloConquista, setTituloConquista] = useState("");
+
+  const [postagens, setPostagens] = useState([]);
+  const [categoriaAtual, setCategoriaAtual] = useState('Global');
+
 
   useEffect(() => {
     const usuarioSalvo =
@@ -50,6 +53,7 @@ export default function RedeApoio() {
       setCarregando(false);
     }
   }, [navigate]);
+
 
   if (carregando || !usuario) {
     return null;
@@ -154,6 +158,26 @@ export default function RedeApoio() {
             <Trophy size={18} />
             Compartilhar conquista
           </button>
+        </div>
+      </div>
+
+      <div className="feed">
+        <div className="cabecalho-feed">
+          <h3>Comunidade Desvicia</h3>
+          <span className="filtro-recente">Mais recente</span>
+        </div>
+
+        <div className="botoes-filtro">
+           {["Global", "Apostas", "Cigarro/Vape", "Drogas", "Outros"].map((categoria) => (
+            <button
+              key={categoria}
+              type="button"
+              className={`btn-filtro ${categoriaAtual === categoria ? "ativo" : ""}`}
+              onClick={() => setCategoriaAtual(categoria)}
+            >
+              {categoria}
+            </button>
+          ))}
         </div>
       </div>
 

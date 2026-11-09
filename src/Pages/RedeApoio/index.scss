@@ -1,117 +1,117 @@
 .pagina-rede-apoio {
-    width: 100%;
-    min-height: 100vh;
-    background-color: #f7f9fc;
-    padding: 2rem 1rem;
-    font-family: "Poppins", sans-serif;
-    box-sizing: border-box;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #f7f9fc;
+  padding: 2rem 1rem;
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
 
-    .conteudo-rede {
-        max-width: 600px;
-        margin: 0 auto;
-        display: flex;
-        flex-direction: column;
-        gap: 1.2rem;
-    }
+  .conteudo-rede {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
 
-    .card-perfil {
-        background-color: #ffffff;
-        border-radius: 20px;
-        padding: 1.5rem;
-        border: 2px solid #d5def0; 
-        box-shadow: 0 4px 15px rgba(21, 71, 158, 0.08);
-
-        .titulo-card {
-            font-size: 0.82rem;
-            color: #3a3939;
-            font-weight: 500;
-            display: block;
-            margin-bottom: 1rem;
-        }
-
-        .info-perfil {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.8rem;
-
-            .avatar-box {
-                width: 80px;
-                height: 80px;
-                border-radius: 50%;
-                overflow: hidden;
-                flex-shrink: 0;
-
-                img {
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                }
-            }
-
-            .detalhes-perfil {
-                flex: 1;
-                display: flex;
-                flex-direction: column;
-                gap: 0.4rem;
-
-                .linha-topo {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-
-                    h2 {
-                        font-family: "Poppins", sans-serif;
-                        font-size: 1.1rem;
-                        font-weight: 700;
-                        color: #212121;
-                    }
-
-                    .btn-editar {
-                        background: transparent;
-                        border: 1.5px solid #dcdcdc;
-                        color: #757575;
-                        padding: 0.35rem 0.8rem;
-                        border-radius: 20px;
-                        font-size: 0.75rem;
-                        font-weight: 600;
-                        cursor: pointer;
-                        transition: all 0.2s ease;
-
-                        &:hover {
-                            border-color: #15479e;
-                            color: #15479e;
-                            background-color: #f8fafe;
-                        }
-                    }
-                }
-
-                .tag-vicio {
-                    display: inline-block;
-                    background-color: #eef4fc;
-                    color: #15479e;
-                    padding: 0.25rem 0.7rem;
-                    border-radius: 15px;
-                    font-size: 0.78rem;
-                    font-weight: 600;
-                    width: fit-content;
-                }
-
-                .distracao-texto {
-                    display: flex;
-                    align-items: center;
-                    gap: 0.35rem;
-                    font-size: 0.82rem;
-                    color: #757575;
-                    margin: 0.2rem 0 0 0;
-                }
-            }
-        }
-    }
-    .Postagem {
+  .card-perfil {
     background-color: #ffffff;
     border-radius: 20px;
     padding: 1.5rem;
-    border: 2px solid #d5def0; 
+    border: 2px solid #d5def0;
+    box-shadow: 0 4px 15px rgba(21, 71, 158, 0.08);
+
+    .titulo-card {
+      font-size: 0.82rem;
+      color: #3a3939;
+      font-weight: 500;
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    .info-perfil {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.8rem;
+
+      .avatar-box {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        overflow: hidden;
+        flex-shrink: 0;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+
+      .detalhes-perfil {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+
+        .linha-topo {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          h2 {
+            font-family: "Poppins", sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #212121;
+          }
+
+          .btn-editar {
+            background: transparent;
+            border: 1.5px solid #dcdcdc;
+            color: #757575;
+            padding: 0.35rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+
+            &:hover {
+              border-color: #15479e;
+              color: #15479e;
+              background-color: #f8fafe;
+            }
+          }
+        }
+
+        .tag-vicio {
+          display: inline-block;
+          background-color: #eef4fc;
+          color: #15479e;
+          padding: 0.25rem 0.7rem;
+          border-radius: 15px;
+          font-size: 0.78rem;
+          font-weight: 600;
+          width: fit-content;
+        }
+
+        .distracao-texto {
+          display: flex;
+          align-items: center;
+          gap: 0.35rem;
+          font-size: 0.82rem;
+          color: #757575;
+          margin: 0.2rem 0 0 0;
+        }
+      }
+    }
+  }
+  .Postagem {
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 1.5rem;
+    border: 2px solid #d5def0;
     box-shadow: 0 4px 15px rgba(21, 71, 158, 0.08);
     display: flex;
     flex-direction: column;
@@ -120,74 +120,81 @@
     margin: 1.5rem auto 0 auto;
 
     .pergunta {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+
+      .avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        overflow: hidden;
+        flex-shrink: 0;
         display: flex;
         align-items: center;
-        gap: 0.8rem;
+        justify-content: center;
 
-        .avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            overflow: hidden;
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-            }
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
         }
+      }
 
-        .pergunta-texto {
-            font-size: 0.95rem;
-            color: #757575;
-            font-weight: 500;
-            margin: 0;
-        }
+      .pergunta-texto {
+        font-size: 0.95rem;
+        color: #757575;
+        font-weight: 500;
+        margin: 0;
+      }
     }
 
     .botoes-post {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+
+      .botao-acao {
+        width: 100%;
+        padding: 0.85rem 1rem;
+        border-radius: 30px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        cursor: pointer;
         display: flex;
-        flex-direction: column;
-        gap: 0.8rem;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        transition: all 0.2s ease;
 
-        .botao-acao {
-            width: 100%;
-            padding: 0.85rem 1rem;
-            border-radius: 30px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            transition: all 0.2s ease;
+        &:nth-child(1) {
+          background-color: #15479e;
+          color: #ffffff;
+          border: none;
 
-            &:nth-child(1) {
-                background-color: #15479e;
-                color: #ffffff;
-                border: none;
+          &:hover {
+            transform: translateY(-2px);
+          }
 
-                &:hover {
-                    opacity: 0.92;
-                }
-            }
-
-            &:nth-child(2) {
-                background-color: #ffffff;
-                color: #15479e;
-                border: 1.5px solid #bfc3c7;
-
-                &:hover {
-                    background-color: #f8fafe;
-                    border-color: #15479e;
-                }
-            }
+          &:active {
+            transform: translateY(0);
+          }
         }
+
+        &:nth-child(2) {
+          background-color: #ffffff;
+          color: #15479e;
+          border: 1.5px solid #bfc3c7;
+
+          &:hover {
+            transform: translateY(-2px);
+          }
+
+          &:active {
+            transform: translateY(0);
+          }
+        }
+      }
     }
-}
+  }
 }

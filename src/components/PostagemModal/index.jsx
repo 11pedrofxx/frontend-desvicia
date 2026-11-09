@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Loader2 } from "lucide-react";
+import { Loader2, PenSquare, X } from "lucide-react";
 import api from '../../service/api.js';
 import toast from "react-hot-toast";
 import './index.scss';
@@ -74,12 +74,13 @@ export default function ModalPost({ isOpen, onClose, tipoInicial, usuarioId }) {
                     </div>
 
                     <div className='modal-botoes'>
-                        <button 
+                        <button
                             type='button' 
                             className='botao-cancelar' 
                             onClick={onClose}
                             disabled={carregando}
                         >
+                            
                             Cancelar
                         </button>
                         
@@ -87,7 +88,7 @@ export default function ModalPost({ isOpen, onClose, tipoInicial, usuarioId }) {
                             type='submit' 
                             className='botao-publicar'
                             disabled={carregando}
-                        >
+                        > <PenSquare size={18} />
                             {carregando ? (
                                 <>
                                     <Loader2 className="icone-girando" size={18} /> Publicando...

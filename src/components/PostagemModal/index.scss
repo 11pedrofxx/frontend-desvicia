@@ -92,15 +92,17 @@
                 justify-content: flex-end;
                 gap: 0.8rem;
                 margin-top: 0.5rem;
+                flex-direction: column-reverse;
 
                 .botao-cancelar,
                 .botao-publicar {
-                    padding: 0.6rem 1.2rem;
+                    padding: 0.8rem 1.2rem;
                     border-radius: 20px;
                     font-weight: 600;
-                    font-size: 0.85rem;
+                    font-size: 0.9rem;
                     cursor: pointer;
                     transition: all 0.2s ease;
+                    align-items: center;
                 }
 
                 .botao-cancelar {
