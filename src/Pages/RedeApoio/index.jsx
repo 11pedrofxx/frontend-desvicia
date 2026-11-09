@@ -7,8 +7,9 @@ import './index.scss';
 
 export default function RedeApoio() {
 
-    const Navigate = useNavigate();
+    const navigate = useNavigate();
     const [usuario, setUsuario] = useState(null);
+    const [carregando, setCarregando] = useState(true);
     const [modalAberto, setModalAberto] = useState(false);
 
     const [tipoPostagem, setTipoPostagem] = useState(""); 
@@ -18,17 +19,34 @@ export default function RedeApoio() {
     useEffect(() => {
         const usuarioSalvo = localStorage.getItem("usuario") || localStorage.getItem("user");
 
-        if (usuarioSalvo) {
+        if (!usuarioSalvo) {
+            toast.error('Você precisa fazer o cadastro para acessar a Rede de Apoio.');
+            navigate("/primeiro-acesso");
+            return;
+        }
+
+        try {
             const dadosUsuario = JSON.parse(usuarioSalvo);
 
-            if(dadosUsuario.primeiro_acesso === true || !dadosUsuario?.nome_exibicao) {
-                Navigate("/primeiro-acesso");
-                toast.error('Você deve criar o seu perfil antes de acessar a rede de apoio')
-            } else {
-                setUsuario(dadosUsuario);
+            if (dadosUsuario.primeiro_acesso === true || !dadosUsuario?.foto_perfil || dadosUsuario.foto_perfil === '') {
+                toast.error('Complete seu cadastro para acessar a rede.');
+                navigate("/primeiro-acesso");
+                return;
             }
+
+            setUsuario(dadosUsuario);
+        } catch (error) {
+            localStorage.removeItem("usuario");
+            localStorage.removeItem("user");
+            navigate("/primeiro-acesso");
+        } finally {
+            setCarregando(false);
         }
-    }, [Navigate]);
+    }, [navigate]);
+
+    if (carregando || !usuario) {
+        return null;
+    }
 
     let listaDistracoes = "";
     if (usuario?.distracoes) {
@@ -126,6 +144,5 @@ export default function RedeApoio() {
             />
             </div>
         </div>
-        
     );
 }

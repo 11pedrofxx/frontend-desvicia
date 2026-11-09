@@ -121,7 +121,18 @@ export default function PrimeiroAcesso() {
         distracoes: distracoesFinais,
       };
 
-      await api.put("/usuario/primeiro-acesso", dados);
+      const respostaApi = await api.put("/usuario/primeiro-acesso", dados);
+
+      const usuarioAtualizado = {
+        ...usuarioLogado,
+        ...dados,
+        primeiro_acesso: false 
+      };
+
+      const chaveArmazenamento = localStorage.getItem('usuario') ? 'usuario' : 'user';
+      localStorage.setItem(chaveArmazenamento, JSON.stringify(usuarioAtualizado));
+
+      toast.success('Perfil configurado com sucesso!');
       Navigate("/home");
 
     } catch (error) {

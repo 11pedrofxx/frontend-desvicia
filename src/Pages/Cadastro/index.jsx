@@ -130,7 +130,7 @@ export default function Cadastro() {
             localStorage.setItem('token', resposta.data.token);
             localStorage.setItem('user', JSON.stringify(resposta.data.usuario));
 
-            navigate('/app');
+            navigate('/');
 
         } catch (error) {
 
