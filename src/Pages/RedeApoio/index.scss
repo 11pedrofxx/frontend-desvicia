@@ -5,6 +5,67 @@
   padding: 2rem 1rem;
   font-family: "Poppins", sans-serif;
   box-sizing: border-box;
+  .feed {
+    max-width: 600px;
+    margin: 1.5rem auto 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .cabecalho-feed {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      h3 {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #212121;
+        margin: 0;
+      }
+
+      .filtro-recente {
+        font-size: 0.8rem;
+        color: #757575;
+      }
+    }
+
+    .botoes-filtro {
+      display: flex;
+      gap: 0.6rem;
+      overflow-x: auto;
+      padding-bottom: 0.5rem;
+
+      scrollbar-width: none; 
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      .btn-filtro {
+        background-color: #ffffff;
+        border: 1.5px solid #dcdcdc;
+        color: #555;
+        padding: 0.5rem 1.1rem;
+        border-radius: 25px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: all 0.2s ease;
+
+        &:hover {
+          border-color: #15479e;
+          color: #15479e;
+        }
+
+        &.ativo {
+          background-color: #15479e;
+          color: #ffffff;
+          border-color: #15479e;
+        }
+      }
+    }
+  }
 
   .conteudo-rede {
     max-width: 600px;
@@ -192,6 +253,157 @@
 
           &:active {
             transform: translateY(0);
+          }
+        }
+      }
+    }
+  }
+  .postagens {
+    max-width: 600px;
+    margin: 1.5rem auto 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    .card-postagem-feed {
+      background-color: #ffffff;
+      border-radius: 20px;
+      padding: 1.5rem;
+      border: 2px solid #d5def0;
+      box-shadow: 0 4px 15px rgba(21, 71, 158, 0.05);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      .titulo-relato-feed {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #212121;
+      margin: 0;
+    }
+
+      .post-topo {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+
+        .post-autor-info {
+          display: flex;
+          gap: 0.8rem;
+          align-items: center;
+
+          .avatar-feed {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            overflow: hidden;
+            flex-shrink: 0;
+
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+            }
+          }
+
+          .linha-nome-tempo {
+            display: flex;
+            align-items: center;
+
+            h4 {
+              font-size: 0.95rem;
+              font-weight: 700;
+              color: #212121;
+              margin: 0;
+            }
+          }
+
+          .vicio-feed {
+            display: inline-block;
+            background-color: #eef4fc;
+            color: #15479e;
+            padding: 0.15rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 0.2rem;
+          }
+        }
+      }
+
+      /* Card de destaque para Conquistas */
+      .card-conquista-destaque {
+        background-color: #f0f7f4;
+        border: 1.5px solid #d1e7dd;
+        border-radius: 16px;
+        padding: 1.5rem;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.4rem;
+
+        .icone-trofeu {
+          width: 50px;
+          height: 50px;
+          background-color: #ffffff;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+          margin-bottom: 0.2rem;
+        }
+
+        .texto-topo-conquista {
+          font-size: 0.65rem;
+          font-weight: 700;
+          color: #2b7a4b;
+          letter-spacing: 0.5px;
+        }
+
+        h2 {
+          font-size: 1.2rem;
+          font-weight: 800;
+          color: #1b4d3e;
+          margin: 0;
+        }
+
+        p {
+          font-size: 0.8rem;
+          color: #555;
+          margin: 0;
+        }
+      }
+
+      .conteudo-texto-post {
+        font-size: 0.9rem;
+        color: #333;
+        line-height: 1.4;
+        margin: 0;
+      }
+
+      .post-rodape {
+        display: flex;
+        gap: 1.5rem;
+        border-top: 1px solid #eee;
+        padding-top: 0.8rem;
+        margin-top: 0.2rem;
+
+        .btn-acao-rodape {
+          background: none;
+          border: none;
+          display: flex;
+          align-items: center;
+          gap: 0.4rem;
+          font-size: 0.85rem;
+          color: #666;
+          font-weight: 600;
+          cursor: pointer;
+          transition: color 0.2s;
+
+          &:hover {
+            color: #15479e;
           }
         }
       }

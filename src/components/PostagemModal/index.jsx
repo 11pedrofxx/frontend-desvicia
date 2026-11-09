@@ -4,9 +4,8 @@ import api from '../../service/api.js';
 import toast from "react-hot-toast";
 import './index.scss';
 
-export default function ModalPost({ isOpen, onClose, tipoInicial, usuarioId }) {
+export default function ModalPost({ isOpen, onClose, tipoInicial, usuarioId, onPostCriado }) {
 
-    const [tituloPost, setTituloPost] = useState("");
     const [conteudoPost, setConteudoPost] = useState("");
     const [carregando, setCarregando] = useState(false);
 
@@ -20,7 +19,6 @@ export default function ModalPost({ isOpen, onClose, tipoInicial, usuarioId }) {
             usuario_id: usuarioId,
             categoria: "GLOBAL",
             tipo: tipoInicial ? tipoInicial.toUpperCase() : "RELATO",
-            titulo: tituloPost,
             conteudo: conteudoPost,
             titulo_conquista: null,
             subtitulo_conquista: null
@@ -28,9 +26,11 @@ export default function ModalPost({ isOpen, onClose, tipoInicial, usuarioId }) {
         
         try {
             await api.post('/Postar', json);
-            setTituloPost("");
             setConteudoPost("");
             toast.success('Sua postagem foi realizada com sucesso!')
+            if (onPostCriado) {
+                onPostCriado();
+            }
             onClose();
 
         } catch (err) {
@@ -40,6 +40,7 @@ export default function ModalPost({ isOpen, onClose, tipoInicial, usuarioId }) {
         }
     }
 
+    
     return (
         <div className='modal-overlay'>
             <div className='modal-caixa'>
@@ -49,18 +50,6 @@ export default function ModalPost({ isOpen, onClose, tipoInicial, usuarioId }) {
                 </div>
 
                 <form onSubmit={Enviar}>
-                    
-                    <div className='campo-grupo'>
-                        <label>Título</label>
-                        <input 
-                            type="text" 
-                            placeholder="Dê um título para sua postagem..." 
-                            value={tituloPost}
-                            onChange={(e) => setTituloPost(e.target.value)}
-                            disabled={carregando}
-                            required
-                        />
-                    </div>
 
                     <div className='campo-grupo'>
                         <label>Conteúdo</label>

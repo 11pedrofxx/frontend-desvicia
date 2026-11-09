@@ -4,6 +4,7 @@ import { Sparkles, PenSquare, Trophy } from "lucide-react";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import ModalPost from "../../components/PostagemModal";
+import api from "../../service/api";
 import "./index.scss";
 
 export default function RedeApoio() {
@@ -17,6 +18,8 @@ export default function RedeApoio() {
 
   const [postagens, setPostagens] = useState([]);
   const [categoriaAtual, setCategoriaAtual] = useState('Global');
+
+  const [atualizarFeed, setAtualizarFeed] = useState(false);
 
 
   useEffect(() => {
@@ -54,10 +57,27 @@ export default function RedeApoio() {
     }
   }, [navigate]);
 
+  useEffect(() => {
 
-  if (carregando || !usuario) {
-    return null;
-  }
+    if (!usuario) return;
+
+    async function CarregarFeed() {
+      try {
+
+        let resposta;
+        if (categoriaAtual === 'Global') {
+          resposta = await api.get("/postagens");
+        } else {
+          resposta = await api.get(`/postagens/categoria/${categoriaAtual}`)
+        }
+        setPostagens(resposta.data);
+      } catch (error) {
+      }
+    }
+    console.log(postagens)
+    CarregarFeed();
+  }, [categoriaAtual, usuario, atualizarFeed]);
+
 
   let listaDistracoes = "";
   if (usuario?.distracoes) {
@@ -73,6 +93,10 @@ export default function RedeApoio() {
         listaDistracoes = usuario.distracoes;
       }
     }
+  }
+
+  function NovaPostagem() {
+    setAtualizarFeed(prev => !prev);
   }
 
   return (
@@ -92,13 +116,13 @@ export default function RedeApoio() {
             <div className="detalhes-perfil">
               <div className="linha-topo">
                 <h2>{usuario?.nome_exibicao}</h2>
-                
+
                 <Link to="/primeiro-acesso">
                   <button type="button" className="btn-editar">
-                  Editar Perfil
-                </button>
+                    Editar Perfil
+                  </button>
                 </Link>
-                
+
               </div>
 
               <span className="tag-vicio">
@@ -168,7 +192,7 @@ export default function RedeApoio() {
         </div>
 
         <div className="botoes-filtro">
-           {["Global", "Apostas", "Cigarro/Vape", "Drogas", "Outros"].map((categoria) => (
+          {["Global", "Apostas", "Cigarro/Vape", "Drogas", "Outros"].map((categoria) => (
             <button
               key={categoria}
               type="button"
@@ -181,14 +205,59 @@ export default function RedeApoio() {
         </div>
       </div>
 
+      <div className="postagens">
+        {postagens.map((post) => (
+          <div className="card-postagem-feed" key={post.id}>
+
+            {/* Topo do Card (Autor, Foto e Vício) */}
+            <div className="post-topo">
+              <div className="post-autor-info">
+                <div className="avatar-feed">
+                  <img
+                    src={`/assets/avatares/${post.autor_foto}`}
+                    alt="Avatar"
+                  />
+                </div>
+                <div>
+                  <div className="linha-nome-tempo">
+                    <h4>{post.autor_nome}</h4>
+                  </div>
+                  <span className="vicio-feed">Vício em {post.categoria}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* TÍTULO DO RELATO */}
+            {post.titulo && (
+              <h3 className="titulo-relato-feed">{post.titulo}</h3>
+            )}
+
+            {/* CONTEÚDO DO RELATO */}
+            <p className="conteudo-texto-post">{post.conteudo}</p>
+
+            {/* Rodapé (Apoios e Comentários) */}
+            <div className="post-rodape">
+              <button type="button" className="btn-acao-rodape">
+                Apoiar · {post.total_apoios || 0}
+              </button>
+              <button type="button" className="btn-acao-rodape">
+                {post.total_comentarios || 0} comentários
+              </button>
+            </div>
+
+          </div>
+        ))}
+      </div>
+
       <div>
         <ModalPost
           isOpen={modalAberto}
           onClose={() => setModalAberto(false)}
           tipoInicial={tipoPostagem}
           usuarioId={usuario?.id}
+          onPostCriado={NovaPostagem}
         />
       </div>
-    </div>
+    </div >
   );
 }
