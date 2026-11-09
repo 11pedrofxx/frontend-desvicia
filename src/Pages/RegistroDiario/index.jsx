@@ -130,6 +130,7 @@ export default function RegistroDiario() {
 
     try {
       const dataHoje = new Date().toISOString().split('T')[0];
+
       setCarregando(true);
       let objParaSalvar = {
         data_checkin: dataHoje,
@@ -139,6 +140,7 @@ export default function RegistroDiario() {
         notas: Notas,
         gatilhos_sentidos: gatilhosSelecionados
       }
+      
       const nomeUsuario = obterNome();
       const checkin = await api.post('/checkin', objParaSalvar);
       toast.success(`Checkin diário realizado! Muito bem, ${nomeUsuario}`)

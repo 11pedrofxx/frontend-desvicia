@@ -1,13 +1,11 @@
 import "./index.scss";
 import { LockKeyhole, ArrowLeft, Eye, EyeOff } from "lucide-react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import api from "../../service/api";
 
 export default function NovaSenha() {
-
   const navegar = useNavigate();
 
   const [parametros] = useSearchParams();
@@ -25,43 +23,36 @@ export default function NovaSenha() {
     e.preventDefault();
 
     if (NovaSenha.length < 6) {
-      toast.error("A senha precisa ter pelo menos 6 caracteres.", {
-        className: "toast-desvicia",
-      });
+      toast.error("A senha precisa ter pelo menos 6 caracteres.");
       return;
     }
 
     if (NovaSenha !== ConfirmarSenha) {
-      toast.error("As senhas precisam ser iguais nos dois campos.", {
-        className: "toast-desvicia",
-      });
+      toast.error("As senhas precisam ser iguais nos dois campos.");
       return;
     }
 
     if (!token) {
-      toast.error(
-        'Seu token está inválido. Tente novamente ou solicite outra redefinição de senha.'
-      );
+      toast.error("Seu token está inválido. Solicite outra redefinição de senha.");
       return;
     }
 
     try {
-      setCarregando(true)
-      let resposta = await api.post('/redefinir-senha', {
+      setCarregando(true);
+
+      await api.post("/redefinir-senha", {
         token: token,
-        novaSenha: NovaSenha
-      })
+        novaSenha: NovaSenha,
+      });
 
-      toast.success('Sua senha foi alterada! Faça login novamente para continuar usando o Desvicia');
-
-      navegar('/login');
+      toast.success("Sua senha foi alterada! Faça login novamente.");
+      navegar("/login");
 
     } catch (error) {
-
+      toast.error("Não foi possível redefinir sua senha.");
     } finally {
-      setCarregando(false)
+      setCarregando(false);
     }
-
   }
 
   return (
@@ -81,11 +72,12 @@ export default function NovaSenha() {
         </h2>
 
         <form onSubmit={MudarSenha}>
+          {/* Nova senha */}
           <div className="campo-senha">
             <LockKeyhole size={22} />
 
             <input
-              type={MostrarSenha ? 'text' : 'password'}
+              type={MostrarSenha ? "text" : "password"}
               placeholder="Nova senha"
               aria-label="Nova senha"
               value={NovaSenha}
@@ -96,16 +88,18 @@ export default function NovaSenha() {
               type="button"
               className="botao-visualizacao"
               onClick={() => setMostrarSenha(!MostrarSenha)}
+              aria-label={MostrarSenha ? "Ocultar senha" : "Mostrar senha"}
             >
-              {MostrarSenha ? <EyeOff size={20} /> : <Eye size={20} />}
+              {MostrarSenha ? <Eye size={20} /> : <EyeOff size={20} />}
             </button>
           </div>
 
+          {/* Confirmar senha */}
           <div className="campo-senha">
             <LockKeyhole size={22} />
 
             <input
-              type={ConfirmarSenha ? "text" : "password"}
+              type={MostrarConfirmacao ? "text" : "password"}
               placeholder="Confirmar nova senha"
               aria-label="Confirmar nova senha"
               value={ConfirmarSenha}
@@ -116,15 +110,13 @@ export default function NovaSenha() {
               type="button"
               className="botao-visualizacao"
               onClick={() => setMostrarConfirmacao(!MostrarConfirmacao)}
+              aria-label={MostrarConfirmacao ? "Ocultar senha" : "Mostrar senha"}
             >
-
-              {MostrarConfirmacao ? <EyeOff size={20} /> : <Eye size={20} />}
-
+              {MostrarConfirmacao ? <Eye size={20} /> : <EyeOff size={20} />}
             </button>
           </div>
 
           <button type="submit" disabled={Carregando}>
-
             {Carregando ? (
               <>
                 <span className="girar"></span>
@@ -133,7 +125,6 @@ export default function NovaSenha() {
             ) : (
               "Redefinir senha"
             )}
-
           </button>
         </form>
 

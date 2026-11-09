@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './index.scss';
 import { LockKeyhole, Mail, Eye, EyeOff, Loader2 } from 'lucide-react';
 import ReCAPTCHA from 'react-google-recaptcha';
@@ -11,15 +11,12 @@ import toast from 'react-hot-toast';
 
 export default function Login() {
     const navigate = useNavigate();
-
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
     const [captchaToken, setCaptchaToken] = useState('');
-
+    const captchaRef = useRef(null);
     const [Lembrar, setLembrar] = useState(false);
-
     const [mostraSenha, setmostraSenha] = useState(false)
-
     const [Carregando, setCarregando] = useState(false);
 
     useEffect(() => {
@@ -60,7 +57,9 @@ export default function Login() {
 
         } catch (error) {
         } finally {
-            setCarregando(false);
+    setCarregando(false);
+    setCaptchaToken('');
+    captchaRef.current?.reset();
         }
     }
 
@@ -73,6 +72,7 @@ export default function Login() {
 
             localStorage.setItem('token', resposta.data.token);
             localStorage.setItem('user', JSON.stringify(resposta.data.usuario));
+            console.log(resposta.data.token)
 
             const emailGoogle = resposta.data.usuario?.email || resposta.data.usuario?.ds_email;
             if (Lembrar && emailGoogle) {
@@ -131,8 +131,10 @@ export default function Login() {
 
                     <div className='captcha-box'>
                         <ReCAPTCHA
+                            ref={captchaRef}
                             sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
-                            onChange={(token) => setCaptchaToken(token)}
+                            onChange={(token) => setCaptchaToken(token || '')}
+                            onExpired={() => setCaptchaToken('')}
                         />
                     </div>
 
