@@ -227,8 +227,8 @@ export default function PrimeiroAcesso() {
                 Apostas
               </button>
               <button type="button"
-                className={`btn-opcao ${Vicio === 'Cigarro/Vape' ? "ativo" : ''}`}
-                onClick={() => setVicio('Cigarro/Vape')}>
+                className={`btn-opcao ${Vicio === 'Cigarro OU Vape' ? "ativo" : ''}`}
+                onClick={() => setVicio('Cigarro OU Vape')}>
                 Cigarro/Vape
               </button>
               <button type="button" className={`btn-opcao ${Vicio === 'Drogas' ? "ativo" : ''}`}

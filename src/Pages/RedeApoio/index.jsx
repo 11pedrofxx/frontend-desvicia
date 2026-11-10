@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Sparkles, PenSquare, Trophy } from "lucide-react";
+import { Sparkles, PenSquare, Trophy, Heart } from "lucide-react";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import ModalPost from "../../components/PostagemModal";
@@ -17,10 +17,9 @@ export default function RedeApoio() {
   const [tipoPostagem, setTipoPostagem] = useState("");
 
   const [postagens, setPostagens] = useState([]);
-  const [categoriaAtual, setCategoriaAtual] = useState('Global');
+  const [categoriaAtual, setCategoriaAtual] = useState("Global");
 
   const [atualizarFeed, setAtualizarFeed] = useState(false);
-
 
   useEffect(() => {
     const usuarioSalvo =
@@ -58,26 +57,23 @@ export default function RedeApoio() {
   }, [navigate]);
 
   useEffect(() => {
-
     if (!usuario) return;
 
     async function CarregarFeed() {
       try {
-
         let resposta;
-        if (categoriaAtual === 'Global') {
+        if (categoriaAtual === "Global") {
           resposta = await api.get("/postagens");
         } else {
-          resposta = await api.get(`/postagens/categoria/${categoriaAtual}`)
+          const categoriaFormatada = encodeURIComponent(categoriaAtual);
+          resposta = await api.get(`/postagens/categoria/${categoriaFormatada}`);
         }
         setPostagens(resposta.data);
-      } catch (error) {
-      }
+      } catch (error) {}
     }
-    console.log(postagens)
+    console.log(postagens);
     CarregarFeed();
   }, [categoriaAtual, usuario, atualizarFeed]);
-
 
   let listaDistracoes = "";
   if (usuario?.distracoes) {
@@ -96,7 +92,27 @@ export default function RedeApoio() {
   }
 
   function NovaPostagem() {
-    setAtualizarFeed(prev => !prev);
+    setAtualizarFeed((prev) => !prev);
+  }
+
+  async function CurtirPostagem(postagemId) {
+    try {
+      await api.post(`/apoiar/${postagemId}`);
+
+      setPostagens((prevPostagens) =>
+        prevPostagens.map((post) => {
+          if (post.id === postagemId) {
+            return {
+              ...post,
+              total_apoios: Number(post.total_apoios) + 1,
+              jaCurtiu: true,
+            };
+          }
+          return post;
+        }),
+      );
+      toast.success("Você apoiou esta publicação! 💙");
+    } catch (error) {}
   }
 
   return (
@@ -122,7 +138,6 @@ export default function RedeApoio() {
                     Editar Perfil
                   </button>
                 </Link>
-
               </div>
 
               <span className="tag-vicio">
@@ -192,24 +207,24 @@ export default function RedeApoio() {
         </div>
 
         <div className="botoes-filtro">
-          {["Global", "Apostas", "Cigarro/Vape", "Drogas", "Outros"].map((categoria) => (
-            <button
-              key={categoria}
-              type="button"
-              className={`btn-filtro ${categoriaAtual === categoria ? "ativo" : ""}`}
-              onClick={() => setCategoriaAtual(categoria)}
-            >
-              {categoria}
-            </button>
-          ))}
+          {["Global", "Apostas", "Cigarro OU Vape", "Drogas", "Outros"].map(
+            (categoria) => (
+              <button
+                key={categoria}
+                type="button"
+                className={`btn-filtro ${categoriaAtual === categoria ? "ativo" : ""}`}
+                onClick={() => setCategoriaAtual(categoria)}
+              >
+                {categoria}
+              </button>
+            ),
+          )}
         </div>
       </div>
 
       <div className="postagens">
         {postagens.map((post) => (
           <div className="card-postagem-feed" key={post.id}>
-
-            {/* Topo do Card (Autor, Foto e Vício) */}
             <div className="post-topo">
               <div className="post-autor-info">
                 <div className="avatar-feed">
@@ -227,24 +242,31 @@ export default function RedeApoio() {
               </div>
             </div>
 
-            {/* TÍTULO DO RELATO */}
             {post.titulo && (
               <h3 className="titulo-relato-feed">{post.titulo}</h3>
             )}
 
-            {/* CONTEÚDO DO RELATO */}
             <p className="conteudo-texto-post">{post.conteudo}</p>
 
-            {/* Rodapé (Apoios e Comentários) */}
             <div className="post-rodape">
-              <button type="button" className="btn-acao-rodape">
+              <button
+                type="button"
+                className="btn-acao-rodape"
+                onClick={() => CurtirPostagem(post.id)}
+              >
+                <Heart
+                  size={18}
+                  color={
+                    Number(post.jaCurtiu) === 1 ? "#ff3b3b" : "currentColor"
+                  }
+                  fill={Number(post.jaCurtiu) === 1 ? "#ff3b3b" : "none"}
+                />
                 Apoiar · {post.total_apoios || 0}
               </button>
               <button type="button" className="btn-acao-rodape">
                 {post.total_comentarios || 0} comentários
               </button>
             </div>
-
           </div>
         ))}
       </div>
@@ -258,6 +280,6 @@ export default function RedeApoio() {
           onPostCriado={NovaPostagem}
         />
       </div>
-    </div >
+    </div>
   );
 }
