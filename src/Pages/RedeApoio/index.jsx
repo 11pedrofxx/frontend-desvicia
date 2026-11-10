@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Sparkles, PenSquare, Trophy, Heart } from "lucide-react";
+import { Sparkles, PenSquare, Trophy, Heart, MessageCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import ModalPost from "../../components/PostagemModal";
@@ -20,6 +20,10 @@ export default function RedeApoio() {
   const [categoriaAtual, setCategoriaAtual] = useState("Global");
 
   const [atualizarFeed, setAtualizarFeed] = useState(false);
+
+  const [comentarioAberto, setComentarioAberto] = useState(false);
+  const [comentarios, setComentarios] = useState([]);
+  const [novoComentario, setNovoComentario] = useState('');
 
   useEffect(() => {
     const usuarioSalvo =
@@ -93,6 +97,31 @@ export default function RedeApoio() {
 
   function NovaPostagem() {
     setAtualizarFeed((prev) => !prev);
+  }
+
+  async function BuscarComentarios(postagem_id) {
+    try {
+      let busca = await api.get(`/BuscarComentarios/${postagem_id}`);
+      setComentarios([...busca.data]);
+    } catch (error) {
+
+    }
+  }
+
+  async function EnviarComentario(postagem_id) {
+    try {
+      await api.post(`/FazerComentario/${postagem_id}`, {
+        conteudo: novoComentario
+      });
+      
+      setNovoComentario('');
+
+      await BuscarComentarios(postagem_id);
+      toast.success("Comentario enviado com sucesso");
+    } catch (error) {
+      
+    }
+
   }
 
   async function CurtirPostagem(postagemId) {
@@ -278,18 +307,65 @@ export default function RedeApoio() {
                 onClick={() => CurtirPostagem(post.id)}
               >
                 <Heart
-                  size={18}
+                  size={19}
                   color={
                     Number(post.jaCurtiu) === 1 ? "#ff3b3b" : "currentColor"
                   }
                   fill={Number(post.jaCurtiu) === 1 ? "#ff3b3b" : "none"}
                 />
-                Apoiar · {post.total_apoios || 0}
+                {post.total_apoios || 0}
               </button>
-              <button type="button" className="btn-acao-rodape">
-                {post.total_comentarios || 0} comentários
+
+
+              <button
+                type="button"
+                className="btn-acao-rodape"
+                onClick={() => {
+                  setComentarioAberto(post.id);
+                  BuscarComentarios(post.id);
+                }}>
+                <MessageCircle
+                  size={19} />
+                {post.total_comentarios || 0}
               </button>
+
             </div>
+            {comentarioAberto === post.id && (
+              <div className="secao-comentarios">
+
+                <div className="lista-comentarios">
+                  {comentarios.length === 0 ? (
+                    <p className="sem-comentarios">Nenhum comentário ainda. Seja o primeiro a apoiar! 💙</p>
+                  ) : (
+                    comentarios.map((c) => (
+                      <div className="comentario-item" key={c.id}>
+                        <img src={`/assets/avatares/${c.autor_foto}`} alt="Avatar" className="avatar-comentario" />
+                        <div className="conteudo-balao">
+                          <span className="nome-autor">{c.autor_nome}</span>
+                          <p>{c.conteudo}</p>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+
+                <div className="input-comentario-box">
+                  <input
+                    type="text"
+                    placeholder="Escreva um comentário de apoio..."
+                    value={novoComentario}
+                    onChange={(e) => setNovoComentario(e.target.value)}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => EnviarComentario(post.id)}
+                  >
+                    Enviar
+                  </button>
+                </div>
+
+              </div>
+            )}
           </div>
         ))}
       </div>
