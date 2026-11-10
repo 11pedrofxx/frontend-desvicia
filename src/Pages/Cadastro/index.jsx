@@ -7,6 +7,7 @@ import { UserRound, Mail, LockKeyhole, Eye, EyeOff, Loader2 } from 'lucide-react
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../../service/api.js';
 import toast from 'react-hot-toast';
+
 export default function Cadastro() {
 
     const navigate = useNavigate();
@@ -26,11 +27,8 @@ export default function Cadastro() {
     const [codigo, setCodigo] = useState(['', '', '', '', '', '']);
     const [erroCodigo, setErroCodigo] = useState('');
 
-
     function digitarCodigo(valor, index) {
-
         if (isNaN(valor)) return;
-
         setErroCodigo('');
 
         const novoCodigo = [...codigo];
@@ -42,17 +40,13 @@ export default function Cadastro() {
         }
     }
 
-
     function VoltarCaixaApagar(e, index) {
-
         if (e.key === 'Backspace' && !codigo[index] && index > 0) {
             document.getElementById(`code-input-${index - 1}`)?.focus();
         }
     }
 
-
     async function PreCadastro(e) {
-
         e.preventDefault();
 
         if (senha !== confirmarSenha) {
@@ -80,14 +74,13 @@ export default function Cadastro() {
             setEtapa(2);
 
         } catch (error) {
+            toast.error(error.response?.data?.erro || 'Ocorreu um erro no pré-cadastro.');
         } finally {
             setCarregando(false);
         }
     }
 
-
     async function ConfirmarCodigo(e) {
-
         e.preventDefault();
 
         const codigoString = codigo.join('');
@@ -111,15 +104,13 @@ export default function Cadastro() {
             navigate('/login');
 
         } catch (error) {
-
+            toast.error(error.response?.data?.erro || 'Ocorreu um erro ao confirmar o código.');
         } finally {
             setCarregando(false);
         }
     }
 
-
     async function LoginGoogle(credencial) {
-
         try {
             setCarregando(true);
 
@@ -133,12 +124,11 @@ export default function Cadastro() {
             navigate('/');
 
         } catch (error) {
-
+            toast.error(error.response?.data?.erro || 'Ocorreu um erro ao logar com o Google.');
         } finally {
             setCarregando(false);
         }
     }
-
 
     return (
         <div className="pagina-cadastro">
@@ -173,7 +163,6 @@ export default function Cadastro() {
                                 </div>
                             </div>
 
-
                             <div className="campo-cadastro">
                                 <label htmlFor="email">Informe seu email</label>
 
@@ -191,8 +180,7 @@ export default function Cadastro() {
                                 </div>
                             </div>
 
-
-                            {/* Criar senha */}
+                            {}
                             <div className="campo-cadastro">
                                 <label htmlFor="senha">Crie uma senha</label>
 
@@ -218,8 +206,7 @@ export default function Cadastro() {
                                 </div>
                             </div>
 
-
-                            {/* Confirmar senha */}
+                            {}
                             <div className="campo-cadastro">
                                 <label htmlFor="confirmarSenha">Confirme sua senha</label>
 
@@ -245,7 +232,6 @@ export default function Cadastro() {
                                 </div>
                             </div>
 
-
                             <div className="captcha-box">
                                 <ReCAPTCHA
                                     sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
@@ -253,11 +239,9 @@ export default function Cadastro() {
                                 />
                             </div>
 
-
                             <div className="criar">
 
                                 <button type="submit" disabled={Carregando}>
-
                                     {Carregando ? (
                                         <span className="carregar">
                                             <Loader2 className="girar" size={20} />
@@ -266,14 +250,11 @@ export default function Cadastro() {
                                     ) : (
                                         'Criar Conta'
                                     )}
-
                                 </button>
-
 
                                 <div className="divisoria">
                                     <span>OU</span>
                                 </div>
-
 
                                 <div className="google-box">
                                     <GoogleLogin
@@ -281,7 +262,6 @@ export default function Cadastro() {
                                         onError={() => toast.error('Falha ao conectar com os serviços do Google.')}
                                     />
                                 </div>
-
 
                                 <h3>
                                     Já tem uma conta?<Link to={'/login'}>fazer login</Link>
@@ -302,11 +282,8 @@ export default function Cadastro() {
                                 <strong>{email}</strong>
                             </h2>
 
-
                             <div className="caixas-codigo">
-
                                 {codigo.map((digito, index) => (
-
                                     <input
                                         key={index}
                                         id={`code-input-${index}`}
@@ -317,21 +294,16 @@ export default function Cadastro() {
                                         onKeyDown={(e) => VoltarCaixaApagar(e, index)}
                                         required
                                     />
-
                                 ))}
-
                             </div>
-
 
                             {erroCodigo && (
                                 <p className="msg-erro-codigo">{erroCodigo}</p>
                             )}
 
-
                             <div className="criar">
 
                                 <button type="submit" disabled={Carregando}>
-
                                     {Carregando ? (
                                         <span className="carregar">
                                             <Loader2 className="girar" size={20} />
@@ -340,9 +312,7 @@ export default function Cadastro() {
                                     ) : (
                                         'Confirmar código'
                                     )}
-
                                 </button>
-
 
                                 <button
                                     type="button"

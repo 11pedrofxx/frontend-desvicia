@@ -1,0 +1,419 @@
+.Perfil {
+    min-height: 100vh;
+    width: 100%;
+    background: #f8f7f3;
+    color: #171717;
+    font-family: Arial, Helvetica, sans-serif;
+
+    * {
+        box-sizing: border-box;
+    }
+
+    .Conteudo {
+        width: 100%;
+        min-width: 0;
+        max-width: none;
+        margin: 0;
+        padding: 35px 39px 40px;
+    }
+
+    .Topo {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 27px;
+    }
+
+    .Bem-vindo-site {
+        display: flex;
+        align-items: center;
+
+        h1 {
+            margin: 0;
+            font-size: 29px;
+            font-weight: 700;
+        }
+
+        .emoji-mao {
+            width: 34px;
+            height: 34px;
+            margin-left: 9px;
+            transform: scaleX(-1);
+        }
+    }
+
+    .Foto-usuario {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: #e5f0e9;
+        color: #174e36;
+        font-size: 19px;
+        font-weight: 600;
+    }
+
+    .Semana {
+        padding: 17px 19px 14px;
+        border: 1px solid #deddd8;
+        border-radius: 17px;
+        background: #fff;
+
+        p {
+            margin: 11px 0 20px;
+            color: #292929;
+            font-size: 15px;
+            line-height: 1.45;
+        }
+    }
+
+    .Topo-semana {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+
+        h2 {
+            margin: 0;
+            font-size: 19px;
+            font-weight: 600;
+        }
+    }
+
+    .Dias-fogo {
+        padding: 5px 10px;
+        border-radius: 10px;
+        background: #fff0c9;
+        color: #a66a12;
+        font-size: 14px;
+        white-space: nowrap;
+    }
+
+    .Dias-semana {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 10px;
+    }
+
+    .Dia {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 7px;
+        color: #555;
+        font-size: 14px;
+
+        .Bolinha {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            font-size: 21px;
+            font-weight: 600;
+
+            &.feito {
+                background: #e5f0eb;
+                color: #15583b;
+            }
+
+            &.hoje {
+                border: 2px solid #164c7a;
+                background: #fff;
+
+                span {
+                    width: 15px;
+                    height: 15px;
+                    border-radius: 50%;
+                    background: #164c7a;
+                }
+            }
+
+            &.vazio {
+                background: #f1f1ef;
+                color: #999;
+            }
+        }
+
+        .dia-atual {
+            color: #164c7a;
+            font-weight: 600;
+        }
+    }
+
+    .Rede {
+        margin-top: 21px;
+        padding: 18px 18px 17px;
+        border-radius: 17px;
+        background: #eaf3f8;
+        box-shadow: 0 5px 15px rgba(30, 50, 60, 0.05);
+
+        h2 {
+            margin: 0 0 12px;
+            font-size: 19px;
+            font-weight: 600;
+        }
+    }
+
+    .Texto-rede {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        svg {
+            flex-shrink: 0;
+            color: #111;
+        }
+
+        p {
+            margin: 0;
+            font-size: 15px;
+            line-height: 1.35;
+        }
+    }
+
+    .Hoje {
+        margin-top: 20px;
+
+        > h2 {
+            margin: 0 0 12px;
+            font-size: 20px;
+            font-weight: 600;
+        }
+    }
+
+    .Acoes {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 9px 15px;
+    }
+
+    .Acao {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        min-height: 88px;
+        gap: 12px;
+        padding: 13px 14px;
+        border: 1px solid #deddd8;
+        border-radius: 17px;
+        background: #fff;
+        color: inherit;
+        font: inherit;
+        text-align: left;
+        cursor: pointer;
+        transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+
+        > svg {
+            flex-shrink: 0;
+            color: #999;
+        }
+
+        &:hover {
+            border-color: #b9c9d2;
+            box-shadow: 0 4px 12px rgba(20, 45, 60, 0.08);
+            transform: translateY(-1px);
+        }
+
+        &:focus-visible {
+            outline: 3px solid rgba(28, 78, 160, 0.3);
+            outline-offset: 3px;
+        }
+
+        &:active {
+            transform: translateY(0);
+        }
+    }
+
+    .Icone-acao {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        width: 43px;
+        height: 43px;
+        border-radius: 13px;
+
+        &.azul {
+            background: #e7f1f2;
+            color: #245a79;
+        }
+
+        &.amarelo {
+            background: #fff1d9;
+            color: #b47d25;
+        }
+    }
+
+    .Texto-acao {
+        flex: 1;
+        min-width: 0;
+
+        h3 {
+            margin: 0 0 3px;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        p {
+            margin: 0;
+            color: #454545;
+            font-size: 14px;
+            line-height: 1.25;
+        }
+    }
+
+    .Ajuda {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 21px;
+        padding: 17px 20px 17px 15px;
+        border-radius: 17px;
+        background: #fde1e1;
+    }
+
+    .Icone-ajuda {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        width: 43px;
+        height: 43px;
+        border-radius: 13px;
+        background: #f9caca;
+        color: #a72b2b;
+    }
+
+    .Texto-ajuda {
+        flex: 1;
+        min-width: 0;
+
+        h2 {
+            margin: 0 0 4px;
+            color: #a52c2c;
+            font-size: 19px;
+            font-weight: 600;
+        }
+
+        p {
+            margin: 0;
+            color: #874141;
+            font-size: 14px;
+            line-height: 1.3;
+        }
+    }
+
+    .Botao-apoio {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 74px;
+        padding: 9px 15px;
+        border-radius: 22px;
+        background: #c92f32;
+        color: #fff;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        box-shadow: 0 2px 4px rgba(120, 20, 20, 0.15);
+
+        &:hover {
+            background: #ad2529;
+        }
+    }
+}
+
+@media (max-width: 900px) {
+    .Perfil {
+        .Conteudo {
+            padding: 28px 24px 35px;
+        }
+
+        .Acao {
+            gap: 9px;
+            padding: 11px;
+        }
+
+        .Texto-acao h3 {
+            font-size: 15px;
+        }
+
+        .Texto-acao p {
+            font-size: 13px;
+        }
+    }
+}
+
+@media (max-width: 650px) {
+    .Perfil {
+        .Conteudo {
+            padding: 22px 16px 30px;
+        }
+
+        .Topo {
+            margin-bottom: 20px;
+        }
+
+        .Bem-vindo-site h1 {
+            font-size: 23px;
+        }
+
+        .Foto-usuario {
+            width: 42px;
+            height: 42px;
+        }
+
+        .Dias-semana {
+            gap: 3px;
+        }
+
+        .Dia .Bolinha {
+            width: 32px;
+            height: 32px;
+        }
+
+        .Acoes {
+            grid-template-columns: 1fr;
+        }
+
+        .Ajuda {
+            flex-wrap: wrap;
+            padding: 14px;
+        }
+
+        .Texto-ajuda {
+            flex-basis: calc(100% - 60px);
+        }
+
+        .Botao-apoio {
+            margin-left: 55px;
+        }
+    }
+}
+
+@media (max-width: 380px) {
+    .Perfil {
+        .Bem-vindo-site h1 {
+            font-size: 20px;
+        }
+
+        .Semana {
+            padding: 14px 12px;
+        }
+
+        .Topo-semana h2 {
+            font-size: 17px;
+        }
+
+        .Dia .Bolinha {
+            width: 28px;
+            height: 28px;
+            font-size: 17px;
+        }
+    }
+}
