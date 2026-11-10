@@ -69,7 +69,7 @@ export default function RedeApoio() {
           resposta = await api.get(`/postagens/categoria/${categoriaFormatada}`);
         }
         setPostagens(resposta.data);
-      } catch (error) {}
+      } catch (error) { }
     }
     console.log(postagens);
     CarregarFeed();
@@ -97,22 +97,45 @@ export default function RedeApoio() {
 
   async function CurtirPostagem(postagemId) {
     try {
-      await api.post(`/apoiar/${postagemId}`);
+      const postAtual = postagens.find(post => post.id === postagemId);
+      if (postAtual.jaCurtiu === 0 || postAtual.jaCurtiu === false) {
 
-      setPostagens((prevPostagens) =>
-        prevPostagens.map((post) => {
-          if (post.id === postagemId) {
-            return {
-              ...post,
-              total_apoios: Number(post.total_apoios) + 1,
-              jaCurtiu: true,
-            };
-          }
-          return post;
-        }),
-      );
+        await api.post(`/apoiar/${postagemId}`);
+
+        setPostagens((prevPostagens) =>
+          prevPostagens.map((post) => {
+            if (post.id === postagemId) {
+              return {
+                ...post,
+                total_apoios: Number(post.total_apoios) + 1,
+                jaCurtiu: true,
+              };
+            }
+            return post;
+          }),
+        );
+
+      }
+
+      else {
+        await api.post(`/Remover-Like/${postagemId}`);
+        setPostagens((prevPostagens) =>
+          prevPostagens.map((post) => {
+            if (post.id === postagemId) {
+              return {
+                ...post,
+                total_apoios: Number(post.total_apoios) - 1,
+                jaCurtiu: false,
+              };
+            }
+            return post;
+          }),
+        );
+        toast.success("Apoio removido!");
+        return;
+      }
       toast.success("Você apoiou esta publicação! 💙");
-    } catch (error) {}
+    } catch (error) { }
   }
 
   return (
