@@ -93,9 +93,15 @@ export default function App() {
 
             try {
                 const resposta = await axios.get(`${ROTA_CHECKIN}/ofensiva`, config);
-                setDiasOfensiva(pegarDias(resposta.data));
+                let dias = pegarDias(resposta.data);
+                if (dias === 0) {
+                    dias = 1;
+                }
+                
+                setDiasOfensiva(dias);
             } catch (error) {
                 console.error('Erro ao buscar ofensiva:', error);
+                setDiasOfensiva(1);
             }
         }
 
@@ -139,7 +145,11 @@ export default function App() {
                 <section className="Semana">
                     <div className="Topo-semana">
                         <h2>Meu acompanhamento</h2>
-                        <span className="Dias-fogo">🔥 {diasOfensiva === null ? '—' : diasOfensiva} dias</span>
+                        <span className="Dias-fogo"><img 
+                            src="../../assets/gif/Fire.gif" 
+                            alt="Fogo animado" 
+                        style={{ width: '22px', height: '22px', verticalAlign: 'middle' }} 
+    /> {diasOfensiva === null ? '—' : diasOfensiva} dias</span>
                     </div>
 
                     <p>

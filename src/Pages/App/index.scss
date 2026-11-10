@@ -56,16 +56,21 @@
     }
 
     .Semana {
-        padding: 17px 19px 14px;
-        border: 1px solid #deddd8;
-        border-radius: 17px;
+        width: 100%;
+        min-width: 0;
+        padding: 19px 20px 17px;
+        overflow: hidden;
+        border: 1px solid #e5e6e1;
+        border-radius: 18px;
         background: #fff;
+        box-shadow: 0 3px 12px rgba(28, 38, 30, 0.035);
 
         p {
-            margin: 11px 0 20px;
-            color: #292929;
-            font-size: 15px;
-            line-height: 1.45;
+            margin: 12px 0 18px;
+            color: #3f4541;
+            font-size: 14px;
+            line-height: 1.5;
+            overflow-wrap: break-word;
         }
     }
 
@@ -74,73 +79,145 @@
         align-items: center;
         justify-content: space-between;
         gap: 12px;
+        min-width: 0;
 
         h2 {
+            min-width: 0;
             margin: 0;
+            color: #202923;
             font-size: 19px;
-            font-weight: 600;
+            font-weight: 650;
+            line-height: 1.2;
+            letter-spacing: -0.35px;
         }
     }
 
     .Dias-fogo {
-        padding: 5px 10px;
-        border-radius: 10px;
-        background: #fff0c9;
-        color: #a66a12;
-        font-size: 14px;
+        display: inline-flex;
+        flex: 0 0 auto;
+        align-items: center;
+        gap: 7px;
+        height: 45px;
+        min-height: 45px;
+        max-width: 100%;
+        padding: 3px 13px 3px 5px;
+        border: 1px solid #f5d4a6;
+        border-radius: 999px;
+        background: linear-gradient(135deg, #fff9ef 0%, #ffefd8 100%);
+        color: #884018;
         white-space: nowrap;
+        box-shadow: 0 3px 9px rgba(201, 107, 30, 0.08),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+
+        .Imagem-fogo {
+            display: flex;
+            flex: 0 0 38px;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            overflow: hidden;
+        }
+
+        .Icone-fogo {
+            display: block;
+            width: auto;
+            height: 38px;
+            max-width: none;
+            object-fit: contain;
+            filter: saturate(1.2) drop-shadow(0 2px 2px rgba(213, 83, 12, 0.2));
+            transform-origin: center bottom;
+            animation: chama-viva 2.2s ease-in-out infinite;
+        }
+
+        .Texto-fogo {
+            display: inline-flex;
+            align-items: baseline;
+            gap: 4px;
+            line-height: 1;
+
+            strong {
+                color: #c94b17;
+                font-size: 19px;
+                font-weight: 800;
+                letter-spacing: -0.6px;
+                line-height: 1;
+                font-variant-numeric: tabular-nums;
+            }
+
+            > span {
+                color: #8a4a26;
+                font-size: 12px;
+                font-weight: 650;
+            }
+        }
+    }
+
+    @keyframes chama-viva {
+        0%, 100% {
+            transform: translateY(0) rotate(-2deg) scale(1);
+        }
+
+        50% {
+            transform: translateY(-1px) rotate(2deg) scale(1.045);
+        }
     }
 
     .Dias-semana {
         display: grid;
-        grid-template-columns: repeat(7, 1fr);
-        gap: 10px;
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+        align-items: start;
+        gap: 8px;
+        width: 100%;
     }
 
     .Dia {
         display: flex;
+        min-width: 0;
         flex-direction: column;
         align-items: center;
         gap: 7px;
-        color: #555;
-        font-size: 14px;
+        color: #626a64;
+        font-size: 13px;
+        line-height: 1.2;
 
         .Bolinha {
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 38px;
-            height: 38px;
+            width: 36px;
+            height: 36px;
+            border: 1px solid transparent;
             border-radius: 50%;
-            font-size: 21px;
-            font-weight: 600;
+            font-size: 19px;
+            font-weight: 650;
 
             &.feito {
-                background: #e5f0eb;
+                background: #e6f1ea;
                 color: #15583b;
             }
 
             &.hoje {
-                border: 2px solid #164c7a;
-                background: #fff;
+                border: 2px solid #24577a;
+                background: #f5faff;
 
                 span {
-                    width: 15px;
-                    height: 15px;
+                    width: 12px;
+                    height: 12px;
                     border-radius: 50%;
-                    background: #164c7a;
+                    background: #24577a;
                 }
             }
 
             &.vazio {
-                background: #f1f1ef;
-                color: #999;
+                background: #f2f3f0;
+                color: #999f99;
             }
         }
 
         .dia-atual {
-            color: #164c7a;
-            font-weight: 600;
+            color: #24577a;
+            font-weight: 700;
         }
     }
 
@@ -368,13 +445,46 @@
             height: 42px;
         }
 
+        .Semana {
+            padding: 16px 14px 14px;
+        }
+
+        .Topo-semana {
+            gap: 8px;
+
+            h2 {
+                font-size: 17px;
+            }
+        }
+
+        .Dias-fogo {
+            height: 42px;
+            min-height: 42px;
+            gap: 5px;
+            padding-right: 10px;
+
+            .Imagem-fogo {
+                flex-basis: 34px;
+                width: 34px;
+                height: 34px;
+            }
+
+            .Icone-fogo {
+                height: 34px;
+            }
+
+            .Texto-fogo strong {
+                font-size: 17px;
+            }
+        }
+
         .Dias-semana {
-            gap: 3px;
+            gap: 4px;
         }
 
         .Dia .Bolinha {
-            width: 32px;
-            height: 32px;
+            width: 33px;
+            height: 33px;
         }
 
         .Acoes {
@@ -398,22 +508,61 @@
 
 @media (max-width: 380px) {
     .Perfil {
+        .Conteudo {
+            padding-right: 12px;
+            padding-left: 12px;
+        }
+
         .Bem-vindo-site h1 {
             font-size: 20px;
         }
 
         .Semana {
-            padding: 14px 12px;
+            padding: 14px 11px 13px;
         }
 
-        .Topo-semana h2 {
-            font-size: 17px;
+        .Topo-semana {
+            gap: 6px;
+
+            h2 {
+                font-size: 16px;
+            }
+        }
+
+        .Dias-fogo {
+            height: 40px;
+            min-height: 40px;
+            gap: 4px;
+            padding-right: 8px;
+            padding-left: 4px;
+
+            .Imagem-fogo {
+                flex-basis: 32px;
+                width: 32px;
+                height: 32px;
+            }
+
+            .Icone-fogo {
+                height: 32px;
+            }
+
+            .Texto-fogo strong {
+                font-size: 16px;
+            }
+
+            .Texto-fogo > span {
+                font-size: 11px;
+            }
+        }
+
+        .Dias-semana {
+            gap: 2px;
         }
 
         .Dia .Bolinha {
-            width: 28px;
-            height: 28px;
-            font-size: 17px;
+            width: 30px;
+            height: 30px;
+            font-size: 16px;
         }
     }
 }

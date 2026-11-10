@@ -5,6 +5,8 @@ import './index.scss';
 export default function Perfil() {
     
     return(
-   <div></div>
+   <div>
+    
+   </div>
     );
 }
