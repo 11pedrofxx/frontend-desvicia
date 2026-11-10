@@ -1,14 +1,16 @@
 import "./index.scss";
 import { X } from "lucide-react";
-import { Navigate } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 
 export default function Cabecalho(props) {
+   const navigate = useNavigate();
+
   return (
     <header className="cabecalho-registro">
       <button
         type="button"
         className="btn-voltar"
-        onClick={() => Navigate(-1)}
+        onClick={() => navigate(-1)}
         title="Voltar"
       >
         <X size={20} />
