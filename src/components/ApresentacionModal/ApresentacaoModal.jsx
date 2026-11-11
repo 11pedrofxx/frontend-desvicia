@@ -6,7 +6,7 @@ import './apresentacao.scss';
 export default function ApresentationModal({ onComplete }) {
     const TextoMODAL = [
         {
-            titulo: "Equilibra",
+            titulo: "Desvicia",
             text: "Um passo de cada vez. Avance as etapas e conheça o nosso espaço seguro.",
             icon: <Sparkles size={48} />,
             textoBotao: "Começar"
