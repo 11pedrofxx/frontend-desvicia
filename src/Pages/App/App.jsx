@@ -1,3 +1,4 @@
+
 import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -35,6 +36,7 @@ function criarData(data) {
     const ano = data.getFullYear();
     const mes = String(data.getMonth() + 1).padStart(2, '0');
     const dia = String(data.getDate()).padStart(2, '0');
+
     return `${ano}-${mes}-${dia}`;
 }
 
@@ -49,6 +51,7 @@ function pegarData(registro) {
     if (typeof valor === 'string') return valor.slice(0, 10);
 
     const data = new Date(valor);
+
     return Number.isNaN(data.getTime()) ? '' : criarData(data);
 }
 
@@ -68,6 +71,14 @@ export default function App() {
     const [checkins, setCheckins] = useState([]);
     const [diasOfensiva, setDiasOfensiva] = useState(null);
     const navigate = useNavigate();
+
+    const horas = new Date().getHours();
+
+    const Ola = horas >= 6 && horas < 12
+        ? 'Bom dia'
+        : horas >= 12 && horas < 18
+            ? 'Boa tarde'
+            : 'Boa noite';
 
     useEffect(() => {
         async function buscarDados() {
@@ -93,9 +104,13 @@ export default function App() {
 
             try {
                 const resposta = await axios.get(`${ROTA_CHECKIN}/ofensiva`, config);
-                setDiasOfensiva(pegarDias(resposta.data));
+                let dias = pegarDias(resposta.data);
+                if (dias === 0) dias = 1;
+
+                setDiasOfensiva(dias);
             } catch (error) {
                 console.error('Erro ao buscar ofensiva:', error);
+                setDiasOfensiva(1);
             }
         }
 
@@ -105,6 +120,7 @@ export default function App() {
     const hoje = new Date();
     const inicioSemana = new Date(hoje);
     inicioSemana.setDate(hoje.getDate() - hoje.getDay());
+
     const diasSemana = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
     const datasCheckins = checkins.map(pegarData);
 
@@ -113,43 +129,57 @@ export default function App() {
         data.setDate(inicioSemana.getDate() + index);
         const chave = criarData(data);
 
-        return { dia, chave,  hoje: chave === criarData(hoje), feito: datasCheckins.includes(chave)
+        return {
+            dia,
+            chave,
+            hoje: chave === criarData(hoje),
+            feito: datasCheckins.includes(chave)
         };
     });
-
 
     return (
         <div className="Perfil">
             <main className="Conteudo">
                 <header className="Topo">
                     <div className="Bem-vindo-site">
-                        <h1>Bom dia{nomeUsuario ? `, ${nomeUsuario}` : ''}</h1>
+                        <h1>{Ola}, {nomeUsuario}!</h1>
                         <img
                             className="emoji-mao"
                             src="../../assets/emojis/Balanco_Mao.png"
                             alt=""
                         />
                     </div>
-
-                    <div className="Foto-usuario">
-                        {nomeUsuario ? nomeUsuario.charAt(0).toUpperCase() : '?'}
-                    </div>
                 </header>
 
                 <section className="Semana">
                     <div className="Topo-semana">
-                        <h2>Meu acompanhamento</h2>
-                        <span className="Dias-fogo">🔥 {diasOfensiva === null ? '—' : diasOfensiva} dias</span>
+                        <div className="Texto-topo-semana">
+                            <h2>Meu acompanhamento</h2>
+                            <p>
+                                {diasOfensiva === null
+                                    ? 'Carregando seu acompanhamento...'
+                                    : `Você está há ${diasOfensiva} ${diasOfensiva === 1 ? 'dia' : 'dias'} longe do seu vício. Continue assim!`}
+                            </p>
+                        </div>
+
+                        { }
+                        <div className="Selo-ofensiva" aria-label={`${diasOfensiva ?? 'Carregando'} dias de sequência`}>
+                            <div className="Selo-ofensiva__fogo" aria-hidden="true">
+                                <img
+                                    className="Selo-ofensiva__gif"
+                                    src="../../assets/gif/Fire.gif"
+                                    alt="Fogo de sequência"
+                                />
+                            </div>
+                            <span className="Selo-ofensiva__valor">
+                                <strong>{diasOfensiva === null ? '—' : diasOfensiva}</strong>
+                                <span>{diasOfensiva === null || diasOfensiva === 1 ? 'DIA' : 'DIAS'}</span>
+                            </span>
+                        </div>
                     </div>
 
-                    <p>
-                        {diasOfensiva === null
-                            ? 'Carregando seu acompanhamento...'
-                            : `Você está há ${diasOfensiva} dias longe do seu vício. Continue assim!`}
-                    </p>
-
                     <div className="Dias-semana">
-                        {semana.map((dia, index) => (
+                        {semana.map((dia) => (
                             <div className="Dia" key={dia.chave} title={dia.chave}>
                                 <div className={`Bolinha ${dia.feito ? 'feito' : dia.hoje ? 'hoje' : 'vazio'}`}>
                                     {dia.feito ? '✓' : dia.hoje ? <span /> : ''}
@@ -183,7 +213,7 @@ export default function App() {
                             <Icone nome="seta" tamanho={20} />
                         </button>
 
-                        <button type="button" className="Acao" onClick={() => navigate('/registro-diario')}>
+                        <button type="button" className="Acao" onClick={() => navigate('/gatilhos')}>
                             <div className="Icone-acao amarelo">
                                 <Icone nome="alerta" tamanho={22} />
                             </div>
@@ -193,7 +223,6 @@ export default function App() {
                             </div>
                             <Icone nome="seta" tamanho={20} />
                         </button>
-
                     </div>
                 </section>
 

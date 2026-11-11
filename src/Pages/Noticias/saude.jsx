@@ -172,7 +172,7 @@ export default function Saude() {
             ]
         },
 
-        
+
         {
             id: 10,
             categoria: 'SUBSTÂNCIAS · CANNABIS',
@@ -219,21 +219,21 @@ export default function Saude() {
             ]
         },
 
-{
-    id: 13,
-    categoria: 'SUBSTÂNCIAS · ÁLCOOL',
-    filtro: 'Drogas',
-    titulo: 'Álcool: quando o consumo começa a trazer problemas?',
-    tempo: '5 min de leitura',
-    imagem: '/assets/images/alcool.jpg',
-    resumo: 'Entenda como o consumo de álcool pode afetar a saúde, a rotina e os relacionamentos.',
-    texto: [
-        'O álcool está presente em diferentes situações sociais e culturais, mas seu consumo pode trazer consequências para a saúde quando ocorre com frequência ou em grandes quantidades. Os efeitos podem variar de acordo com a quantidade consumida, a frequência e as características de cada pessoa.',
-        'O consumo de álcool pode afetar a atenção, a memória, a coordenação motora e a capacidade de tomar decisões. Em algumas situações, também pode aumentar a impulsividade e facilitar comportamentos que normalmente seriam evitados.',
-        'Com o passar do tempo, o consumo frequente pode começar a interferir na rotina, nos estudos, no trabalho, nas relações familiares e na vida financeira. Algumas pessoas também podem perceber que precisam consumir cada vez mais para obter os mesmos efeitos ou que sentem dificuldade para reduzir o consumo.',
-        'Perceber esses sinais é um passo importante. Se o álcool estiver causando prejuízos ou se estiver difícil controlar o consumo, procurar ajuda profissional pode fazer diferença. Conversar com um profissional de saúde pode ajudar a entender a situação e encontrar formas mais seguras de lidar com ela.',
-        'Mudar um comportamento não precisa acontecer de uma vez. Reconhecer os problemas, buscar apoio e estabelecer pequenas mudanças pode ser o começo de um processo de cuidado e recuperação.'
-    ]
+        {
+            id: 13,
+            categoria: 'SUBSTÂNCIAS · ÁLCOOL',
+            filtro: 'Drogas',
+            titulo: 'Álcool: quando o consumo começa a trazer problemas?',
+            tempo: '5 min de leitura',
+            imagem: '/assets/images/alcool.jpg',
+            resumo: 'Entenda como o consumo de álcool pode afetar a saúde, a rotina e os relacionamentos.',
+            texto: [
+                'O álcool está presente em diferentes situações sociais e culturais, mas seu consumo pode trazer consequências para a saúde quando ocorre com frequência ou em grandes quantidades. Os efeitos podem variar de acordo com a quantidade consumida, a frequência e as características de cada pessoa.',
+                'O consumo de álcool pode afetar a atenção, a memória, a coordenação motora e a capacidade de tomar decisões. Em algumas situações, também pode aumentar a impulsividade e facilitar comportamentos que normalmente seriam evitados.',
+                'Com o passar do tempo, o consumo frequente pode começar a interferir na rotina, nos estudos, no trabalho, nas relações familiares e na vida financeira. Algumas pessoas também podem perceber que precisam consumir cada vez mais para obter os mesmos efeitos ou que sentem dificuldade para reduzir o consumo.',
+                'Perceber esses sinais é um passo importante. Se o álcool estiver causando prejuízos ou se estiver difícil controlar o consumo, procurar ajuda profissional pode fazer diferença. Conversar com um profissional de saúde pode ajudar a entender a situação e encontrar formas mais seguras de lidar com ela.',
+                'Mudar um comportamento não precisa acontecer de uma vez. Reconhecer os problemas, buscar apoio e estabelecer pequenas mudanças pode ser o começo de um processo de cuidado e recuperação.'
+            ]
 
 
 

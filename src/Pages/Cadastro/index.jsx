@@ -2,7 +2,7 @@ import './index.scss';
 import ElementoTelaLogin from '../../components/CompTelaLogin/index.jsx';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { GoogleLogin } from '@react-oauth/google';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { UserRound, Mail, LockKeyhole, Eye, EyeOff, Loader2 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../../service/api.js';
@@ -17,6 +17,7 @@ export default function Cadastro() {
     const [senha, setSenha] = useState('');
     const [confirmarSenha, setConfirmarSenha] = useState('');
     const [token, settoken] = useState('');
+    const captchaRef = useRef(null);
 
     const [mostrarSenha, setMostrarSenha] = useState(false);
     const [mostrarConfirmacao, setMostrarConfirmacao] = useState(false);
@@ -236,6 +237,7 @@ export default function Cadastro() {
                                 <ReCAPTCHA
                                     sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
                                     onChange={(token) => settoken(token)}
+                                    ref={captchaRef}
                                 />
                             </div>
 
