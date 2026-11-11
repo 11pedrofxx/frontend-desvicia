@@ -35,7 +35,6 @@ export default function Roteamento() {
                     <Route path="/registro-diario" element={<RegistroDiario />} />
                     <Route path="/primeiro-acesso" element={<PrimeiroAcesso />} />
                     <Route path="/gatilhos" element={<Gatilhos />} />
-
                     <Route element={<Layout />}>
                         <Route path="/home" element={<RedeApoio />} />
                         <Route path="/" element={<App />} />

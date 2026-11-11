@@ -104,10 +104,6 @@
       align-items: center;
       font-size: 0.75rem;
 
-      .label-intensidade {
-        color: #757575;
-      }
-
       .texto-status {
         font-weight: 700;
       }
@@ -139,4 +135,135 @@
         transform: translateY(0);
       }
   }
+  .modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4); /* Fundo escuro semi-transparente */
+  backdrop-filter: blur(3px); /* Deixa o fundo levemente embaçado */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000; /* Garante que fique por cima de tudo */
+
+  .modal-conteudo {
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 2rem;
+    width: 90%;
+    max-width: 420px;
+    box-shadow: 0 10px 30px rgba(21, 71, 158, 0.15);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    animation: aparecerModal 0.3s ease-out;
+
+    @keyframes aparecerModal {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #212121;
+      margin: 0;
+      text-align: center;
+    }
+
+    p {
+      font-size: 0.9rem;
+      color: #757575;
+      margin: 0 0 1rem 0;
+      text-align: center;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      border-radius: 25px;
+      border: 1.5px solid #d5def0;
+      font-size: 0.95rem;
+      font-family: "Poppins", sans-serif;
+      color: #212121;
+      outline: none;
+      box-sizing: border-box;
+      transition: all 0.2s ease;
+
+      &:focus {
+        border-color: #15479e;
+        box-shadow: 0 0 0 3px rgba(21, 71, 158, 0.1);
+      }
+
+      &::placeholder {
+        color: #999;
+      }
+
+      &:disabled {
+        background-color: #f3f4f6;
+        cursor: not-allowed;
+      }
+    }
+
+    .modal-botoes {
+      display: flex;
+      flex-direction: column-reverse;
+      gap: 0.8rem;
+      margin-top: 0.5rem;
+
+      button {
+        padding: 0.7rem 1.5rem;
+        border-radius: 25px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-family: "Poppins", sans-serif;
+        
+        &:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+          transform: none !important;
+        }
+      }
+
+      .btn-cancelar {
+        background-color: transparent;
+        border: 1.5px solid #dcdcdc;
+        color: #757575;
+
+        &:hover:not(:disabled) {
+          background-color: #f8fafe;
+          border-color: #15479e;
+          color: #15479e;
+        }
+      }
+
+      .btn-salvar {
+        background-color: #15479e;
+        border: none;
+        color: #ffffff;
+
+        &:hover:not(:disabled) {
+          background-color: #0f3575;
+          transform: translateY(-2px);
+        }
+      }
+    }
+  }
+}
 }
