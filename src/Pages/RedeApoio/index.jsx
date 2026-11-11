@@ -75,7 +75,6 @@ export default function RedeApoio() {
         setPostagens(resposta.data);
       } catch (error) { }
     }
-    console.log(postagens);
     CarregarFeed();
   }, [categoriaAtual, usuario, atualizarFeed]);
 

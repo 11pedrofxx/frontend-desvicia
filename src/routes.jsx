@@ -14,6 +14,7 @@ import Layout from './components/Layout/index.jsx';
 import Perfil from './Pages/Perfil/index.jsx';
 import PrimeiroAcesso from './Pages/PrimeiroAcesso/index.jsx';
 import RedeApoio from './Pages/RedeApoio/index.jsx';
+import Gatilhos from "./Pages/DashboardGatilhos/index.jsx";
 
 export default function Roteamento() {
 
@@ -33,6 +34,7 @@ export default function Roteamento() {
                 <Route element={<RotaProtegida />}>
                     <Route path="/registro-diario" element={<RegistroDiario />} />
                     <Route path="/primeiro-acesso" element={<PrimeiroAcesso />} />
+                    <Route path="/gatilhos" element={<Gatilhos />} />
 
                     <Route element={<Layout />}>
                         <Route path="/home" element={<RedeApoio />} />
