@@ -1,5 +1,5 @@
 import "./index.scss";
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { X, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import api from "../../service/api.js";
@@ -46,6 +46,7 @@ export default function RegistroDiario() {
         const resposta = await api.get("/gatilhos");
         const lista = Array.isArray(resposta.data) ? resposta.data : (resposta.data.gatilhos || []);
         setGatilhos(lista);
+
       } catch (error) {
         toast.error(
           "Aconteceu um erro ao carregar os gatilhos. Tente novamente mais tarde",
@@ -93,17 +94,16 @@ export default function RegistroDiario() {
   }
   function obterNome() {
     const token = localStorage.getItem('token');
-    if (!token) return '';
 
     try {
+
       const payloadBase64 = token.split('.')[1];
       const payloadString = atob(payloadBase64);
       const payload = JSON.parse(payloadString);
+      return payload.nome || payload.nome_usuario;
 
-      return payload.nome || payload.nome_usuario || '';
     } catch (error) {
-      console.error('Erro ao ler token:', error);
-      return '';
+
     }
   }
 
@@ -141,10 +141,9 @@ export default function RegistroDiario() {
         gatilhos_sentidos: gatilhosSelecionados
       }
       
-      const nomeUsuario = obterNome();
+      const user = JSON.parse(localStorage.getItem('usuario'));
       const checkin = await api.post('/checkin', objParaSalvar);
-      toast.success(`Checkin diário realizado! Muito bem, ${nomeUsuario}`)
-
+      toast.success(`Checkin diário realizado! Muito bem, ${user.nome_exibicao}`);
     } catch (error) {
 
     } finally {
