@@ -213,7 +213,7 @@ export default function App() {
                             <Icone nome="seta" tamanho={20} />
                         </button>
 
-                        <button type="button" className="Acao" onClick={() => navigate('/registro-diario')}>
+                        <button type="button" className="Acao" onClick={() => navigate('/gatilhos')}>
                             <div className="Icone-acao amarelo">
                                 <Icone nome="alerta" tamanho={22} />
                             </div>
