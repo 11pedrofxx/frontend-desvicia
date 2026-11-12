@@ -59,11 +59,6 @@ api.interceptors.request.use(
     }
 );
 
-
-// ===============================
-// ESTRATÉGIAS
-// ===============================
-
 export async function listarEstrategias() {
     const resposta = await api.get('/estrategias');
 
@@ -77,11 +72,6 @@ export async function criarEstrategia(titulo) {
 
     return resposta.data;
 }
-
-
-// ===============================
-// CONTATOS DE EMERGÊNCIA
-// ===============================
 
 export async function listarContatos() {
     const resposta = await api.get('/contatos');
