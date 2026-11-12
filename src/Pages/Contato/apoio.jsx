@@ -1,5 +1,6 @@
 
 import { useState } from 'react';
+import Cabecalho from '../../components/Cabecalho';
 
 import {
     ClipboardList,
@@ -18,6 +19,7 @@ import {
 } from '../../service/api';
 
 import './index.scss';
+import toast from 'react-hot-toast';
 
 export default function Apoio() {
     const [contatos, setContatos] = useState([]);
@@ -40,7 +42,7 @@ export default function Apoio() {
 
     async function cadastrarContato() {
         if (!nome.trim() || !telefone.trim()) {
-            alert('Preencha o nome e o telefone do contato.');
+            toast.error('Preencha o nome e o telefone do contato.')
             return;
         }
 
@@ -75,17 +77,10 @@ export default function Apoio() {
     return (
         <main className="pagina-apoio">
 
-            <section className="cabecalho-apoio">
-                <h1>Apoio</h1>
-
-                <h2>Você não está sozinho.</h2>
-
-                <p>
-                    Se este momento estiver difícil ou se você estiver
-                    lidando com um forte impulso, escolha uma das
-                    opções abaixo.
-                </p>
-            </section>
+            <Cabecalho
+                titulo="Apoio"
+                subtitulo="Você não está sozinho. Se este momento estiver difícil ou se você estiver lidando com um forte impulso, escolha uma das opções abaixo."
+            />
 
 
             <section className="opcoes-apoio">
@@ -248,8 +243,6 @@ export default function Apoio() {
                 </div>
             )}
 
-
-            {/* MODAL DE AJUDA EMERGENCIAL */}
 
             {mostrarEmergencia && (
                 <div

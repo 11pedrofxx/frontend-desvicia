@@ -43,6 +43,7 @@ export default function Acompanhamento() {
     return null;
   }
 
+  console.log(checkins)
   return (
     <div className="pagina-acompanhamento">
 

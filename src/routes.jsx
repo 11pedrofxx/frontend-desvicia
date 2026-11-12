@@ -5,7 +5,6 @@ import Login from './Pages/Login/index.jsx'
 import Cadastro from './Pages/Cadastro'
 import Saude from './Pages/Noticias/saude.jsx';
 import ApresentationModal from './components/ApresentacionModal/ApresentacaoModal.jsx'
-import Distrair from './Pages/Distrair/index.jsx'
 import RedefinirSenha from './Pages/RedefinirSenha/index.jsx';
 import NovaSenha from './Pages/NovaSenha/index.jsx';
 import RotaProtegida from './components/RotaProtegida/index.jsx';
@@ -27,7 +26,6 @@ export default function Roteamento() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/Cadastro" element={<Cadastro />} />
                 <Route path="/TESTCOMP" element={<ApresentationModal />} />
-                <Route path="/Distrair" element={<Distrair />} />
                 <Route path="/esqueci-senha" element={<RedefinirSenha />} />
                 <Route path="/nova-senha" element={<NovaSenha />} />
 
@@ -37,6 +35,7 @@ export default function Roteamento() {
                     <Route path="/registro-diario" element={<RegistroDiario />} />
                     <Route path="/primeiro-acesso" element={<PrimeiroAcesso />} />
                     <Route path="/gatilhos" element={<Gatilhos />} />
+                    <Route path="/apoio" element={<Apoio />} />
                     
                     <Route element={<Layout />}>
                         <Route path="/home" element={<RedeApoio />} />
@@ -44,7 +43,7 @@ export default function Roteamento() {
                         <Route path="/" element={<App />} />
                         <Route path="/aprender" element={<Saude />} />
                         <Route path="/perfil" element={<Perfil />} />
-                        <Route path="/apoio" element={<Apoio />} />
+                        
 
                     </Route>
                 </Route>

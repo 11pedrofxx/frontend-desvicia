@@ -2,6 +2,7 @@ import { X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import "./index.scss";
 
+
 export default function Cabecalho({ titulo, subtitulo }) {
   const navigate = useNavigate();
 
