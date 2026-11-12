@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ShieldCheck } from "lucide-react";
+import { ChessKing, ShieldCheck } from "lucide-react";
 import Calendar from "react-calendar";
 import api from '../../service/api';
 import "./index.scss";
@@ -12,13 +12,18 @@ export default function Acompanhamento() {
 
   async function carregarCheckins() {
     try {
-      let idUsuario = 1;
+      const user = JSON.parse(localStorage.getItem('user'));
+      const idUsuario = user.id;
       
-      let resposta = await api.get(`/checkins/${idUsuario}`);
-      setCheckins(resposta.data);
+      let respostaCheckins = await api.get(`/checkins/${idUsuario}`);
+      const dadosCheckins = respostaCheckins.data;
+      setCheckins(dadosCheckins);
 
+      let foguinho = await api.get(`/ofensiva`); 
+      setSequencia(foguinho.data.ofensiva_atual);
+      console.log(sequencia)
     } catch (err) {
-
+      console.error("Erro ao carregar dados", err);
     }
   }
 
@@ -26,15 +31,19 @@ export default function Acompanhamento() {
     carregarCheckins();
   }, []);
 
+  
+
   function coresDias({ date, view }) {
     if (view === 'month') {
-      
       const ano = date.getFullYear();
       const mes = String(date.getMonth() + 1).padStart(2, '0');
       const dia = String(date.getDate()).padStart(2, '0');
       const dataFormatada = `${ano}-${mes}-${dia}`;
 
-      const checkinDoDia = checkins.find(c => c.data_checkin.split('T')[0] === dataFormatada);
+      const checkinDoDia = checkins.find(c => {
+        const dataBanco = c.data_checkin ? c.data_checkin.split('T')[0] : '';
+        return dataBanco === dataFormatada;
+      });
 
       if (checkinDoDia) {
         return checkinDoDia.foi_dia_dificil ? 'bolinha-dificil' : 'bolinha-registrado';
@@ -43,13 +52,13 @@ export default function Acompanhamento() {
     return null;
   }
 
-  console.log(checkins)
+
   return (
     <div className="pagina-acompanhamento">
 
       <div className="topo-acompanhamento">
         <h2>Meu acompanhamento</h2>
-        <div className="selo-ofensiva">🔥 7 DIAS</div>
+        <div className="selo-ofensiva">🔥 {sequencia} DIAS</div>
       </div>
     
     <div className="mensagem">

@@ -141,11 +141,11 @@ export default function RegistroDiario() {
         gatilhos_sentidos: gatilhosSelecionados
       }
       
-      const user = JSON.parse(localStorage.getItem('usuario'));
+      const user = JSON.parse(localStorage.getItem('user'));
       const checkin = await api.post('/checkin', objParaSalvar);
       toast.success(`Checkin diário realizado! Muito bem, ${user.nome_exibicao}`);
     } catch (error) {
-
+        
     } finally {
       setCarregando(false);
     }
