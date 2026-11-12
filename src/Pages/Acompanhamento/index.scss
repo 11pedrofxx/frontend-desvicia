@@ -1,0 +1,207 @@
+.pagina-acompanhamento {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  background-color: #f8fafc;
+  min-height: 100vh;
+  box-sizing: border-box;
+
+  .topo-acompanhamento {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+
+    h2 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+    }
+
+    .selo-ofensiva {
+      background-color: #fef3c7;
+      color: #d97706;
+      font-weight: 600;
+      font-size: 0.85rem;
+      padding: 0.4rem 0.8rem;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: "Poppins", sans-serif;
+    }
+  }
+
+  .mensagem {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background-color: #f0f9ff;
+    color: #15479e;
+    padding: 1rem;
+    border-radius: 16px;
+    margin-bottom: 2rem;
+
+    p {
+      margin: 0;
+      font-size: 0.95rem;
+      font-weight: 500;
+      font-family: "Poppins", sans-serif;
+      line-height: 1.4;
+    }
+  }
+
+  .container-calendario {
+    width: 65%;
+    margin: 0 auto;
+    background-color: #ffffff;
+    border: 1px solid #E5E7EB;
+    border-radius: 24px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    box-sizing: border-box;
+
+    .react-calendar {
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto;
+      border: none;
+      font-family: "Poppins", sans-serif;
+
+      .react-calendar__navigation {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        
+        button {
+          min-width: 40px;
+          height: 40px;
+          background: none;
+          font-size: 1.2rem;
+          color: #1e293b;
+          border-radius: 50%;
+          border: none;
+          cursor: pointer;
+          
+          &:enabled:hover {
+            background-color: #f1f5f9;
+          }
+        }
+
+        .react-calendar__navigation__label {
+          order: 1; 
+          text-align: left;
+          font-weight: 700;
+          font-size: 1.1rem;
+          color: #1e293b;
+          padding-left: 0.5rem;
+          flex-grow: 1;
+        }
+
+        .react-calendar__navigation__prev-button {
+          order: 2;
+        }
+
+        .react-calendar__navigation__next-button {
+          order: 3;
+        }
+      }
+
+      .react-calendar__month-view__weekdays {
+        display: grid !important;
+        grid-template-columns: repeat(7, 1fr);
+        text-transform: uppercase;
+        font-weight: 600;
+        font-size: 0.75rem;
+        color: #94a3b8;
+        margin-bottom: 0.5rem;
+        text-align: center;
+        
+        abbr {
+          text-decoration: none;
+        }
+      }
+
+      .react-calendar__month-view__days {
+        display: grid !important;
+        grid-template-columns: repeat(7, 1fr);
+        row-gap: 0.5rem;
+      }
+
+      .react-calendar__tile {
+        background: none;
+        font-family: "Poppins", sans-serif;
+        font-weight: 500;
+        color: #334155;
+        border-radius: 50%; 
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 44px !important;
+        height: 44px !important;
+        padding: 0;
+        margin: 0 auto; 
+
+        &:enabled:hover {
+          background-color: #f1f5f9;
+        }
+
+        &.react-calendar__month-view__days__day--neighboringMonth {
+          color: #cbd5e1;
+        }
+      }
+      
+      .react-calendar__tile--now {
+        background-color: transparent;
+        border: 2px solid #15479e;
+        color: #15479e;
+      }
+
+      .react-calendar__tile--active {
+        background-color: #15479e !important;
+        color: white !important;
+      }
+    }
+  }
+
+  .legenda {
+    width: 65%;
+    margin: 0 auto;
+    background-color: #ffffff;
+    border: 1px solid #E5E7EB;
+    border-radius: 24px;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    box-sizing: border-box;
+    
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+
+    .item-legenda {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      color: #64748b;
+      font-family: "Poppins", sans-serif;
+      font-weight: 500;
+
+      span {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        display: inline-block;
+      }
+
+      .cor-registrado { background-color: #e0f2fe; }
+      .cor-dificil { background-color: #fee2e2; }
+      .cor-vazio { background-color: #f1f5f9; }
+    }
+  }
+}
