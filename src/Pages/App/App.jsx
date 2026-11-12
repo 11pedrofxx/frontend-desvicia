@@ -234,7 +234,7 @@ export default function App() {
                         <h2>Precisa de ajuda agora?</h2>
                         <p>Saiba que você não está sozinho. Entre em contato com alguém.</p>
                     </div>
-                    <a href="/home" className="Botao-apoio">Apoio</a>
+                    <a href="/contatos" className="Botao-apoio">Apoio</a>
                 </section>
             </main>
         </div>
