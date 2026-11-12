@@ -15,6 +15,7 @@ import Perfil from './Pages/Perfil/index.jsx';
 import PrimeiroAcesso from './Pages/PrimeiroAcesso/index.jsx';
 import RedeApoio from './Pages/RedeApoio/index.jsx';
 import Gatilhos from "./Pages/DashboardGatilhos/index.jsx";
+import Apoio from "./Pages/Contato/apoio.jsx";
 
 export default function Roteamento() {
 
@@ -40,6 +41,8 @@ export default function Roteamento() {
                         <Route path="/" element={<App />} />
                         <Route path="/aprender" element={<Saude />} />
                         <Route path="/perfil" element={<Perfil />} />
+                        <Route path="/Contatos" element={<Apoio />} />
+
 
                     </Route>
                 </Route>

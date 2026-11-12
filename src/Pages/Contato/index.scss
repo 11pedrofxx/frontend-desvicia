@@ -1,0 +1,282 @@
+.pagina-apoio {
+    width: 100%;
+    min-height: 100vh;
+    box-sizing: border-box;
+
+    padding: 40px 24px;
+
+    background-color: #f7f7f5;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    * {
+        box-sizing: border-box;
+    }
+
+    .cabecalho-apoio {
+        width: 100%;
+        max-width: 650px;
+        margin: 0 auto 28px;
+
+        h1 {
+            margin: 0 0 32px;
+
+            font-size: 32px;
+            font-weight: 700;
+
+            color: #212121;
+        }
+
+        h2 {
+            margin: 0 0 8px;
+
+            font-size: 22px;
+            font-weight: 700;
+
+            color: #212121;
+        }
+
+        p {
+            margin: 0;
+
+            max-width: 600px;
+
+            font-size: 15px;
+            line-height: 1.5;
+
+            color: #666666;
+        }
+    }
+
+    .opcoes-apoio {
+        width: 100%;
+        max-width: 650px;
+
+        margin: 0 auto;
+
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .card-apoio {
+        width: 100%;
+        min-height: 86px;
+
+        padding: 16px;
+
+        display: flex;
+        align-items: center;
+
+        gap: 16px;
+
+        border: 1px solid #deded9;
+        border-radius: 16px;
+
+        background-color: #ffffff;
+
+        text-align: left;
+
+        cursor: pointer;
+
+        transition:
+            transform 0.2s ease,
+            box-shadow 0.2s ease,
+            border-color 0.2s ease;
+
+        &:hover {
+            transform: translateY(-2px);
+
+            border-color: #c9c9c3;
+
+            box-shadow: 0 5px 16px rgba(0, 0, 0, 0.06);
+        }
+
+        &:active {
+            transform: translateY(0);
+        }
+    }
+
+    .icone-apoio {
+        width: 42px;
+        height: 42px;
+
+        flex-shrink: 0;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 12px;
+
+        background-color: #edf5f3;
+
+        color: #15479e;
+    }
+
+    .texto-apoio {
+        flex: 1;
+        min-width: 0;
+
+        h3 {
+            margin: 0 0 4px;
+
+            font-size: 16px;
+            font-weight: 600;
+
+            color: #252525;
+        }
+
+        p {
+            margin: 0;
+
+            font-size: 14px;
+            line-height: 1.35;
+
+            color: #686868;
+        }
+    }
+
+    .seta-apoio {
+        flex-shrink: 0;
+
+        color: #8c9694;
+    }
+
+    .card-emergencial {
+        margin-top: 0;
+
+        border-color: #ff3b30;
+
+        background-color: #fff1f1;
+
+        .icone-emergencial {
+            background-color: #ffc5c5;
+
+            color: #ed1c24;
+        }
+
+        .texto-apoio {
+            h3 {
+                color: #ed1c24;
+            }
+
+            p {
+                color: #d93434;
+            }
+        }
+
+        .seta-apoio {
+            color: #ed1c24;
+        }
+
+        &:hover {
+            border-color: #ed1c24;
+
+            box-shadow: 0 5px 16px rgba(237, 28, 36, 0.08);
+        }
+    }
+
+    .aviso-apoio {
+        width: 100%;
+        max-width: 650px;
+
+        margin: 20px auto 0;
+
+        padding: 16px;
+
+        border-radius: 13px;
+
+        background-color: #f0efeb;
+
+        p {
+            margin: 0;
+
+            font-size: 13px;
+            line-height: 1.5;
+
+            color: #656565;
+        }
+    }
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+    .pagina-apoio {
+        padding: 60px 40px;
+
+        .cabecalho-apoio {
+            margin-bottom: 32px;
+
+            h1 {
+                font-size: 36px;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+        }
+
+        .card-apoio {
+            min-height: 90px;
+
+            padding: 18px;
+        }
+    }
+}
+
+/* Celular */
+@media (max-width: 480px) {
+    .pagina-apoio {
+        padding: 28px 18px;
+
+        .cabecalho-apoio {
+            h1 {
+                margin-bottom: 28px;
+
+                font-size: 30px;
+            }
+
+            h2 {
+                font-size: 21px;
+            }
+
+            p {
+                font-size: 14px;
+            }
+        }
+
+        .card-apoio {
+            min-height: 84px;
+
+            padding: 14px;
+
+            gap: 13px;
+
+            border-radius: 15px;
+        }
+
+        .icone-apoio {
+            width: 40px;
+            height: 40px;
+        }
+
+        .texto-apoio {
+            h3 {
+                font-size: 15px;
+            }
+
+            p {
+                font-size: 13px;
+            }
+        }
+
+        .aviso-apoio {
+            padding: 15px;
+
+            p {
+                font-size: 12px;
+            }
+        }
+    }
+}
