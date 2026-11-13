@@ -1,3 +1,4 @@
+
 import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -57,12 +58,19 @@ function pegarData(registro) {
 
 function pegarDias(valor) {
     const dados = Array.isArray(valor) ? valor[0] : valor;
+
     if (typeof dados === 'number') return dados;
 
     return Number(
-        dados?.dias ?? dados?.ofensiva ?? dados?.diasOfensiva ??
-        dados?.dias_ofensiva ?? dados?.dias_consecutivos ??
-        dados?.dias_sem_vicio ?? dados?.total_dias ?? 0
+        dados?.ofensiva_atual ??
+        dados?.dias ??
+        dados?.ofensiva ??
+        dados?.diasOfensiva ??
+        dados?.dias_ofensiva ??
+        dados?.dias_consecutivos ??
+        dados?.dias_sem_vicio ??
+        dados?.total_dias ??
+        0
     );
 }
 
@@ -70,8 +78,10 @@ export default function App() {
     const [nomeUsuario, setNomeUsuario] = useState('');
     const [checkins, setCheckins] = useState([]);
     const [diasOfensiva, setDiasOfensiva] = useState(null);
-    const navigate = useNavigate();
     const [mostrarApresentacao, setMostrarApresentacao] = useState(null);
+
+    const navigate = useNavigate();
+
     const horas = new Date().getHours();
 
     const Ola = horas >= 6 && horas < 12
@@ -83,7 +93,12 @@ export default function App() {
     useEffect(() => {
         async function buscarDados() {
             const token = localStorage.getItem('token');
-            const config = { headers: { Authorization: `Bearer ${token}` } };
+
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            };
 
             try {
                 const resposta = await axios.get(`${API_URL}/usuario`, config);
@@ -93,34 +108,61 @@ export default function App() {
             }
 
             try {
-                const resposta = await axios.get(`${ROTA_CHECKIN}/buscarCheckins`, config);
+                const resposta = await axios.get(
+                    `${ROTA_CHECKIN}/buscarCheckins`,
+                    config
+                );
+
                 const lista = Array.isArray(resposta.data)
                     ? resposta.data
-                    : resposta.data?.checkins || resposta.data?.registros || resposta.data?.dados || [];
+                    : resposta.data?.checkins ||
+                    resposta.data?.registros ||
+                    resposta.data?.dados ||
+                    [];
+
                 setCheckins(lista);
+
             } catch (error) {
                 console.error('Erro ao buscar check-ins:', error);
             }
 
             try {
-                const resposta = await axios.get(`${ROTA_CHECKIN}/ofensiva`, config);
-                let dias = pegarDias(resposta.data);
+                const resposta = await axios.get(
+                    `${API_URL}/ofensiva`,
+                    config
+                );
+
+                const dias = pegarDias(resposta.data);
 
                 setDiasOfensiva(dias);
 
-                setDiasOfensiva(dias);
+                console.log('Sequência atual:', dias);
+
             } catch (error) {
                 console.error('Erro ao buscar ofensiva:', error);
                 setDiasOfensiva(0);
             }
-        }
 
+            try {
+                const resposta = await axios.get(
+                    `${API_URL}/apresentacao/status`,
+                    config
+                );
+
+                setMostrarApresentacao(!resposta.data.viuApresentacao);
+
+            } catch (error) {
+                console.error('Erro ao consultar apresentação:', error);
+                setMostrarApresentacao(true);
+            }
+        }
 
         buscarDados();
     }, []);
 
     const hoje = new Date();
     const inicioSemana = new Date(hoje);
+
     inicioSemana.setDate(hoje.getDate() - hoje.getDay());
 
     const diasSemana = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
@@ -128,7 +170,9 @@ export default function App() {
 
     const semana = diasSemana.map((dia, index) => {
         const data = new Date(inicioSemana);
+
         data.setDate(inicioSemana.getDate() + index);
+
         const chave = criarData(data);
 
         return {
@@ -141,15 +185,19 @@ export default function App() {
 
     return (
         <div className="Perfil">
+
             {mostrarApresentacao === true && (
                 <ApresentationModal
                     onComplete={() => setMostrarApresentacao(false)}
                 />
             )}
+
             <main className="Conteudo">
+
                 <header className="Topo">
                     <div className="Bem-vindo-site">
                         <h1>{Ola}, {nomeUsuario}!</h1>
+
                         <img
                             className="emoji-mao"
                             src="../../assets/emojis/Balanco_Mao.png"
@@ -159,18 +207,23 @@ export default function App() {
                 </header>
 
                 <section className="Semana">
+
                     <div className="Topo-semana">
+
                         <div className="Texto-topo-semana">
                             <h2>Meu acompanhamento</h2>
+
                             <p>
                                 {diasOfensiva === null
                                     ? 'Carregando seu acompanhamento...'
-                                    : `Você está há ${diasOfensiva} ${diasOfensiva === 0 ? 'dia' : 'dias'} longe do seu vício. Continue assim!`}
+                                    : `Você está há ${diasOfensiva} ${diasOfensiva === 1 ? 'dia' : 'dias'} longe do seu vício. Continue assim!`}
                             </p>
                         </div>
 
-                        { }
-                        <div className="Selo-ofensiva" aria-label={`${diasOfensiva ?? 'Carregando'} dias de sequência`}>
+                        <div
+                            className="Selo-ofensiva"
+                            aria-label={`${diasOfensiva ?? 'Carregando'} dias de sequência`}
+                        >
                             <div className="Selo-ofensiva__fogo" aria-hidden="true">
                                 <img
                                     className="Selo-ofensiva__gif"
@@ -178,30 +231,58 @@ export default function App() {
                                     alt="Fogo de sequência"
                                 />
                             </div>
+
                             <span className="Selo-ofensiva__valor">
-                                <strong>{diasOfensiva === null ? '—' : diasOfensiva}</strong>
-                                <span>{diasOfensiva === null || diasOfensiva === 1 ? 'DIA' : 'DIAS'}</span>
+                                <strong>
+                                    {diasOfensiva === null ? '—' : diasOfensiva}
+                                </strong>
+
+                                <span>
+                                    {diasOfensiva === 1 ? 'DIA' : 'DIAS'}
+                                </span>
                             </span>
                         </div>
+
                     </div>
 
                     <div className="Dias-semana">
                         {semana.map((dia) => (
-                            <div className="Dia" key={dia.chave} title={dia.chave}>
-                                <div className={`Bolinha ${dia.feito ? 'feito' : dia.hoje ? 'hoje' : 'vazio'}`}>
-                                    {dia.feito ? '✓' : dia.hoje ? <span /> : ''}
+                            <div
+                                className="Dia"
+                                key={dia.chave}
+                                title={dia.chave}
+                            >
+                                <div
+                                    className={`Bolinha ${dia.feito ? 'feito' : dia.hoje ? 'hoje' : 'vazio'
+                                        }`}
+                                >
+                                    {dia.feito
+                                        ? '✓'
+                                        : dia.hoje
+                                            ? <span />
+                                            : ''}
                                 </div>
-                                <span className={dia.hoje ? 'dia-atual' : ''}>{dia.dia}</span>
+
+                                <span className={dia.hoje ? 'dia-atual' : ''}>
+                                    {dia.dia}
+                                </span>
                             </div>
                         ))}
                     </div>
+
                 </section>
 
                 <section className="Rede">
                     <h2>Rede de apoio Desvicia</h2>
+
                     <div className="Texto-rede">
                         <Icone nome="apoio" tamanho={25} />
-                        <p>Acesse a rede de apoio para conversar com pessoas reais sobre seus problemas e ver relatos que possam te ajudar nessa batalha.</p>
+
+                        <p>
+                            Acesse a rede de apoio para conversar com pessoas reais
+                            sobre seus problemas e ver relatos que possam te ajudar
+                            nessa batalha.
+                        </p>
                     </div>
                 </section>
 
@@ -209,40 +290,63 @@ export default function App() {
                     <h2>Hoje</h2>
 
                     <div className="Acoes">
-                        <button type="button" className="Acao" onClick={() => navigate('/registro-diario')}>
+
+                        <button
+                            type="button"
+                            className="Acao"
+                            onClick={() => navigate('/registro-diario')}
+                        >
                             <div className="Icone-acao azul">
                                 <Icone nome="editar" tamanho={22} />
                             </div>
+
                             <div className="Texto-acao">
                                 <h3>Registrar como foi meu dia</h3>
                                 <p>Acompanhe seu progresso e conquistas.</p>
                             </div>
+
                             <Icone nome="seta" tamanho={20} />
                         </button>
 
-                        <button type="button" className="Acao" onClick={() => navigate('/gatilhos')}>
+                        <button
+                            type="button"
+                            className="Acao"
+                            onClick={() => navigate('/gatilhos')}
+                        >
                             <div className="Icone-acao amarelo">
                                 <Icone nome="alerta" tamanho={22} />
                             </div>
+
                             <div className="Texto-acao">
                                 <h3>Registrar uma vontade/gatilho</h3>
                                 <p>Sentiu impulso? Anote para desarmá-lo.</p>
                             </div>
+
                             <Icone nome="seta" tamanho={20} />
                         </button>
+
                     </div>
                 </section>
 
                 <section className="Ajuda">
+
                     <div className="Icone-ajuda">
                         <Icone nome="alerta" tamanho={23} />
                     </div>
+
                     <div className="Texto-ajuda">
                         <h2>Precisa de ajuda agora?</h2>
-                        <p>Saiba que você não está sozinho. Entre em contato com alguém.</p>
+                        <p>
+                            Saiba que você não está sozinho. Entre em contato com alguém.
+                        </p>
                     </div>
-                    <a href="/apoio" className="Botao-apoio">Apoio</a>
+
+                    <a href="/apoio" className="Botao-apoio">
+                        Apoio
+                    </a>
+
                 </section>
+
             </main>
         </div>
     );
