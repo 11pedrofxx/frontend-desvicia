@@ -40,6 +40,17 @@ export default function RegistroDiario() {
     { valor: 5, label: "Ruim", img: "/assets/emojis/ruim.png" },
   ];
 
+  const conquistas = {
+  1: { titulo: "Primeiro Passo", descricao: "Registrou o humor e hábitos pela primeira vez." },
+  2: { titulo: "Em Busca de Mudança", descricao: "Deu o primeiro passo para a mudança." },
+  3: { titulo: "1 Dia Limpo", descricao: "Acompanhou seus padrões por 1 dia." },
+  4: { titulo: "3 Dias Consecutivos", descricao: "Acompanhou seus padrões por 3 dias seguidos." },
+  5: { titulo: "1 Semana de Foco", descricao: "Alcançou uma semana inteira de autodescoberta." },
+  6: { titulo: "30 Dias Inabalável", descricao: "Trinta dias transformando um passo de cada vez." },
+  7: { titulo: "60 Dias de Vitória", descricao: "Dois meses de dedicação constante." },
+  8: { titulo: "100 Dias Transformado", descricao: "Cem dias de uma nova vida." }
+};
+
   useEffect(() => {
     async function CarregarGatilho() {
       try {
@@ -142,22 +153,63 @@ export default function RegistroDiario() {
       }
       
       const user = JSON.parse(localStorage.getItem('user'));
+
       let resposta = await api.post('/checkin', objParaSalvar);
-      if (resposta.data.novasConquistas && resposta.data.novasConquistas.length > 0) {
-        resposta.data.novasConquistas.forEach(() => {
-          toast('Nova Conquista Desbloqueada!', {
-            icon: <Trophy/>,
-            style: {
-              borderRadius: '12px',
-              background: '#f0f9ff',
-              color: '#15479e',
-              fontWeight: '600',
-              border: '1px solid #e0f2fe'
-            },
-          });
+      console.log(resposta)
+if (resposta.data.novasConquistas && resposta.data.novasConquistas.length > 0) {
+        resposta.data.novasConquistas.forEach((idConquista) => {
+          const conquistaInfo = conquistas[idConquista] || { 
+            titulo: "Nova Conquista", 
+            descricao: "Você desbloqueou um novo marco." 
+          };
+
+          toast(
+            <div style={{ 
+              display: 'flex', 
+              flexDirection: 'column', 
+              alignItems: 'center',
+              gap: '6px',
+              width: '100%'
+            }}>
+              <strong style={{ 
+                fontSize: '15px', 
+                color: '#15479e', 
+                display: 'flex', 
+                alignItems: 'center', 
+                gap: '8px',
+                justifyContent: 'center'
+              }}> 
+                <Trophy size={18} /> {conquistaInfo.titulo}
+              </strong>
+              <span style={{ 
+                fontSize: '13px', 
+                color: '#64748b', 
+                textAlign: 'center',
+                lineHeight: '1.4'
+              }}>
+                {conquistaInfo.descricao}
+              </span>
+            </div>, 
+            {
+              duration: 6000,
+              position: 'top-center',              
+              style: {
+                borderRadius: '16px',
+                background: '#f0f9ff',
+                color: '#15479e',
+                border: '1px solid #bae6fd',
+                padding: '16px',
+                boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1)',
+                width: '100%',
+                maxWidth: '380px',
+                boxSizing: 'border-box',
+                textAlign: 'center'
+              },
+            }
+          );
         });
       }
-      toast.success(`Checkin diário realizado! Muito bem, ${user.nome_exibicao}`);
+      toast.success(`Checkin diário realizado! Muito bem, ${user.nome}`);
       navigate('/acompanhamento')
     } catch (error) {
         
