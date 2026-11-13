@@ -85,8 +85,8 @@ export default function ApresentationModal({ onComplete }) {
             setErroEnvio('Digite o nome do hábito.');
             return;
         }
-        if (textoLimpo.length > 100) {
-            setErroEnvio('O nome do hábito deve ter no máximo 100 caracteres.');
+        if (textoLimpo.length > 50) {
+            setErroEnvio('O nome do hábito deve ter no máximo 50 caracteres.');
             return;
         }
         if (jaExiste) {
@@ -123,8 +123,8 @@ export default function ApresentationModal({ onComplete }) {
             setErroEnvio('O nome do hábito não pode ficar vazio.');
             return;
         }
-        if (novoTexto.length > 100) {
-            setErroEnvio('O nome do hábito deve ter no máximo 100 caracteres.');
+        if (novoTexto.length > 50) {
+            setErroEnvio('O nome do hábito deve ter no máximo 50 caracteres.');
             return;
         }
         if (jaExiste) {
@@ -139,60 +139,127 @@ export default function ApresentationModal({ onComplete }) {
         setErroEnvio('');
     }
 
-    async function concluirCadastro() {
-        if (enviando) return;
+    
+async function concluirCadastro() {
+    if (enviando) return;
 
-        if (opcoesSelecionadas.length === 0) {
-            setErroEnvio('Selecione ao menos um hábito para continuar.');
-            return;
-        }
+    console.clear();
+    console.log('========== DIAGNÓSTICO DO MODAL ==========');
 
-        const token = localStorage.getItem('token');
-        if (!token) {
-            setErroEnvio('Sua sessão não foi encontrada. Entre novamente na sua conta.');
-            return;
-        }
+    if (opcoesSelecionadas.length === 0) {
+        setErroEnvio('Selecione pelo menos um hábito.');
+        console.error('ERRO: Nenhum hábito selecionado.');
+        return;
+    }
 
-        const config = { headers: { Authorization: `Bearer ${token}` } };
-        const hoje = new Date();
-        const dataInicio = [
-            hoje.getFullYear(),
-            String(hoje.getMonth() + 1).padStart(2, '0'),
-            String(hoje.getDate()).padStart(2, '0')
-        ].join('-');
+    const token = localStorage.getItem('token');
 
-        setEnviando(true);
-        setErroEnvio('');
+    if (!token) {
+        setErroEnvio('Token não encontrado. Faça login novamente.');
+        console.error('ERRO: Token não encontrado no localStorage.');
+        return;
+    }
 
-        try {
-            for (const opcao of opcoesSelecionadas) {
-                const idDoVicio = MAPA_VICIOS[opcao];
+    const hoje = new Date();
 
-                if (idDoVicio !== undefined) {
-                    await axios.post(`${API_URL}/userVicio`, {
+    const dataInicio = [
+        hoje.getFullYear(),
+        String(hoje.getMonth() + 1).padStart(2, '0'),
+        String(hoje.getDate()).padStart(2, '0')
+    ].join('-');
+
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        },
+        timeout: 15000
+    };
+
+    setEnviando(true);
+    setErroEnvio('');
+
+    try {
+        console.log('1. API:', API_URL);
+        console.log('2. Token encontrado:', !!token);
+        console.log('3. Hábitos selecionados:', opcoesSelecionadas);
+        console.log('4. Data de início:', dataInicio);
+
+        for (const opcao of opcoesSelecionadas) {
+            const idDoVicio = MAPA_VICIOS[opcao];
+
+            console.log('--------------------------------');
+            console.log('SALVANDO HÁBITO:', opcao);
+
+            let resposta;
+
+            if (idDoVicio !== undefined) {
+                console.log('Tipo: Hábito padrão');
+                console.log('ID:', idDoVicio);
+
+                resposta = await axios.post(
+                    `${API_URL}/userVicio`,
+                    {
                         VicioID: idDoVicio,
                         dataInicio
-                    }, config);
-                } else {
-                    await axios.post(`${API_URL}/userVicioPersonalizado`, {
+                    },
+                    config
+                );
+
+            } else {
+                console.log('Tipo: Hábito personalizado');
+
+                resposta = await axios.post(
+                    `${API_URL}/userVicioPersonalizado`,
+                    {
                         nomeVicio: opcao,
                         dataInicio
-                    }, config);
-                }
+                    },
+                    config
+                );
             }
 
-            await axios.post(`${API_URL}/apresentacao/concluir`, {}, config);
-            if (onComplete) onComplete();
-        } catch (error) {
-            console.error('Erro no envio dos hábitos:', error.response?.data || error);
-            const mensagem = error.response?.data?.erro
-                || error.response?.data?.mensagem
-                || error.message;
-            setErroEnvio(`Não foi possível salvar os hábitos. ${mensagem}`);
-        } finally {
-            setEnviando(false);
+            console.log('HÁBITO SALVO:', resposta.status);
+            console.log('RESPOSTA DO BACKEND:', resposta.data);
         }
+
+        console.log('--------------------------------');
+        console.log('CONCLUINDO APRESENTAÇÃO...');
+
+        const respostaFinal = await axios.post(
+            `${API_URL}/apresentacao/concluir`,
+            {},
+            config
+        );
+
+        console.log('APRESENTAÇÃO CONCLUÍDA!');
+        console.log('RESPOSTA:', respostaFinal.data);
+
+        console.log('========== TUDO SALVO COM SUCESSO ==========');
+
+        if (onComplete) onComplete();
+
+    } catch (error) {
+        console.error('========== ERRO ENCONTRADO ==========');
+        console.error('Mensagem:', error.message);
+        console.error('Código:', error.code);
+        console.error('URL:', error.config?.url);
+        console.error('Método:', error.config?.method);
+        console.error('Status HTTP:', error.response?.status);
+        console.error('Resposta do servidor:', error.response?.data);
+        console.error('Erro completo:', error);
+
+        const mensagem =
+            error.response?.data?.erro ||
+            error.response?.data?.mensagem ||
+            error.message;
+
+        setErroEnvio(`Falha ao salvar: ${mensagem}`);
+
+    } finally {
+        setEnviando(false);
     }
+}
+
 
     const todosOsHabitos = [
         ...habitosPadrao.slice(0, -1),
@@ -221,7 +288,7 @@ export default function ApresentationModal({ onComplete }) {
                             ))}
                         </div>
 
-                        <button className="botao-azul" onClick={avancarPagina}>
+                        <button type="button" className="botao-azul" onClick={avancarPagina}>
                             {TextoMODAL[paginaAtual].textoBotao}
                         </button>
                     </div>
@@ -248,10 +315,10 @@ export default function ApresentationModal({ onComplete }) {
                                         <div key={opcao} className="item-em-edicao">
                                             <input 
                                                 type="text" 
-                                                maxLength={100}
+                                                maxLength={50}
                                                 value={textoEdicao}
                                                 onChange={(e) => setTextoEdicao(e.target.value)}
-                                                onKeyDown={(e) => e.key === 'Enter' && salvarEdicao(opcao)}
+                                                onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), salvarEdicao(opcao))}
                                                 autoFocus
                                             />
                                             <button type="button" onClick={() => salvarEdicao(opcao)} title="Salvar">
@@ -299,10 +366,10 @@ export default function ApresentationModal({ onComplete }) {
                                 <input 
                                     type="text" 
                                     placeholder="Digite o hábito..."
-                                    maxLength={100}
+                                    maxLength={50}
                                     value={textoOutro}
                                     onChange={(e) => setTextoOutro(e.target.value)}
-                                    onKeyDown={(e) => e.key === 'Enter' && adicionarNovoHabito()}
+                                    onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), adicionarNovoHabito())}
                                     autoFocus
                                 />
                                 <button type="button" onClick={adicionarNovoHabito}>
@@ -315,7 +382,7 @@ export default function ApresentationModal({ onComplete }) {
                     {erroEnvio && <p className="mensagem-erro" role="alert">{erroEnvio}</p>}
 
                     <div className="rodape-form">
-                        <button className="botao-azul" onClick={concluirCadastro} disabled={enviando}>
+                        <button type="button" className="botao-azul" onClick={concluirCadastro} disabled={enviando}>
                             {enviando ? 'Salvando...' : 'Concluir'}
                         </button>
                     </div>

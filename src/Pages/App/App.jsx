@@ -72,6 +72,7 @@ export default function App() {
     const [checkins, setCheckins] = useState([]);
     const [diasOfensiva, setDiasOfensiva] = useState(null);
     const navigate = useNavigate();
+    const [mostrarApresentacao, setMostrarApresentacao] = useState(true);
 
     const horas = new Date().getHours();
 
@@ -140,7 +141,11 @@ export default function App() {
 
     return (
         <div className="Perfil">
-            <ApresentationModal/>
+            {mostrarApresentacao && (
+                <ApresentationModal
+                    onComplete={() => setMostrarApresentacao(false)}
+                />
+            )}
             <main className="Conteudo">
                 <header className="Topo">
                     <div className="Bem-vindo-site">
