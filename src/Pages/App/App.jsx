@@ -1,4 +1,3 @@
-
 import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -72,8 +71,7 @@ export default function App() {
     const [checkins, setCheckins] = useState([]);
     const [diasOfensiva, setDiasOfensiva] = useState(null);
     const navigate = useNavigate();
-    const [mostrarApresentacao, setMostrarApresentacao] = useState(true);
-
+    const [mostrarApresentacao, setMostrarApresentacao] = useState(null);
     const horas = new Date().getHours();
 
     const Ola = horas >= 6 && horas < 12
@@ -107,14 +105,16 @@ export default function App() {
             try {
                 const resposta = await axios.get(`${ROTA_CHECKIN}/ofensiva`, config);
                 let dias = pegarDias(resposta.data);
-                if (dias === 0) dias = 1;
+
+                setDiasOfensiva(dias);
 
                 setDiasOfensiva(dias);
             } catch (error) {
                 console.error('Erro ao buscar ofensiva:', error);
-                setDiasOfensiva(1);
+                setDiasOfensiva(0);
             }
         }
+
 
         buscarDados();
     }, []);
@@ -141,7 +141,7 @@ export default function App() {
 
     return (
         <div className="Perfil">
-            {mostrarApresentacao && (
+            {mostrarApresentacao === true && (
                 <ApresentationModal
                     onComplete={() => setMostrarApresentacao(false)}
                 />
@@ -165,7 +165,7 @@ export default function App() {
                             <p>
                                 {diasOfensiva === null
                                     ? 'Carregando seu acompanhamento...'
-                                    : `Você está há ${diasOfensiva} ${diasOfensiva === 1 ? 'dia' : 'dias'} longe do seu vício. Continue assim!`}
+                                    : `Você está há ${diasOfensiva} ${diasOfensiva === 0 ? 'dia' : 'dias'} longe do seu vício. Continue assim!`}
                             </p>
                         </div>
 
