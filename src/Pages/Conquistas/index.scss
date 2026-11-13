@@ -1,0 +1,100 @@
+.pagina-conquistas {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #fbfbfb;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  padding-top: 3rem;
+  padding-left: 3rem;
+
+
+  .lista-conquistas {
+    max-width: 1000px;
+    width: 100%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.25rem;
+
+    .card-conquista {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background-color: #ffffff;
+      border: 1px solid #f1f5f9;
+      border-radius: 16px;
+      padding: 1.35rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+      }
+
+      .icone-fundo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 52px;
+        height: 52px;
+        border-radius: 12px;
+      }
+
+      .textos-conquista {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex-grow: 1;
+
+        h3 {
+          margin: 0 0 0.25rem 0;
+          font-size: 1rem;
+          font-weight: 600;
+        }
+
+        p {
+          margin: 0;
+          font-size: 0.85rem;
+          line-height: 1.4;
+        }
+
+        .data {
+          margin-top: 0.45rem;
+          font-size: 0.75rem;
+          font-weight: 600;
+        }
+      }
+
+      &.desbloqueado {
+        .icone-fundo {
+          background-color: #f0f9ff;
+          color: #15479e;
+        }
+
+        .textos-conquista {
+          h3 { color: #1e293b; }
+          p { color: #64748b; }
+          .data { color: #1e293b; }
+        }
+      }
+
+      &.bloqueado {
+        opacity: 0.8;
+        background-color: #fafafa;
+
+        .icone-fundo {
+          background-color: #f1f5f9;
+          color: #94a3b8;
+        }
+
+        .textos-conquista {
+          h3 { color: #83888f; }
+          p { color: #9299a1; }
+        }
+      }
+    }
+  }
+}

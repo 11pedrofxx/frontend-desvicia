@@ -1,6 +1,4 @@
 @use 'variables' as *;
-
-// Reset Global
 * {
     margin: 0;
     padding: 0;
@@ -15,7 +13,6 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-// Estilos base para links e botões para todo o app
 a {
     text-decoration: none;
     color: inherit;

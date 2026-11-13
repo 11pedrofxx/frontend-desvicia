@@ -16,6 +16,7 @@ import RedeApoio from './Pages/RedeApoio/index.jsx';
 import Gatilhos from "./Pages/DashboardGatilhos/index.jsx";
 import Apoio from './Pages/Contato/apoio.jsx';
 import Acompanhamento from "./Pages/Acompanhamento/index.jsx";
+import Conquistas from "./Pages/Conquistas/index.jsx";
 
 export default function Roteamento() {
 
@@ -36,6 +37,7 @@ export default function Roteamento() {
                     <Route path="/primeiro-acesso" element={<PrimeiroAcesso />} />
                     <Route path="/gatilhos" element={<Gatilhos />} />
                     <Route path="/apoio" element={<Apoio />} />
+                    <Route path="/conquistas" element={<Conquistas />} />
                     
                     <Route element={<Layout />}>
                         <Route path="/home" element={<RedeApoio />} />

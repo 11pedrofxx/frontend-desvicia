@@ -1,6 +1,6 @@
 import "./index.scss";
 import { useState, useEffect, use } from "react";
-import { X, Loader2 } from "lucide-react";
+import { X, Loader2, Trophy } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import api from "../../service/api.js";
 import toast from "react-hot-toast";
@@ -142,8 +142,23 @@ export default function RegistroDiario() {
       }
       
       const user = JSON.parse(localStorage.getItem('user'));
-      const checkin = await api.post('/checkin', objParaSalvar);
+      let resposta = await api.post('/checkin', objParaSalvar);
+      if (resposta.data.novasConquistas && resposta.data.novasConquistas.length > 0) {
+        resposta.data.novasConquistas.forEach(() => {
+          toast('Nova Conquista Desbloqueada!', {
+            icon: <Trophy/>,
+            style: {
+              borderRadius: '12px',
+              background: '#f0f9ff',
+              color: '#15479e',
+              fontWeight: '600',
+              border: '1px solid #e0f2fe'
+            },
+          });
+        });
+      }
       toast.success(`Checkin diário realizado! Muito bem, ${user.nome_exibicao}`);
+      navigate('/acompanhamento')
     } catch (error) {
         
     } finally {
