@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './index.scss';
+import ApresentationModal from '../../components/ApresentacionModal/ApresentacaoModal.jsx';
 
 const API_URL = 'http://localhost:5021';
 const ROTA_CHECKIN = `${API_URL}/checkinDiario`;
@@ -139,6 +140,7 @@ export default function App() {
 
     return (
         <div className="Perfil">
+            <ApresentationModal/>
             <main className="Conteudo">
                 <header className="Topo">
                     <div className="Bem-vindo-site">
