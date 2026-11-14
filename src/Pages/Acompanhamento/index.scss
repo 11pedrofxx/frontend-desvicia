@@ -1,4 +1,4 @@
-.pagina-acompanhamento {
+ .pagina-acompanhamento {
   display: flex;
   flex-direction: column;
   padding: 1.5rem;
@@ -11,6 +11,7 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1.5rem;
+    gap: 1rem;
 
     h2 {
       font-size: 1.4rem;
@@ -25,12 +26,46 @@
       color: #d97706;
       font-weight: 600;
       font-size: 0.85rem;
-      padding: 0.4rem 1rem;
+      padding: 0.2rem 0.9rem;
       border-radius: 12px;
       display: flex;
       align-items: center;
-      gap: 0.4rem;
+      gap: 0.55rem;
       font-family: "Poppins", sans-serif;
+      white-space: nowrap;
+
+      .selo-ofensiva__fogo {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+        flex: 0 0 50px;
+        overflow: hidden;
+
+        img {
+          display: block;
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+        }
+      }
+
+      .selo-ofensiva__valor {
+        display: flex;
+        align-items: end;
+        gap: 0.3rem;
+        margin-top: 0.6rem;
+
+        strong {
+          font-size: 1rem;
+          line-height: 1;
+        }
+
+        span {
+          font-size: 0.75rem;
+        }
+      }
     }
   }
 
@@ -55,12 +90,11 @@
 
   .container-calendario {
     width: 65%;
-    margin: 0 auto;
+    margin: 0 auto 1.5rem;
     background-color: #ffffff;
-    border: 1px solid #E5E7EB;
+    border: 1px solid #e5e7eb;
     border-radius: 24px;
     padding: 1.5rem;
-    margin-bottom: 1.5rem;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
     box-sizing: border-box;
 
@@ -75,7 +109,7 @@
         display: flex;
         align-items: center;
         margin-bottom: 1.5rem;
-        
+
         button {
           min-width: 40px;
           height: 40px;
@@ -85,14 +119,14 @@
           border-radius: 50%;
           border: none;
           cursor: pointer;
-          
+
           &:enabled:hover {
             background-color: #f1f5f9;
           }
         }
 
         .react-calendar__navigation__label {
-          order: 1; 
+          order: 1;
           text-align: left;
           font-weight: 700;
           font-size: 1.1rem;
@@ -119,7 +153,7 @@
         color: #94a3b8;
         margin-bottom: 0.5rem;
         text-align: center;
-        
+
         abbr {
           text-decoration: none;
         }
@@ -136,15 +170,14 @@
         font-family: "Poppins", sans-serif;
         font-weight: 500;
         color: #334155;
-        border-radius: 50%; 
+        border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-
         width: 44px !important;
         height: 44px !important;
         padding: 0;
-        margin: 0 auto; 
+        margin: 0 auto;
 
         &:enabled:hover {
           background-color: #f1f5f9;
@@ -154,7 +187,7 @@
           color: #cbd5e1;
         }
       }
-      
+
       .react-calendar__tile--now {
         background-color: transparent;
         border: 2px solid #15479e;
@@ -186,12 +219,11 @@
     width: 65%;
     margin: 0 auto;
     background-color: #ffffff;
-    border: 1px solid #E5E7EB;
+    border: 1px solid #e5e7eb;
     border-radius: 24px;
     padding: 1rem 1.5rem;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
     box-sizing: border-box;
-    
     display: flex;
     justify-content: center;
     gap: 2rem;
@@ -213,9 +245,72 @@
         display: inline-block;
       }
 
-      .cor-registrado { background-color: #15479e; }
-      .cor-dificil { background-color: #dc2626; }
-      .cor-vazio { background-color: #f1f5f9; }
+      .cor-registrado {
+        background-color: #15479e;
+      }
+
+      .cor-dificil {
+        background-color: #dc2626;
+      }
+
+      .cor-vazio {
+        background-color: #f1f5f9;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .pagina-acompanhamento {
+    padding: 1rem;
+
+    .container-calendario,
+    .legenda {
+      width: 100%;
+    }
+
+    .container-calendario {
+      padding: 1rem;
+
+      .react-calendar {
+        .react-calendar__tile {
+          width: 38px !important;
+          height: 38px !important;
+        }
+      }
+    }
+
+    .legenda {
+      gap: 1rem;
+      padding: 1rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .pagina-acompanhamento {
+    .topo-acompanhamento {
+      align-items: flex-start;
+
+      h2 {
+        font-size: 1.2rem;
+      }
+
+      .selo-ofensiva {
+        padding: 0.35rem 0.65rem;
+        font-size: 0.75rem;
+
+        .selo-ofensiva__fogo {
+          width: 26px;
+          height: 26px;
+          flex-basis: 26px;
+        }
+      }
+    }
+
+    .mensagem {
+      padding: 1.2rem;
+      gap: 0.75rem;
     }
   }
 }

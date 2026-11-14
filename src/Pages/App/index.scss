@@ -615,9 +615,9 @@
     width: 150px;
     min-width: 150px;
     height: 52px;
-    padding: 0 12px;
+    padding: 22px 12px;
     border: 0;
-    border-radius: 999px;
+    border-radius: 555px;
     background: #0b3d5b;
     color: #fff;
     box-shadow: 0 5px 12px rgba(11, 61, 91, 0.18);
@@ -635,7 +635,7 @@
 
 .Perfil .Selo-ofensiva__gif {
     display: block;
-    height: 75px;
+    height: 48px;
     width: auto;
     max-width: none;
     transform: scale(1.15) translateY(-1px);
@@ -653,6 +653,7 @@
     align-items: baseline;
     justify-content: center;
     gap: 6px;
+    margin-top: 0.5rem;
     line-height: 1;
     transform: translateY(2px);
     white-space: nowrap;
