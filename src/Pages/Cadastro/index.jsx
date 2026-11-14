@@ -47,6 +47,28 @@ export default function Cadastro() {
         }
     }
 
+    function colarCodigo(e) {
+        e.preventDefault();
+
+        const textoColado = e.clipboardData
+        .getData('text')
+            .replace(/\D/g, '')
+        .slice(0, 6);
+
+        if (!textoColado) return;
+
+        setErroCodigo('');
+
+        const novoCodigo = [...codigo];
+        for (let i = 0; i < 6; i++) {
+            novoCodigo[i] = textoColado[i]
+        }
+        setCodigo(novoCodigo);
+
+        const proximoIndex = Math.min(textoColado.length, 5);
+        document.getElementById(`code-input-${proximoIndex}`)?.focus();
+    }
+
     async function PreCadastro(e) {
         e.preventDefault();
 
@@ -78,6 +100,8 @@ export default function Cadastro() {
             toast.error(error.response?.data?.erro || 'Ocorreu um erro no pré-cadastro.');
         } finally {
             setCarregando(false);
+            settoken('');
+            captchaRef.current?.reset();
         }
     }
 
@@ -295,6 +319,7 @@ export default function Cadastro() {
                                         value={digito}
                                         onChange={(e) => digitarCodigo(e.target.value, index)}
                                         onKeyDown={(e) => VoltarCaixaApagar(e, index)}
+                                        onPaste={colarCodigo}
                                         required
                                     />
                                 ))}
