@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import axios from 'axios';
 import { Sparkles, MapPin, BarChart2, HeartHandshake, Check, Plus, X, Pencil } from 'lucide-react';
+import api from '../../service/api';
 import './apresentacao.scss';
 
 export default function ApresentationModal({ onComplete }) {
@@ -196,7 +196,7 @@ async function concluirCadastro() {
                 console.log('Tipo: Hábito padrão');
                 console.log('ID:', idDoVicio);
 
-                resposta = await axios.post(
+                resposta = await api.post(
                     `${API_URL}/userVicio`,
                     {
                         VicioID: idDoVicio,
@@ -208,7 +208,7 @@ async function concluirCadastro() {
             } else {
                 console.log('Tipo: Hábito personalizado');
 
-                resposta = await axios.post(
+                resposta = await api.post(
                     `${API_URL}/userVicioPersonalizado`,
                     {
                         nomeVicio: opcao,
@@ -225,7 +225,7 @@ async function concluirCadastro() {
         console.log('--------------------------------');
         console.log('CONCLUINDO APRESENTAÇÃO...');
 
-        const respostaFinal = await axios.post(
+        const respostaFinal = await api.post(
             `${API_URL}/apresentacao/concluir`,
             {},
             config

@@ -57,9 +57,9 @@ export default function Login() {
 
         } catch (error) {
         } finally {
-    setCarregando(false);
-    setCaptchaToken('');
-    captchaRef.current?.reset();
+            setCarregando(false);
+            setCaptchaToken('');
+            captchaRef.current?.reset();
         }
     }
 
@@ -72,7 +72,6 @@ export default function Login() {
 
             localStorage.setItem('token', resposta.data.token);
             localStorage.setItem('user', JSON.stringify(resposta.data.usuario));
-            console.log(resposta.data.token)
 
             const emailGoogle = resposta.data.usuario?.email || resposta.data.usuario?.ds_email;
             if (Lembrar && emailGoogle) {
@@ -84,7 +83,6 @@ export default function Login() {
             navigate('/');
 
         } catch (error) {
-
         } finally {
             setCarregando(false);
         }
@@ -92,7 +90,9 @@ export default function Login() {
 
     return (
         <div className='pagina-login pagina'>
-            <ElementoTelaLogin />
+            <div className="wrapper-elemento-login">
+                <ElementoTelaLogin />
+            </div>
 
             <section className='secao'>
                 <h1>Que bom ter você aqui</h1>
@@ -139,19 +139,22 @@ export default function Login() {
                     </div>
 
                     <div className='criar'>
-                        <input type="checkbox"
-                            id="lembrar"
-                            checked={Lembrar}
-                            onChange={(e) => setLembrar(e.target.checked)}
-                        />
-                        <label htmlFor="lembrar">Lembrar de mim</label>
+                        <div className='linha-lembrar-esqueci'>
+                            <div className='checkbox-container'>
+                                <input type="checkbox"
+                                    id="lembrar"
+                                    checked={Lembrar}
+                                    onChange={(e) => setLembrar(e.target.checked)}
+                                />
+                                <label htmlFor="lembrar">Lembrar de mim</label>
+                            </div>
 
-                        <Link to="/esqueci-senha" className="link-esqueci-senha">
-                            Esqueci minha senha
-                        </Link  >
+                            <Link to="/esqueci-senha" className="link-esqueci-senha">
+                                Esqueci minha senha
+                            </Link>
+                        </div>
 
                         <button type="submit" disabled={Carregando}>
-
                             {Carregando ? (
                                 <span className="carregar">
                                     <Loader2 className="girar" size={20} />
