@@ -25,8 +25,6 @@ export default function Gatilhos() {
     carregarGatilhos();
   }, []);
 
-
-
   function calcularIntensidade(total) {
     const valor = Number(total);
 
