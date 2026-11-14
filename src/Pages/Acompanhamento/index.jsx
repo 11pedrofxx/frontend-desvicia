@@ -123,11 +123,6 @@ export default function Acompanhamento() {
         </div>
       </div>
 
-      <div className="mensagem">
-        <ShieldCheck />
-        <p>Um dia difícil não apaga seu progresso. Continuamos juntos.</p>
-      </div>
-
       <div className="container-calendario">
         <Calendar
           onChange={setDataAtual}
