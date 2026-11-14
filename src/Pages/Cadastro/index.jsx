@@ -134,7 +134,9 @@ export default function Cadastro() {
     return (
         <div className="pagina-cadastro">
 
-            <ElementoTelaLogin />
+            <div className="wrapper-elemento-login">
+                <ElementoTelaLogin />
+            </div>
 
             <div className="cadastro">
                 <section>
@@ -181,7 +183,6 @@ export default function Cadastro() {
                                 </div>
                             </div>
 
-                            {}
                             <div className="campo-cadastro">
                                 <label htmlFor="senha">Crie uma senha</label>
 
@@ -207,7 +208,6 @@ export default function Cadastro() {
                                 </div>
                             </div>
 
-                            {}
                             <div className="campo-cadastro">
                                 <label htmlFor="confirmarSenha">Confirme sua senha</label>
 
@@ -290,6 +290,7 @@ export default function Cadastro() {
                                         key={index}
                                         id={`code-input-${index}`}
                                         type="text"
+                                        inputMode="numeric"
                                         maxLength={1}
                                         value={digito}
                                         onChange={(e) => digitarCodigo(e.target.value, index)}

@@ -10,6 +10,14 @@
   padding: 2rem;
   box-sizing: border-box;
 
+  .wrapper-elemento-login {
+    display: flex;
+    flex: 1;
+    max-width: 38rem;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+
   .secao {
     max-width: 34rem;
     width: 100%;
@@ -114,9 +122,7 @@
         color: $cor-texto-escuro;
         outline: none;
         box-sizing: border-box;
-        transition:
-          border-color 0.2s,
-          box-shadow 0.2s;
+        transition: border-color 0.2s, box-shadow 0.2s;
 
         &::placeholder {
           color: $cor-texto-claro;
@@ -138,25 +144,70 @@
 
     .criar {
       display: flex;
-      flex-wrap: wrap;
-      align-items: center;
+      flex-direction: column;
       width: 100%;
       margin-top: 1.25rem;
 
-      .link-esqueci-senha {
-        margin-left: auto;
-        color: $cor-primaria-azul;
-        font-size: 0.875rem;
-        font-weight: 600;
-        text-decoration: none;
-        cursor: pointer;
+      .linha-lembrar-esqueci {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 0.25rem;
 
-        &:hover {
-          text-decoration: underline;
+        .checkbox-container {
+          display: flex;
+          align-items: center;
+
+          input[type="checkbox"] {
+            width: 1.125rem;
+            height: 1.125rem;
+            accent-color: $cor-primaria-azul;
+            cursor: pointer;
+            margin: 0;
+          }
+
+          label {
+            font-size: 0.875rem;
+            color: $cor-texto-escuro;
+            margin-left: 0.5rem;
+            cursor: pointer;
+            user-select: none;
+          }
+        }
+
+        .link-esqueci-senha {
+          color: $cor-primaria-azul;
+          font-size: 0.875rem;
+          font-weight: 600;
+          text-decoration: none;
+          cursor: pointer;
+
+          &:hover {
+            text-decoration: underline;
+          }
         }
       }
 
-      button {
+      button[type="submit"] {
+        width: 100%;
+        height: 3rem;
+        background-color: $cor-primaria-azul;
+        color: $cor-branca;
+        border: none;
+        border-radius: $radius-botao;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        margin-top: 1.25rem;
+        transition: background-color 0.2s;
+
+        &:hover {
+          background-color: darken($cor-primaria-azul, 8%);
+        }
+
         &:disabled {
           opacity: 0.7;
           cursor: not-allowed;
@@ -175,57 +226,8 @@
       }
 
       @keyframes girar {
-        from {
-          transform: rotate(0deg);
-        }
-
-        to {
-          transform: rotate(360deg);
-        }
-      }
-
-      input[type="checkbox"] {
-        width: 1.125rem;
-        height: 1.125rem;
-        accent-color: $cor-primaria-azul;
-        cursor: pointer;
-        margin: 0;
-      }
-
-      label {
-        font-size: 0.875rem;
-        color: $cor-texto-escuro;
-        margin-left: 0.5rem;
-        cursor: pointer;
-        user-select: none;
-      }
-
-      p {
-        margin-left: auto;
-        font-size: 0.875rem;
-        color: $cor-primaria-azul;
-        font-weight: 600;
-        cursor: pointer;
-        margin-top: 0;
-        margin-bottom: 0;
-      }
-
-      button {
-        width: 100%;
-        height: 3rem;
-        background-color: $cor-primaria-azul;
-        color: $cor-branca;
-        border: none;
-        border-radius: $radius-botao;
-        font-size: 1rem;
-        font-weight: 600;
-        cursor: pointer;
-        margin-top: 1.25rem;
-        transition: background-color 0.2s;
-
-        &:hover {
-          background-color: darken($cor-primaria-azul, 8%);
-        }
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
       }
 
       .divisoria {
@@ -240,12 +242,11 @@
           content: "";
           flex: 1;
           height: 1px;
-          background-color: black;
+          background-color: #ccc;
         }
 
         span {
           padding: 0 0.75rem;
-          color: $cor-texto-claro;
           font-size: 0.8125rem;
           font-weight: 500;
           color: black;
@@ -256,6 +257,12 @@
         display: flex;
         justify-content: center;
         width: 100%;
+
+        > div {
+          width: 100% !important;
+          display: flex;
+          justify-content: center;
+        }
       }
 
       h3 {
@@ -275,6 +282,35 @@
             text-decoration: underline;
           }
         }
+      }
+    }
+  }
+}
+@media (max-width: 1024px) {
+  .pagina-login.pagina {
+    padding: 1.5rem;
+
+    .wrapper-elemento-login {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .pagina-login.pagina {
+    padding: 1rem;
+
+    .secao {
+      padding: 1.5rem;
+      border-radius: 1rem;
+
+      h1 {
+        font-size: 1.75rem;
+      }
+
+      h2 {
+        font-size: 0.9rem;
+        margin-bottom: 1.25rem;
       }
     }
   }

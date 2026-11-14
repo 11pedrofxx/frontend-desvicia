@@ -12,12 +12,20 @@
   background-color: #f3f7f6;
   font-family: Arial, sans-serif;
 
+  .wrapper-elemento-login {
+    display: flex;
+    flex: 1;
+    max-width: 38rem;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+
   .cadastro {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 34rem;
-    flex-shrink: 0;
+    max-width: 34rem;
+    width: 100%;
     padding: 3.2rem;
     box-sizing: border-box;
     background-color: #ffffff;
@@ -34,6 +42,7 @@
         justify-content: center;
         gap: 0.625rem;
         margin: 1.5rem 0;
+        width: 100%;
 
         input {
           width: 3.2rem;
@@ -46,6 +55,7 @@
           border-radius: 0.75rem;
           background-color: #f8fafc;
           outline: none;
+          box-sizing: border-box;
           transition:
             border-color 0.2s,
             box-shadow 0.2s,
@@ -106,6 +116,7 @@
         line-height: 1.5;
         text-align: center;
         font-family: "Poppins", sans-serif;
+        word-break: break-word;
       }
     }
 
@@ -135,6 +146,10 @@
         transition:
           border-color 0.2s,
           box-shadow 0.2s;
+
+        svg {
+          flex-shrink: 0;
+        }
 
         .olhinho {
           background: none !important;
@@ -192,6 +207,7 @@
       justify-content: center;
       width: 100%;
       margin: 0.5rem 0 1.5rem;
+      overflow-x: auto;
     }
 
     .criar {
@@ -270,6 +286,12 @@
         display: flex;
         justify-content: center;
         width: 100%;
+
+        > div {
+          width: 100% !important;
+          display: flex;
+          justify-content: center;
+        }
       }
 
       h3 {
@@ -278,6 +300,7 @@
         font-weight: 400;
         text-align: center;
         font-family: inherit;
+        margin: 0;
 
         a {
           margin-left: 0.25rem;
@@ -288,6 +311,53 @@
 
           &:hover {
             text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .pagina-cadastro {
+    padding: 1.5rem;
+
+    .wrapper-elemento-login {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .pagina-cadastro {
+    padding: 1rem;
+
+    .cadastro {
+      padding: 1.5rem;
+      border-radius: 1rem;
+
+      section {
+        h1 {
+          font-size: 1.75rem;
+
+          br {
+            display: none;
+          }
+        }
+
+        h2 {
+          font-size: 0.9rem;
+          margin-bottom: 1.25rem;
+        }
+
+        .caixas-codigo {
+          gap: 0.375rem;
+
+          input {
+            width: 2.5rem;
+            height: 3.1rem;
+            font-size: 1.25rem;
+            border-radius: 0.5rem;
           }
         }
       }
