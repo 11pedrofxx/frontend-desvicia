@@ -1,4 +1,3 @@
-
 import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -6,7 +5,6 @@ import './index.scss';
 import ApresentationModal from '../../components/ApresentacionModal/ApresentacaoModal.jsx';
 
 const API_URL = 'http://localhost:5021';
-const ROTA_CHECKIN = `${API_URL}/checkinDiario`;
 
 function Icone({ nome, tamanho = 22 }) {
     const desenhos = {
@@ -42,17 +40,22 @@ function criarData(data) {
 }
 
 function pegarData(registro) {
-    if (typeof registro === 'string') return registro.slice(0, 10);
     if (!registro) return '';
 
-    const valor = registro.data_checkin || registro.dataCheckin || registro.data ||
-        registro.data_registro || registro.created_at || registro.createdAt;
+    const valor = typeof registro === 'string'
+        ? registro
+        : (registro.data_checkin || registro.dataCheckin || registro.dt_checkin ||
+            registro.data || registro.data_registro || registro.created_at || registro.createdAt);
 
     if (!valor) return '';
-    if (typeof valor === 'string') return valor.slice(0, 10);
+
+    if (typeof valor === 'string') {
+        const texto = valor.trim();
+        if (/^\d{4}-\d{2}-\d{2}$/.test(texto)) return texto;
+        if (texto.includes('T00:00:00')) return texto.slice(0, 10);
+    }
 
     const data = new Date(valor);
-
     return Number.isNaN(data.getTime()) ? '' : criarData(data);
 }
 
@@ -72,6 +75,15 @@ function pegarDias(valor) {
         dados?.total_dias ??
         0
     );
+}
+
+function pegarIdToken(token) {
+    try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        return payload?.id || null;
+    } catch {
+        return null;
+    }
 }
 
 export default function App() {
@@ -100,28 +112,32 @@ export default function App() {
                 }
             };
 
+            let idUsuario = pegarIdToken(token);
+
             try {
                 const resposta = await axios.get(`${API_URL}/usuario`, config);
                 setNomeUsuario(resposta.data.nome || '');
+                idUsuario = resposta.data.id || resposta.data.id_usuario || idUsuario;
             } catch (error) {
                 console.error('Erro ao carregar nome do usuário:', error);
             }
 
             try {
-                const resposta = await axios.get(
-                    `${ROTA_CHECKIN}/buscarCheckins`,
-                    config
-                );
+                if (idUsuario) {
+                    const resposta = await axios.get(
+                        `${API_URL}/checkins/${idUsuario}`,
+                        config
+                    );
 
-                const lista = Array.isArray(resposta.data)
-                    ? resposta.data
-                    : resposta.data?.checkins ||
-                    resposta.data?.registros ||
-                    resposta.data?.dados ||
-                    [];
+                    const lista = Array.isArray(resposta.data)
+                        ? resposta.data
+                        : resposta.data?.checkins ||
+                        resposta.data?.registros ||
+                        resposta.data?.dados ||
+                        [];
 
-                setCheckins(lista);
-
+                    setCheckins(lista);
+                }
             } catch (error) {
                 console.error('Erro ao buscar check-ins:', error);
             }
@@ -168,6 +184,10 @@ export default function App() {
     const diasSemana = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
     const datasCheckins = checkins.map(pegarData);
 
+    const hojeChave = criarData(hoje);
+    const fezCheckinHoje = datasCheckins.includes(hojeChave);
+    const fogoAtivo = (diasOfensiva ?? 0) > 0 && fezCheckinHoje;
+
     const semana = diasSemana.map((dia, index) => {
         const data = new Date(inicioSemana);
 
@@ -178,7 +198,7 @@ export default function App() {
         return {
             dia,
             chave,
-            hoje: chave === criarData(hoje),
+            hoje: chave === hojeChave,
             feito: datasCheckins.includes(chave)
         };
     });
@@ -227,7 +247,7 @@ export default function App() {
                             <div className="Selo-ofensiva__fogo" aria-hidden="true">
                                 <img
                                     className="Selo-ofensiva__gif"
-                                    src="../../assets/gif/Fire.gif"
+                                    src={fogoAtivo ? '../../assets/gif/Fire.gif' : '../../assets/gif/Frame-Fire.png'}
                                     alt="Fogo de sequência"
                                 />
                             </div>

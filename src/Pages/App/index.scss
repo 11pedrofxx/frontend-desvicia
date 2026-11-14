@@ -640,6 +640,11 @@
     max-width: none;
     transform: scale(1.15) translateY(-1px);
     filter: drop-shadow(0 2px 4px rgba(255, 140, 0, 0.35));
+
+    &.inativo {
+        filter: grayscale(100%);
+        opacity: 0.55;
+    }
 }
 
 .Perfil .Selo-ofensiva__valor {
