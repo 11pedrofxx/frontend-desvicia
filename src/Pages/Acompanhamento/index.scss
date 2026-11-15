@@ -1,10 +1,13 @@
- .pagina-acompanhamento {
+.pagina-acompanhamento {
   display: flex;
   flex-direction: column;
   padding: 1.5rem;
   background-color: #f8fafc;
   min-height: 100vh;
   box-sizing: border-box;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
 
   .topo-acompanhamento {
     display: flex;
@@ -12,6 +15,10 @@
     align-items: center;
     margin-bottom: 1.5rem;
     gap: 1rem;
+    width: 100%;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
 
     h2 {
       font-size: 1.4rem;
@@ -26,11 +33,11 @@
       color: #d97706;
       font-weight: 600;
       font-size: 0.85rem;
-      padding: 0.2rem 0.9rem;
+      padding: 0.3rem 0.8rem;
       border-radius: 12px;
       display: flex;
       align-items: center;
-      gap: 0.55rem;
+      gap: 0.5rem;
       font-family: "Poppins", sans-serif;
       white-space: nowrap;
 
@@ -38,9 +45,9 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 50px;
-        height: 50px;
-        flex: 0 0 50px;
+        width: 36px;
+        height: 36px;
+        flex: 0 0 36px;
         overflow: hidden;
 
         img {
@@ -53,55 +60,33 @@
 
       .selo-ofensiva__valor {
         display: flex;
-        align-items: end;
-        gap: 0.3rem;
-        margin-top: 0.6rem;
+        align-items: baseline;
+        gap: 0.25rem;
 
         strong {
-          font-size: 1rem;
+          font-size: 1.1rem;
           line-height: 1;
         }
 
         span {
-          font-size: 0.75rem;
+          font-size: 0.7rem;
         }
       }
     }
   }
 
-  .mensagem {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    background-color: #f0f9ff;
-    color: #15479e;
-    padding: 1.7rem;
-    border-radius: 16px;
-    margin-bottom: 2rem;
-
-    p {
-      margin: 0;
-      font-size: 0.95rem;
-      font-weight: 500;
-      font-family: "Poppins", sans-serif;
-      line-height: 1.4;
-    }
-  }
-
   .container-calendario {
-    width: 65%;
+    width: 100%;
+    max-width: 800px;
     margin: 0 auto 1.5rem;
     background-color: #ffffff;
-    border: 1px solid #00000044;
     border-radius: 24px;
     padding: 1.5rem;
-    box-shadow: 0 10px 70px rgba(0, 0, 0, 0.363);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
     box-sizing: border-box;
 
     .react-calendar {
       width: 100%;
-      max-width: 400px;
-      margin: 0 auto;
       border: none;
       font-family: "Poppins", sans-serif;
 
@@ -174,10 +159,14 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 44px !important;
-        height: 44px !important;
+        aspect-ratio: 1 / 1;
+        width: 100% !important;
+        height: auto !important;
+        max-width: 44px;
+        max-height: 44px;
         padding: 0;
         margin: 0 auto;
+        font-size: 0.9rem;
 
         &:enabled:hover {
           background-color: #f1f5f9;
@@ -216,13 +205,14 @@
   }
 
   .legenda {
-    width: 65%;
+    width: 100%;
+    max-width: 800px;
     margin: 0 auto;
     background-color: #ffffff;
     border: 1px solid #e5e7eb;
     border-radius: 24px;
     padding: 1rem 1.5rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
     box-sizing: border-box;
     display: flex;
     justify-content: center;
@@ -260,28 +250,17 @@
   }
 }
 
+/* Ajustes finos para telas menores */
 @media (max-width: 768px) {
   .pagina-acompanhamento {
     padding: 1rem;
 
-    .container-calendario,
-    .legenda {
-      width: 100%;
-    }
-
     .container-calendario {
       padding: 1rem;
-
-      .react-calendar {
-        .react-calendar__tile {
-          width: 38px !important;
-          height: 38px !important;
-        }
-      }
     }
 
     .legenda {
-      gap: 1rem;
+      gap: 1.2rem;
       padding: 1rem;
     }
   }
@@ -289,28 +268,64 @@
 
 @media (max-width: 480px) {
   .pagina-acompanhamento {
-    .topo-acompanhamento {
-      align-items: flex-start;
+    padding: 0.75rem;
 
+    .topo-acompanhamento {
       h2 {
-        font-size: 1.2rem;
+        font-size: 1.15rem;
       }
 
       .selo-ofensiva {
-        padding: 0.35rem 0.65rem;
+        padding: 0.25rem 0.6rem;
         font-size: 0.75rem;
 
         .selo-ofensiva__fogo {
-          width: 26px;
-          height: 26px;
-          flex-basis: 26px;
+          width: 30px;
+          height: 30px;
+          flex-basis: 30px;
+        }
+
+        .selo-ofensiva__valor {
+          strong {
+            font-size: 0.95rem;
+          }
         }
       }
     }
 
-    .mensagem {
-      padding: 1.2rem;
-      gap: 0.75rem;
+    .container-calendario {
+      padding: 0.75rem;
+      border-radius: 16px;
+
+      .react-calendar {
+        .react-calendar__navigation {
+          margin-bottom: 1rem;
+          
+          button {
+            min-width: 32px;
+            height: 32px;
+            font-size: 1rem;
+          }
+
+          .react-calendar__navigation__label {
+            font-size: 0.95rem;
+          }
+        }
+
+        .react-calendar__tile {
+          font-size: 0.8rem;
+        }
+      }
+    }
+
+    .legenda {
+      border-radius: 16px;
+      gap: 0.8rem;
+      padding: 0.8rem;
+
+      .item-legenda {
+        font-size: 0.75rem;
+      }
     }
   }
 }
