@@ -17,6 +17,8 @@ import Gatilhos from "./Pages/DashboardGatilhos/index.jsx";
 import Apoio from './Pages/Contato/apoio.jsx';
 import Acompanhamento from "./Pages/Acompanhamento/index.jsx";
 import Conquistas from "./Pages/Conquistas/index.jsx";
+import PainelAdministrativo from './Pages/painelADM/index.jsx'
+import LoginADM from "./Pages/ADMlogin/index.jsx";
 
 export default function Roteamento() {
 
@@ -29,7 +31,7 @@ export default function Roteamento() {
                 <Route path="/TESTCOMP" element={<ApresentationModal />} />
                 <Route path="/esqueci-senha" element={<RedefinirSenha />} />
                 <Route path="/nova-senha" element={<NovaSenha />} />
-
+                <Route path="/loginadm" element={<LoginADM />} />
                 {/* ROTAS PROTEGIDAS(Só podem ser acessadas após o Login) */}
 
                 <Route element={<RotaProtegida />}>
@@ -38,7 +40,8 @@ export default function Roteamento() {
                     <Route path="/gatilhos" element={<Gatilhos />} />
                     <Route path="/apoio" element={<Apoio />} />
                     <Route path="/conquistas" element={<Conquistas />} />
-                    
+                    <Route path="/admDesvicia" element={<PainelAdministrativo />} />
+
                     <Route element={<Layout />}>
                         <Route path="/home" element={<RedeApoio />} />
                         <Route path="/acompanhamento" element={<Acompanhamento />} />
