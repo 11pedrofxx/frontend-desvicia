@@ -1,27 +1,22 @@
-import { useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { NavLink, useLocation, Link } from 'react-router-dom';
 import { Plus } from 'lucide-react';
-
 import './index.scss';
 
-export default function NavBar({onAbrirModal}) {
-
+export default function NavBar({ onAbrirModal }) {
   const location = useLocation();
-  const SecaoApoio = location.pathname === '/home';
+  const secaoApoio = location.pathname === '/home';
 
   return (
-
-    <nav className="pagina-barranav">
+    <nav className="pagina-barranav" aria-label="Navegação principal">
       <div className="logo-area">
         <h2>Desvicia</h2>
       </div>
 
-      <div className='container-botao-acao'>
-        {SecaoApoio ? (
-          <button 
-            type='button'
-            className='novo-registro'
+      <div className="container-botao-acao">
+        {secaoApoio ? (
+          <button
+            type="button"
+            className="novo-registro"
             onClick={onAbrirModal}
           >
             <Plus size={18} />
@@ -29,7 +24,14 @@ export default function NavBar({onAbrirModal}) {
           </button>
         ) : (
           <Link to="/registro-diario" className="novo-registro">
-            <svg className="icone-botao" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <svg
+              className="icone-botao"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              aria-hidden="true"
+            >
               <line x1="12" y1="5" x2="12" y2="19" />
               <line x1="5" y1="12" x2="19" y2="12" />
             </svg>
@@ -43,7 +45,7 @@ export default function NavBar({onAbrirModal}) {
           to="/"
           className={({ isActive }) => (isActive ? 'item-nav ativo' : 'item-nav')}
         >
-          <svg className="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg className="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
             <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
             <polyline points="9 22 9 12 15 12 15 22" />
           </svg>
@@ -54,25 +56,18 @@ export default function NavBar({onAbrirModal}) {
           to="/acompanhamento"
           className={({ isActive }) => (isActive ? 'item-nav ativo' : 'item-nav')}
         >
-          <svg
-            className="icone"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            style={{ transform: 'scale(1.2)', transformOrigin: 'center' }}
-          >
+          <svg className="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
             <rect x="3" y="4" width="18" height="17" rx="2" />
             <path d="M8 2v4M16 2v4M3 9h18" />
           </svg>
-          <span>Acompanhamento</span>
+          <span>Acompanhar</span>
         </NavLink>
 
         <NavLink
           to="/aprender"
           className={({ isActive }) => (isActive ? 'item-nav ativo' : 'item-nav')}
         >
-          <svg className="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg className="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
             <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
             <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
           </svg>
@@ -83,7 +78,7 @@ export default function NavBar({onAbrirModal}) {
           to="/home"
           className={({ isActive }) => (isActive ? 'item-nav ativo' : 'item-nav')}
         >
-          <svg className="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg className="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
             <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
           </svg>
           <span>Apoio</span>
@@ -93,7 +88,7 @@ export default function NavBar({onAbrirModal}) {
           to="/perfil"
           className={({ isActive }) => (isActive ? 'item-nav ativo' : 'item-nav')}
         >
-          <svg className="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg className="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
             <circle cx="12" cy="7" r="4" />
           </svg>

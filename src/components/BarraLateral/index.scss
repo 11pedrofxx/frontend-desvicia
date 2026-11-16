@@ -2,17 +2,23 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 240px;
-  height: 100vh;
-  background-color: #ffffff;
-  border-right: 1px solid #e2e8f0;
+  z-index: 1000;
   display: flex;
   flex-direction: column;
-  z-index: 1000;
+  width: 240px;
+  height: 100vh;
   box-sizing: border-box;
+  background-color: #ffffff;
+  border-right: 1px solid #e2e8f0;
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
 
   .container-botao-acao {
-    padding: 0 1rem 1.25rem 1rem;
+    padding: 0 1rem 1.25rem;
 
     .novo-registro {
       display: flex;
@@ -20,18 +26,21 @@
       justify-content: center;
       gap: 0.6rem;
       width: 100%;
-      height: 3.2rem;
+      min-height: 3.2rem;
       padding: 0.85rem 1rem;
-      background-color: #15479e;
       color: #ffffff;
-      font-family: "Poppins", sans-serif;
-      font-weight: 600;
-      font-size: 0.80rem;
+      background-color: #15479e;
+      border: 0;
       border-radius: 12px;
+      font-family: "Poppins", sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
       text-decoration: none;
-      transition: all 0.2s ease;
+      cursor: pointer;
+      transition: background-color 0.2s ease, transform 0.2s ease;
 
       .icone-botao {
+        flex: 0 0 18px;
         width: 18px;
         height: 18px;
         stroke: #ffffff;
@@ -47,22 +56,15 @@
     }
   }
 
-@media (max-width: 768px) {
-    .container-botao-acao{
-      display: none;
-    }
-
-}
-
   .logo-area {
     padding: 1.75rem 1.5rem 1.25rem;
 
     h2 {
-      font-family: "Poppins", sans-serif;
+      margin: 0;
       color: #15479e;
+      font-family: "Poppins", sans-serif;
       font-size: 1.4rem;
       font-weight: 700;
-      margin: 0;
       letter-spacing: -0.5px;
     }
   }
@@ -79,38 +81,30 @@
       align-items: center;
       gap: 0.85rem;
       padding: 0.75rem 1rem;
-      border-radius: 12px;
       color: #64748b;
-      text-decoration: none;
+      border-radius: 12px;
       font-family: "Poppins", sans-serif;
       font-size: 0.95rem;
       font-weight: 500;
-      transition: all 0.2s ease;
+      text-decoration: none;
+      transition: background-color 0.2s ease, color 0.2s ease;
 
       .icone {
+        flex: 0 0 22px;
         width: 22px;
         height: 22px;
-        stroke: #64748b;
-        transition: stroke 0.2s ease;
+        stroke: currentColor;
       }
 
       &:hover {
-        background-color: #f8fafc;
         color: #0f172a;
-
-        .icone {
-          stroke: #0f172a;
-        }
+        background-color: #f8fafc;
       }
 
       &.ativo {
-        background-color: #eff6ff;
         color: #15479e;
+        background-color: #eff6ff;
         font-weight: 600;
-
-        .icone {
-          stroke: #15479e;
-        }
       }
     }
   }
@@ -118,41 +112,92 @@
 
 @media (max-width: 768px) {
   .pagina-barranav {
+    // A barra ocupa a largura toda; os itens ficam em cinco colunas fixas.
     top: auto;
+    right: 0;
     bottom: 0;
+    left: 0;
+    display: block;
     width: 100%;
-    height: 65px;
-    flex-direction: row;
-    align-items: center;
-    border-right: none;
+    height: calc(68px + env(safe-area-inset-bottom, 0px));
+    padding: 4px 6px calc(4px + env(safe-area-inset-bottom, 0px));
+    background: #ffffff;
+    border: 0;
     border-top: 1px solid #e2e8f0;
-    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
-    display: flex;
-    justify-content: center;
+    box-shadow: 0 -4px 14px rgba(15, 23, 42, 0.06);
 
-    .logo-area {
+    .logo-area,
+    .container-botao-acao {
       display: none;
     }
 
     .menu-links {
-      flex-direction: row;
-      justify-content: space-around;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      align-items: stretch;
+      justify-items: stretch;
       width: 100%;
-      padding: 0 0.5rem;
+      height: 100%;
+      min-width: 0;
+      margin: 0;
+      padding: 0;
       gap: 0;
 
       .item-nav {
+        display: flex;
         flex-direction: column;
+        align-items: center;
         justify-content: center;
-        gap: 0.2rem;
-        padding: 0.4rem 0.6rem;
-        font-size: 0.72rem;
+        min-width: 0;
+        width: 100%;
+        height: 100%;
+        padding: 4px 1px;
+        gap: 3px;
         border-radius: 8px;
+        font-size: clamp(7px, 2.3vw, 9px);
+        line-height: 1.05;
+        letter-spacing: -0.2px;
+        text-align: center;
+        white-space: nowrap;
+        overflow: hidden;
 
         .icone {
+          display: block;
+          flex: 0 0 20px;
           width: 20px;
           height: 20px;
         }
+
+        span {
+          display: block;
+          max-width: 100%;
+          overflow: hidden;
+          text-overflow: clip;
+          white-space: nowrap;
+        }
+
+        &.ativo {
+          background-color: #eff6ff;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 360px) {
+  .pagina-barranav {
+    padding-right: 3px;
+    padding-left: 3px;
+
+    .menu-links .item-nav {
+      font-size: 7px;
+      letter-spacing: -0.3px;
+      gap: 2px;
+
+      .icone {
+        flex-basis: 19px;
+        width: 19px;
+        height: 19px;
       }
     }
   }
