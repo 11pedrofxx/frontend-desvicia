@@ -248,9 +248,66 @@
       }
     }
   }
+
+.ultimos-checkins {
+    width: 100%;
+    max-width: 800px;
+    margin: 1.5rem auto 0;
+    font-family: "Poppins", sans-serif;
+
+    h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #1e293b;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .lista-cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .card-checkin {
+      background-color: #ffffff;
+      border-radius: 16px;
+      padding: 1.25rem;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+      border: 1px solid #e2e8f0;
+      border-left: 4px solid #15479e;
+    
+      width: 220px;
+      min-height: 180px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 0.5rem;
+
+       span{
+          color: #1e293b;
+          font-weight: 600;
+        }
+
+      h1 {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: #1e293b;
+        margin: 0;
+
+       
+      }
+
+      p {
+        font-size: 0.8rem;
+        color: #475569;
+        margin: 0;
+        line-height: 1.3;
+      }
+    }
+  }
 }
 
-/* Ajustes finos para telas menores */
 @media (max-width: 768px) {
   .pagina-acompanhamento {
     padding: 1rem;
@@ -300,7 +357,7 @@
       .react-calendar {
         .react-calendar__navigation {
           margin-bottom: 1rem;
-          
+
           button {
             min-width: 32px;
             height: 32px;
@@ -328,4 +385,6 @@
       }
     }
   }
+
+
 }

@@ -13,19 +13,19 @@ export default function ApresentationModal({ onComplete }) {
         },
         {
             titulo: "Cuide de você no seu ritmo.",
-            text: "O Equilibra ajuda você a compreender seus hábitos, reconhecer gatilhos emocionais e construir rotinas mais saudáveis, com segurança e acolhimento.",
+            text: "O Desvicia ajuda você a compreender seus hábitos e reconhecer gatilhos emocionais com segurança e acolhimento.",
             icon: <MapPin size={48} />,
             textoBotao: "Continuar"
         },
         {
             titulo: "Entenda seus padrões.",
-            text: "Acompanhe sua evolução diária, entenda as situações que geram vontade e desenvolva a autopercepção para agir de forma consciente.",
+            text: "Acompanhe sua evolução diária, através de Checkins diários e entenda as situações que geram vontade e desenvolva a autopercepção para agir de forma consciente.",
             icon: <BarChart2 size={48} />,
             textoBotao: "Continuar"
         },
         {
             titulo: "Você não está sozinho.",
-            text: "Sempre que as coisas ficarem difíceis, você terá acesso imediato a ferramentas de suporte, técnicas de respiração e canais de ajuda especializados.",
+            text: "Sempre que as coisas ficarem difíceis, você terá acesso imediato a ferramentas de suporte e uma rede social focada em apoiar o proximo.",
             icon: <HeartHandshake size={48} />,
             textoBotao: "Começar"
         }

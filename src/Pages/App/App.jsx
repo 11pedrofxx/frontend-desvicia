@@ -1,5 +1,5 @@
 import { useNavigate, Link } from 'react-router-dom';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import api from '../../service/api';
 import './index.scss';
 import ApresentationModal from '../../components/ApresentacionModal/ApresentacaoModal.jsx';
@@ -168,17 +168,19 @@ export default function App() {
                     </div>
                 </section>
 
-                <section className="Rede">
-                    <h2>Rede de apoio Desvicia</h2>
-                    <div className="Texto-rede">
-                        <Icone nome="apoio" tamanho={25} />
-                        <p>
-                            Acesse a rede de apoio para conversar com pessoas reais
-                            sobre seus problemas e ver relatos que possam te ajudar
-                            nessa batalha.
-                        </p>
-                    </div>
-                </section>
+                <Link to={'/home'}>
+                    <section className="Rede">
+                        <h2>Rede de apoio Desvicia</h2>
+                        <div className="Texto-rede">
+                            <Icone nome="apoio" tamanho={25} />
+                            <p>
+                                Acesse a rede de apoio para conversar com pessoas reais
+                                sobre seus problemas e ver relatos que possam te ajudar
+                                nessa batalha.
+                            </p>
+                        </div>
+                    </section>
+                </Link>
 
                 <section className="Hoje">
                     <h2>Hoje</h2>

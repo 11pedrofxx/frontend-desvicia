@@ -9,6 +9,43 @@ export default function Acompanhamento() {
   const [checkins, setCheckins] = useState([]);
   const [sequencia, setSequencia] = useState(0);
 
+  const niveisHumor = {
+    1: "Bem",
+    2: "Ok",
+    3: "Neutro",
+    4: "Mal",
+    5: "Ruim"
+  };
+
+  const niveisFissura = {
+    1: "Não",
+    2: "Leve",
+    3: "Moderado",
+    4: "Forte",
+    5: "Muito forte"
+  };
+
+  const [ultimosCheckins, setUltimosCheckins] = useState([]);
+
+  useEffect(() => {
+
+    async function CarregarUltimosCheckins() {
+
+      try {
+        const user = JSON.parse(localStorage.getItem('user'))
+        const userId = user.id;
+        let dias = await api.get(`/checkins/${userId}`)
+        setUltimosCheckins(dias.data)
+
+      } catch (error) {
+
+      }
+
+    }
+    CarregarUltimosCheckins();
+  }, [])
+
+
   async function carregarCheckins() {
     try {
       const user = JSON.parse(localStorage.getItem('user') || 'null');
@@ -26,9 +63,9 @@ export default function Acompanhamento() {
       const dadosCheckins = Array.isArray(respostaCheckins.data)
         ? respostaCheckins.data
         : respostaCheckins.data?.checkins ||
-          respostaCheckins.data?.registros ||
-          respostaCheckins.data?.dados ||
-          [];
+        respostaCheckins.data?.registros ||
+        respostaCheckins.data?.dados ||
+        [];
 
       setCheckins(dadosCheckins);
 
@@ -49,12 +86,20 @@ export default function Acompanhamento() {
     carregarCheckins();
   }, []);
 
-  // Compara as datas no formato YYYY-MM-DD, usando o calendário local.
   function formatarData(data) {
-    const ano = data.getFullYear();
-    const mes = String(data.getMonth() + 1).padStart(2, '0');
-    const dia = String(data.getDate()).padStart(2, '0');
+    const d = new Date(data);
+    const ano = d.getFullYear();
+    const mes = String(d.getMonth() + 1).padStart(2, '0');
+    const dia = String(d.getDate()).padStart(2, '0');
     return `${ano}-${mes}-${dia}`;
+  }
+
+  function formatarDataExibicao(data) {
+    if (!data) return '';
+    let cortarData = data.slice(0, 10);
+    let partes = cortarData.split('-');
+    partes.reverse();
+    return partes.join('/');
   }
 
   const fezCheckinHoje = checkins.some((checkin) => {
@@ -135,7 +180,7 @@ export default function Acompanhamento() {
 
       <div className="legenda">
         <div className="item-legenda">
-          <span className="cor-registrado"></span> Registrado
+          <span className="cor-registrado"></span> Dia bom
         </div>
         <div className="item-legenda">
           <span className="cor-dificil"></span> Dia difícil
@@ -143,6 +188,26 @@ export default function Acompanhamento() {
         <div className="item-legenda">
           <span className="cor-vazio"></span> Sem registro
         </div>
+      </div>
+
+      <div className="ultimos-checkins">
+
+        <h2>Registros do Checkin Diário</h2>
+
+        {ultimosCheckins.map((item, index) => {
+
+          return (
+            <div key={index} className="card-checkin">
+              <h1>Checkin dia {formatarDataExibicao(item.data_checkin)}</h1>
+              <p><span>Humor do dia:</span> {niveisHumor[item.nivel_humor]}</p>
+              <p><span>Vontade de recair:</span> {niveisFissura[item.nivel_fissura]}</p>
+              <p><span>Dia difícil?</span> {item.foi_dia_dificil ? 'Sim' : 'Não'}</p>
+              {item.notas && <p>Notas: {item.notas}</p>}
+            </div>
+          );
+
+        })}
+
       </div>
 
     </div>

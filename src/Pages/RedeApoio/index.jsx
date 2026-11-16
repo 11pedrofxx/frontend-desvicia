@@ -236,18 +236,6 @@ export default function RedeApoio() {
             <PenSquare size={18} />
             Escrever relato
           </button>
-
-          <button
-            type="button"
-            className="botao-acao"
-            onClick={() => {
-              setTipoPostagem("conquista");
-              setModalAberto(true);
-            }}
-          >
-            <Trophy size={18} />
-            Compartilhar conquista
-          </button>
         </div>
       </div>
 
