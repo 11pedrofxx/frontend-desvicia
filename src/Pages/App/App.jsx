@@ -4,10 +4,6 @@ import api from '../../service/api';
 import './index.scss';
 import ApresentationModal from '../../components/ApresentacionModal/ApresentacaoModal.jsx';
 
-import balancoMao from '../../assets/emojis/Balanco_Mao.png';
-import fireGif from '../../assets/gif/Fire.gif';
-import frameFire from '../../assets/gif/Frame-Fire.png';
-
 function Icone({ nome, tamanho = 22 }) {
     const desenhos = {
         editar: <><path d="M12 20h9" /><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L9 17l-4 1 1-4Z" /></>,
@@ -17,17 +13,7 @@ function Icone({ nome, tamanho = 22 }) {
     };
 
     return (
-        <svg
-            width={tamanho}
-            height={tamanho}
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-        >
+        <svg width={tamanho} height={tamanho} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             {desenhos[nome]}
         </svg>
     );
@@ -37,27 +23,18 @@ function criarData(data) {
     const ano = data.getFullYear();
     const mes = String(data.getMonth() + 1).padStart(2, '0');
     const dia = String(data.getDate()).padStart(2, '0');
-
     return `${ano}-${mes}-${dia}`;
 }
 
-function formatarDataCheckin(valor) {
+function formatarData(valor) {
     if (!valor) return '';
-
-    if (typeof valor === 'string') {
-        const texto = valor.trim();
-        if (/^\d{4}-\d{2}-\d{2}$/.test(texto)) return texto;
-        if (texto.includes('T')) return texto.slice(0, 10);
-    }
-
-    const data = new Date(valor);
-    return Number.isNaN(data.getTime()) ? '' : criarData(data);
+    if (typeof valor === 'string') return valor.slice(0, 10);
+    return criarData(new Date(valor));
 }
 
 function pegarIdToken(token) {
     try {
-        const payload = JSON.parse(atob(token.split('.')[1]));
-        return payload?.id || null;
+        return JSON.parse(atob(token.split('.')[1]))?.id || null;
     } catch {
         return null;
     }
@@ -67,65 +44,50 @@ export default function App() {
     const [nomeUsuario, setNomeUsuario] = useState('');
     const [checkins, setCheckins] = useState([]);
     const [diasOfensiva, setDiasOfensiva] = useState(null);
-    const [mostrarApresentacao, setMostrarApresentacao] = useState(null);
+    const [mostrarApresentacao, setMostrarApresentacao] = useState(false);
 
     const navigate = useNavigate();
-
     const horas = new Date().getHours();
-    const Ola = horas >= 6 && horas < 12
-        ? 'Bom dia'
-        : horas >= 12 && horas < 18
-            ? 'Boa tarde'
-            : 'Boa noite';
+    const saudacao = horas >= 6 && horas < 12 ? 'Bom dia' : horas >= 12 && horas < 18 ? 'Boa tarde' : 'Boa noite';
 
     useEffect(() => {
         async function buscarDados() {
             const token = localStorage.getItem('token');
+            if (!token) return navigate('/login');
 
-            if (!token) {
-                navigate('/login');
-                return;
-            }
-
-            const config = {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            };
-
+            const config = { headers: { Authorization: `Bearer ${token}` } };
             let idUsuario = pegarIdToken(token);
 
             try {
-                const resposta = await api.get('/usuario', config);
-                setNomeUsuario(resposta.data.nome || '');
-                idUsuario = resposta.data.id || idUsuario;
-            } catch (error) {
-                console.error('Erro ao carregar nome do usuário:', error);
+                const res = await api.get('/usuario', config);
+                setNomeUsuario(res.data.nome || '');
+                idUsuario = res.data.id || idUsuario;
+            } catch (err) {
+                console.error('Erro ao carregar usuário:', err);
             }
 
             try {
                 if (idUsuario) {
-                    const resposta = await api.get(`/checkins/${idUsuario}`, config);
-                    setCheckins(Array.isArray(resposta.data) ? resposta.data : []);
+                    const res = await api.get(`/checkins/${idUsuario}`, config);
+                    setCheckins(Array.isArray(res.data) ? res.data : []);
                 }
-            } catch (error) {
-                console.error('Erro ao buscar check-ins:', error);
+            } catch (err) {
+                console.error('Erro ao buscar check-ins:', err);
             }
 
             try {
-                const resposta = await api.get('/ofensiva', config);
-                setDiasOfensiva(Number(resposta.data?.ofensiva_atual ?? 0));
-            } catch (error) {
-                console.error('Erro ao buscar ofensiva:', error);
+                const res = await api.get('/ofensiva', config);
+                setDiasOfensiva(Number(res.data?.ofensiva_atual ?? 0));
+            } catch (err) {
+                console.error('Erro ao buscar ofensiva:', err);
                 setDiasOfensiva(0);
             }
 
             try {
-                const resposta = await api.get('/apresentacao/status', config);
-                setMostrarApresentacao(!resposta.data.viuApresentacao);
-            } catch (error) {
-                console.error('Erro ao consultar apresentação:', error);
-                setMostrarApresentacao(false);
+                const res = await api.get('/apresentacao/status', config);
+                setMostrarApresentacao(!res.data.viuApresentacao);
+            } catch (err) {
+                console.error('Erro ao consultar apresentação:', err);
             }
         }
 
@@ -133,20 +95,16 @@ export default function App() {
     }, [navigate]);
 
     const hoje = new Date();
+    const hojeChave = criarData(hoje);
     const inicioSemana = new Date(hoje);
     inicioSemana.setDate(hoje.getDate() - hoje.getDay());
 
-    const diasSemana = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
-    const datasCheckins = checkins.map(item => formatarDataCheckin(item.data_checkin));
+    const datasCheckins = checkins.map(item => formatarData(item.data_checkin));
+    const fogoAtivo = (diasOfensiva ?? 0) > 0 && datasCheckins.includes(hojeChave);
 
-    const hojeChave = criarData(hoje);
-    const fezCheckinHoje = datasCheckins.includes(hojeChave);
-    const fogoAtivo = (diasOfensiva ?? 0) > 0 && fezCheckinHoje;
-
-    const semana = diasSemana.map((dia, index) => {
+    const semana = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'].map((dia, index) => {
         const data = new Date(inicioSemana);
         data.setDate(inicioSemana.getDate() + index);
-
         const chave = criarData(data);
 
         return {
@@ -159,22 +117,15 @@ export default function App() {
 
     return (
         <div className="Perfil">
-            {mostrarApresentacao === true && (
-                <ApresentationModal
-                    onComplete={() => setMostrarApresentacao(false)}
-                />
+            {mostrarApresentacao && (
+                <ApresentationModal onComplete={() => setMostrarApresentacao(false)} />
             )}
 
             <main className="Conteudo">
                 <header className="Topo">
                     <div className="Bem-vindo-site">
-                        <h1>{Ola}, {nomeUsuario}!</h1>
-
-                        <img
-                            className="emoji-mao"
-                            src={balancoMao}
-                            alt=""
-                        />
+                        <h1>{saudacao}, {nomeUsuario}!</h1>
+                        <img className="emoji-mao" src="/assets/emojis/Balanco_Mao.png" alt="" />
                     </div>
                 </header>
 
@@ -182,7 +133,6 @@ export default function App() {
                     <div className="Topo-semana">
                         <div className="Texto-topo-semana">
                             <h2>Meu acompanhamento</h2>
-
                             <p>
                                 {diasOfensiva === null
                                     ? 'Carregando seu acompanhamento...'
@@ -190,50 +140,29 @@ export default function App() {
                             </p>
                         </div>
 
-                        <div
-                            className="Selo-ofensiva"
-                            aria-label={`${diasOfensiva ?? 'Carregando'} dias de sequência`}
-                        >
+                        <div className="Selo-ofensiva" aria-label={`${diasOfensiva ?? 'Carregando'} dias de sequência`}>
                             <div className="Selo-ofensiva__fogo" aria-hidden="true">
                                 <img
                                     className="Selo-ofensiva__gif"
-                                    src={fogoAtivo ? fireGif : frameFire}
+                                    src={fogoAtivo ? '/assets/gif/Fire.gif' : '/assets/gif/Frame-Fire.png'}
                                     alt="Fogo de sequência"
                                 />
                             </div>
 
                             <span className="Selo-ofensiva__valor">
-                                <strong>
-                                    {diasOfensiva === null ? '—' : diasOfensiva}
-                                </strong>
-
-                                <span>
-                                    {diasOfensiva === 1 ? 'DIA' : 'DIAS'}
-                                </span>
+                                <strong>{diasOfensiva === null ? '—' : diasOfensiva}</strong>
+                                <span>{diasOfensiva === 1 ? 'DIA' : 'DIAS'}</span>
                             </span>
                         </div>
                     </div>
 
                     <div className="Dias-semana">
                         {semana.map((dia) => (
-                            <div
-                                className="Dia"
-                                key={dia.chave}
-                                title={dia.chave}
-                            >
-                                <div
-                                    className={`Bolinha ${dia.feito ? 'feito' : dia.hoje ? 'hoje' : 'vazio'}`}
-                                >
-                                    {dia.feito
-                                        ? '✓'
-                                        : dia.hoje
-                                            ? <span />
-                                            : ''}
+                            <div className="Dia" key={dia.chave} title={dia.chave}>
+                                <div className={`Bolinha ${dia.feito ? 'feito' : dia.hoje ? 'hoje' : 'vazio'}`}>
+                                    {dia.feito ? '✓' : dia.hoje ? <span /> : ''}
                                 </div>
-
-                                <span className={dia.hoje ? 'dia-atual' : ''}>
-                                    {dia.dia}
-                                </span>
+                                <span className={dia.hoje ? 'dia-atual' : ''}>{dia.dia}</span>
                             </div>
                         ))}
                     </div>
@@ -241,10 +170,8 @@ export default function App() {
 
                 <section className="Rede">
                     <h2>Rede de apoio Desvicia</h2>
-
                     <div className="Texto-rede">
                         <Icone nome="apoio" tamanho={25} />
-
                         <p>
                             Acesse a rede de apoio para conversar com pessoas reais
                             sobre seus problemas e ver relatos que possam te ajudar
@@ -255,39 +182,26 @@ export default function App() {
 
                 <section className="Hoje">
                     <h2>Hoje</h2>
-
                     <div className="Acoes">
-                        <button
-                            type="button"
-                            className="Acao"
-                            onClick={() => navigate('/registro-diario')}
-                        >
+                        <button type="button" className="Acao" onClick={() => navigate('/registro-diario')}>
                             <div className="Icone-acao azul">
                                 <Icone nome="editar" tamanho={22} />
                             </div>
-
                             <div className="Texto-acao">
                                 <h3>Registrar como foi meu dia</h3>
                                 <p>Acompanhe seu progresso e conquistas.</p>
                             </div>
-
                             <Icone nome="seta" tamanho={20} />
                         </button>
 
-                        <button
-                            type="button"
-                            className="Acao"
-                            onClick={() => navigate('/gatilhos')}
-                        >
+                        <button type="button" className="Acao" onClick={() => navigate('/gatilhos')}>
                             <div className="Icone-acao amarelo">
                                 <Icone nome="alerta" tamanho={22} />
                             </div>
-
                             <div className="Texto-acao">
                                 <h3>Registrar uma vontade/gatilho</h3>
                                 <p>Sentiu impulso? Anote para desarmá-lo.</p>
                             </div>
-
                             <Icone nome="seta" tamanho={20} />
                         </button>
                     </div>
@@ -297,17 +211,11 @@ export default function App() {
                     <div className="Icone-ajuda">
                         <Icone nome="alerta" tamanho={23} />
                     </div>
-
                     <div className="Texto-ajuda">
                         <h2>Precisa de ajuda agora?</h2>
-                        <p>
-                            Saiba que você não está sozinho. Entre em contato com alguém.
-                        </p>
+                        <p>Saiba que você não está sozinho. Entre em contato com alguém.</p>
                     </div>
-
-                    <Link to="/apoio" className="Botao-apoio">
-                        Apoio
-                    </Link>
+                    <Link to="/apoio" className="Botao-apoio">Apoio</Link>
                 </section>
             </main>
         </div>
