@@ -52,8 +52,6 @@ export default function ApresentationModal({ onComplete }) {
     const [enviando, setEnviando] = useState(false);
     const [erroEnvio, setErroEnvio] = useState('');
 
-    const API_URL = process.env.REACT_APP_API_URL;
-
     function avancarPagina() {
         if (paginaAtual < TextoMODAL.length) {
             setPaginaAtual(paginaAtual + 1);
@@ -179,10 +177,9 @@ async function concluirCadastro() {
     setErroEnvio('');
 
     try {
-        console.log('1. API:', API_URL);
-        console.log('2. Token encontrado:', !!token);
-        console.log('3. Hábitos selecionados:', opcoesSelecionadas);
-        console.log('4. Data de início:', dataInicio);
+        console.log('1. Token encontrado:', !!token);
+        console.log('2. Hábitos selecionados:', opcoesSelecionadas);
+        console.log('3. Data de início:', dataInicio);
 
         for (const opcao of opcoesSelecionadas) {
             const idDoVicio = MAPA_VICIOS[opcao];
@@ -197,7 +194,7 @@ async function concluirCadastro() {
                 console.log('ID:', idDoVicio);
 
                 resposta = await api.post(
-                    `${API_URL}/userVicio`,
+                    `/userVicio`,
                     {
                         VicioID: idDoVicio,
                         dataInicio
@@ -209,7 +206,7 @@ async function concluirCadastro() {
                 console.log('Tipo: Hábito personalizado');
 
                 resposta = await api.post(
-                    `${API_URL}/userVicioPersonalizado`,
+                    `/userVicioPersonalizado`,
                     {
                         nomeVicio: opcao,
                         dataInicio
@@ -226,7 +223,7 @@ async function concluirCadastro() {
         console.log('CONCLUINDO APRESENTAÇÃO...');
 
         const respostaFinal = await api.post(
-            `${API_URL}/apresentacao/concluir`,
+            `/apresentacao/concluir`,
             {},
             config
         );

@@ -1,10 +1,12 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../../service/api';
 import './index.scss';
 import ApresentationModal from '../../components/ApresentacionModal/ApresentacaoModal.jsx';
 
-const API_URL = process.env.REACT_APP_API_URL;
+import balancoMao from '../../assets/emojis/Balanco_Mao.png';
+import fireGif from '../../assets/gif/Fire.gif';
+import frameFire from '../../assets/gif/Frame-Fire.png';
 
 function Icone({ nome, tamanho = 22 }) {
     const desenhos = {
@@ -39,42 +41,17 @@ function criarData(data) {
     return `${ano}-${mes}-${dia}`;
 }
 
-function pegarData(registro) {
-    if (!registro) return '';
-
-    const valor = typeof registro === 'string'
-        ? registro
-        : (registro.data_checkin || registro.dataCheckin || registro.dt_checkin ||
-            registro.data || registro.data_registro || registro.created_at || registro.createdAt);
-
+function formatarDataCheckin(valor) {
     if (!valor) return '';
 
     if (typeof valor === 'string') {
         const texto = valor.trim();
         if (/^\d{4}-\d{2}-\d{2}$/.test(texto)) return texto;
-        if (texto.includes('T00:00:00')) return texto.slice(0, 10);
+        if (texto.includes('T')) return texto.slice(0, 10);
     }
 
     const data = new Date(valor);
     return Number.isNaN(data.getTime()) ? '' : criarData(data);
-}
-
-function pegarDias(valor) {
-    const dados = Array.isArray(valor) ? valor[0] : valor;
-
-    if (typeof dados === 'number') return dados;
-
-    return Number(
-        dados?.ofensiva_atual ??
-        dados?.dias ??
-        dados?.ofensiva ??
-        dados?.diasOfensiva ??
-        dados?.dias_ofensiva ??
-        dados?.dias_consecutivos ??
-        dados?.dias_sem_vicio ??
-        dados?.total_dias ??
-        0
-    );
 }
 
 function pegarIdToken(token) {
@@ -95,7 +72,6 @@ export default function App() {
     const navigate = useNavigate();
 
     const horas = new Date().getHours();
-
     const Ola = horas >= 6 && horas < 12
         ? 'Bom dia'
         : horas >= 12 && horas < 18
@@ -106,6 +82,11 @@ export default function App() {
         async function buscarDados() {
             const token = localStorage.getItem('token');
 
+            if (!token) {
+                navigate('/login');
+                return;
+            }
+
             const config = {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -115,74 +96,48 @@ export default function App() {
             let idUsuario = pegarIdToken(token);
 
             try {
-                const resposta = await axios.get(`${API_URL}/usuario`, config);
+                const resposta = await api.get('/usuario', config);
                 setNomeUsuario(resposta.data.nome || '');
-                idUsuario = resposta.data.id || resposta.data.id_usuario || idUsuario;
+                idUsuario = resposta.data.id || idUsuario;
             } catch (error) {
                 console.error('Erro ao carregar nome do usuário:', error);
             }
 
             try {
                 if (idUsuario) {
-                    const resposta = await axios.get(
-                        `${API_URL}/checkins/${idUsuario}`,
-                        config
-                    );
-
-                    const lista = Array.isArray(resposta.data)
-                        ? resposta.data
-                        : resposta.data?.checkins ||
-                        resposta.data?.registros ||
-                        resposta.data?.dados ||
-                        [];
-
-                    setCheckins(lista);
+                    const resposta = await api.get(`/checkins/${idUsuario}`, config);
+                    setCheckins(Array.isArray(resposta.data) ? resposta.data : []);
                 }
             } catch (error) {
                 console.error('Erro ao buscar check-ins:', error);
             }
 
             try {
-                const resposta = await axios.get(
-                    `${API_URL}/ofensiva`,
-                    config
-                );
-
-                const dias = pegarDias(resposta.data);
-
-                setDiasOfensiva(dias);
-
-                console.log('Sequência atual:', dias);
-
+                const resposta = await api.get('/ofensiva', config);
+                setDiasOfensiva(Number(resposta.data?.ofensiva_atual ?? 0));
             } catch (error) {
                 console.error('Erro ao buscar ofensiva:', error);
                 setDiasOfensiva(0);
             }
 
             try {
-                const resposta = await axios.get(
-                    `${API_URL}/apresentacao/status`,
-                    config
-                );
-
+                const resposta = await api.get('/apresentacao/status', config);
                 setMostrarApresentacao(!resposta.data.viuApresentacao);
-
             } catch (error) {
                 console.error('Erro ao consultar apresentação:', error);
-                setMostrarApresentacao(true);
+                setMostrarApresentacao(false);
             }
         }
 
         buscarDados();
-    }, []);
+    }, [navigate]);
 
     const hoje = new Date();
     const inicioSemana = new Date(hoje);
-
     inicioSemana.setDate(hoje.getDate() - hoje.getDay());
 
     const diasSemana = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
-    const datasCheckins = checkins.map(pegarData);
+    const datasCheckins = checkins.map(item => formatarDataCheckin(item.data_checkin));
 
     const hojeChave = criarData(hoje);
     const fezCheckinHoje = datasCheckins.includes(hojeChave);
@@ -190,7 +145,6 @@ export default function App() {
 
     const semana = diasSemana.map((dia, index) => {
         const data = new Date(inicioSemana);
-
         data.setDate(inicioSemana.getDate() + index);
 
         const chave = criarData(data);
@@ -205,7 +159,6 @@ export default function App() {
 
     return (
         <div className="Perfil">
-
             {mostrarApresentacao === true && (
                 <ApresentationModal
                     onComplete={() => setMostrarApresentacao(false)}
@@ -213,23 +166,20 @@ export default function App() {
             )}
 
             <main className="Conteudo">
-
                 <header className="Topo">
                     <div className="Bem-vindo-site">
                         <h1>{Ola}, {nomeUsuario}!</h1>
 
                         <img
                             className="emoji-mao"
-                            src="../../assets/emojis/Balanco_Mao.png"
+                            src={balancoMao}
                             alt=""
                         />
                     </div>
                 </header>
 
                 <section className="Semana">
-
                     <div className="Topo-semana">
-
                         <div className="Texto-topo-semana">
                             <h2>Meu acompanhamento</h2>
 
@@ -247,7 +197,7 @@ export default function App() {
                             <div className="Selo-ofensiva__fogo" aria-hidden="true">
                                 <img
                                     className="Selo-ofensiva__gif"
-                                    src={fogoAtivo ? '../../assets/gif/Fire.gif' : '../../assets/gif/Frame-Fire.png'}
+                                    src={fogoAtivo ? fireGif : frameFire}
                                     alt="Fogo de sequência"
                                 />
                             </div>
@@ -262,7 +212,6 @@ export default function App() {
                                 </span>
                             </span>
                         </div>
-
                     </div>
 
                     <div className="Dias-semana">
@@ -273,8 +222,7 @@ export default function App() {
                                 title={dia.chave}
                             >
                                 <div
-                                    className={`Bolinha ${dia.feito ? 'feito' : dia.hoje ? 'hoje' : 'vazio'
-                                        }`}
+                                    className={`Bolinha ${dia.feito ? 'feito' : dia.hoje ? 'hoje' : 'vazio'}`}
                                 >
                                     {dia.feito
                                         ? '✓'
@@ -289,7 +237,6 @@ export default function App() {
                             </div>
                         ))}
                     </div>
-
                 </section>
 
                 <section className="Rede">
@@ -310,7 +257,6 @@ export default function App() {
                     <h2>Hoje</h2>
 
                     <div className="Acoes">
-
                         <button
                             type="button"
                             className="Acao"
@@ -344,12 +290,10 @@ export default function App() {
 
                             <Icone nome="seta" tamanho={20} />
                         </button>
-
                     </div>
                 </section>
 
                 <section className="Ajuda">
-
                     <div className="Icone-ajuda">
                         <Icone nome="alerta" tamanho={23} />
                     </div>
@@ -361,12 +305,10 @@ export default function App() {
                         </p>
                     </div>
 
-                    <a href="/apoio" className="Botao-apoio">
+                    <Link to="/apoio" className="Botao-apoio">
                         Apoio
-                    </a>
-
+                    </Link>
                 </section>
-
             </main>
         </div>
     );
