@@ -4,7 +4,7 @@ import axios from 'axios';
 import './index.scss';
 import ApresentationModal from '../../components/ApresentacionModal/ApresentacaoModal.jsx';
 
-const API_URL = 'http://localhost:5021';
+const API_URL = process.env.REACT_APP_API_URL;
 
 function Icone({ nome, tamanho = 22 }) {
     const desenhos = {

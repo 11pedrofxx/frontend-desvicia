@@ -52,7 +52,7 @@ export default function ApresentationModal({ onComplete }) {
     const [enviando, setEnviando] = useState(false);
     const [erroEnvio, setErroEnvio] = useState('');
 
-    const API_URL = 'http://localhost:5021';
+    const API_URL = process.env.REACT_APP_API_URL;
 
     function avancarPagina() {
         if (paginaAtual < TextoMODAL.length) {
