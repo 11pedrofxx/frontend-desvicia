@@ -1,5 +1,6 @@
 import { useNavigate, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { Trophy, ChevronRight } from 'lucide-react';
 import api from '../../service/api';
 import './index.scss';
 import ApresentationModal from '../../components/ApresentacionModal/ApresentacaoModal.jsx';
@@ -203,6 +204,17 @@ export default function App() {
                             <div className="Texto-acao">
                                 <h3>Registrar uma vontade/gatilho</h3>
                                 <p>Sentiu impulso? Anote para desarmá-lo.</p>
+                            </div>
+                            <Icone nome="seta" tamanho={20} />
+                        </button>
+
+                        <button type="button" className="Acao" onClick={() => navigate('/conquistas')}>
+                            <div className="Icone-acao roxo">
+                                <Trophy size={22} />
+                            </div>
+                            <div className="Texto-acao">
+                                <h3>Minhas conquistas</h3>
+                                <p>Veja as conquistas desbloqueadas em sua jornada.</p>
                             </div>
                             <Icone nome="seta" tamanho={20} />
                         </button>
