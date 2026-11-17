@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { KeyRound, Mail, LogOut, X, UserRound } from "lucide-react";
+import { KeyRound, Mail, LogOut, X, UserRound, Trophy } from "lucide-react";
 import api from "../../service/api";
 import "./index.scss";
 
@@ -240,6 +240,10 @@ export default function Perfil() {
               <button onClick={() => { setMensagem(""); setModal("senha"); }} disabled={enviando}>
                 <KeyRound size={19} />
                 <span>Redefinir senha</span>
+              </button>
+              <button onClick={() => navigate("/conquistas")}>
+                <Trophy size={19} />
+                <span>Minhas conquistas</span>
               </button>
               <button className="perfil-sair" onClick={sair}>
                 <LogOut size={19} />
